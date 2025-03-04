@@ -1,7 +1,13 @@
 import Banner from './banner/banner';
 import Aside from './aside/aside';
 import ListProduct from './list-product/list-product';
+import ModalWindow from './modal-window/modal-window';
+import { ProductCard } from '../../type/type';
+import { useState } from 'react';
+
 export default function Catalog(): JSX.Element {
+  const [activeCamera, setActiveCamera] = useState<null | ProductCard>(null);
+
   return (
     <main>
       <Banner />
@@ -28,9 +34,10 @@ export default function Catalog(): JSX.Element {
             <div className="page-content__columns">
               <Aside />
               <div className="catalog__content">
-                <ListProduct />
+                <ListProduct setActiveCamera={setActiveCamera}/>
               </div>
             </div>
+            {activeCamera !== null && <ModalWindow camera={activeCamera} setCamera={setActiveCamera}/>}
           </div>
         </section>
       </div>

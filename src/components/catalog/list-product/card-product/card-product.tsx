@@ -2,10 +2,12 @@ import { ProductCard } from '../../../../type/type';
 
 type PropsCardProduct = {
   camera: ProductCard;
+  setActiveCamera: React.Dispatch<React.SetStateAction<ProductCard | null>>;
 }
 
-export default function CardProduct({ camera }: PropsCardProduct): JSX.Element {
+export default function CardProduct({ camera, setActiveCamera }: PropsCardProduct): JSX.Element {
   const price = new Intl.NumberFormat('ru-RU').format(camera.price);
+
   return (
     <div className="product-card">
       <div className="product-card__img">
@@ -28,7 +30,7 @@ export default function CardProduct({ camera }: PropsCardProduct): JSX.Element {
         </p>
       </div>
       <div className="product-card__buttons">
-        <button className="btn btn--purple product-card__btn" type="button">Купить
+        <button className="btn btn--purple product-card__btn" type="button" onClick={() => setActiveCamera(camera)}>Купить
         </button>
         <a className="btn btn--transparent" href="#">Подробнее
         </a>
