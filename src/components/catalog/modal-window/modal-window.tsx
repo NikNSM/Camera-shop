@@ -1,55 +1,54 @@
+import { useEffect, useRef } from 'react';
+import { useMask } from '@react-input/mask';
 import { ProductCard } from '../../../type/type';
+import InformationCamera from './information-camera/information-camera';
+import FormTel from './form-tel/form-tel';
+import { useHandleTab } from './use-handle-tab/use-handle-tab';
 
 type PorpsModalWindow = {
   camera: ProductCard;
   setCamera: React.Dispatch<React.SetStateAction<null | ProductCard>>;
 }
 
-export default function ModalWindow({camera, setCamera}: PorpsModalWindow): JSX.Element {
-  const price = new Intl.NumberFormat('ru-RU').format(camera.price);
+export default function ModalWindow({ camera, setCamera }: PorpsModalWindow): JSX.Element {
+  const inputTel = useMask({
+    mask: '+7(___)-___-__-__',
+    replacement: { _: /\d/ }
+  });
+
+  const orderButton = useRef<HTMLButtonElement | null>(null);
+  const closeButton = useRef<HTMLButtonElement | null>(null);
+
+  const closeModalWindow = () => setCamera(null);
+
+  const indexFocusElement = useHandleTab(true, inputTel, orderButton, closeButton);
+
+  useEffect(() => {
+    const handleEscape = (evt: KeyboardEvent) => {
+      if (evt.key === 'Escape') {
+        evt.preventDefault();
+        closeModalWindow();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    document.body.style.overflow = 'hidden';
+
+    return (() => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = '';
+    });
+  });
+
   return (
     <div className="modal is-active">
       <div className="modal__wrapper">
-        <div className="modal__overlay"></div>
+        <div className="modal__overlay" onClick={closeModalWindow}></div>
         <div className="modal__content">
           <p className="title title--h4">Свяжитесь со мной</p>
-          <div className="basket-item basket-item--short">
-            <div className="basket-item__img">
-              <picture>
-                <source type="image/webp" srcSet={`../${camera.previewImgWebp}, ../${camera.previewImgWebp2x}`} />
-                <img src={`../${camera.previewImg}`} srcSet={`../${camera.previewImg2x}`} width="140" height="120" alt="Фотоаппарат «Орлёнок»" />
-              </picture>
-            </div>
-            <div className="basket-item__description">
-              <p className="basket-item__title">{`${camera.category} "${camera.name}"`}</p>
-              <ul className="basket-item__list">
-                <li className="basket-item__list-item"><span className="basket-item__article">Артикул:</span> <span className="basket-item__number">{camera.vendorCode}</span>
-                </li>
-                <li className="basket-item__list-item">{`${camera.type} ${camera.category}`}</li>
-                <li className="basket-item__list-item">{camera.level} уровень</li>
-              </ul>
-              <p className="basket-item__price"><span className="visually-hidden">Цена:</span>{price} ₽</p>
-            </div>
-          </div>
-          <div className="custom-input form-review__item">
-            <label>
-              <span className="custom-input__label">Телефон
-                <svg width="9" height="9" aria-hidden="true">
-                  <use xlinkHref="#icon-snowflake"></use>
-                </svg>
-              </span>
-              <input type="tel" name="user-tel" placeholder="Введите ваш номер" required />
-            </label>
-            <p className="custom-input__error">Нужно указать номер</p>
-          </div>
-          <div className="modal__buttons">
-            <button className="btn btn--purple modal__btn modal__btn--fit-width" type="button">
-              <svg width="24" height="16" aria-hidden="true">
-                <use xlinkHref="#icon-add-basket"></use>
-              </svg>Заказать
-            </button>
-          </div>
-          <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={() => setCamera(null)}>
+          <InformationCamera camera={camera}/>
+          <FormTel orderButton={orderButton} inputTel={inputTel} inedxFocusElement={indexFocusElement}/>
+          <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={closeModalWindow} ref={closeButton}>
             <svg width="10" height="10" aria-hidden="true">
               <use xlinkHref="#icon-close"></use>
             </svg>
