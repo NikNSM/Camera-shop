@@ -1,8 +1,9 @@
-import { MutableRefObject, useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../../utils';
-import { OrderContactMe, ResultPlacingOrder } from '../../../../type/type';
-import { postOrder } from '../../../../store/product-slice/api-product';
+import { MutableRefObject, useEffect } from 'react';
+import { useAppSelector } from '../../../../utils';
+import { ResultPlacingOrder, IsValidUserPhone } from '../../../../type/type';
 import { getResultPlacingOrder } from '../../../../store/product-slice/product-selectors';
+import { useSendOrder } from '../use-send-order/use-send-order';
+import MessagePlacingOrder from './message-placing-order/message-placing-order';
 
 type PropsFormTel = {
   inputTel: MutableRefObject<HTMLInputElement | null>;
@@ -11,28 +12,10 @@ type PropsFormTel = {
   cameraId: number;
 }
 
-enum IsValidUserPhone {
-  UNKNOW = 'unknow',
-  ISVALID = 'is-valid',
-  ISINVALID = 'is-invalid'
-}
-
 export default function FormTel({ inputTel, orderButton, inedxFocusElement, cameraId }: PropsFormTel): JSX.Element {
-  const dispatch = useAppDispatch();
   const resultPlacingOrder = useAppSelector(getResultPlacingOrder);
   const defaultValue = '+7(9';
-  const [numberPhone, setNumberPhone] = useState<string>('');
-  const [numberPhoneIsValid, setNumberPhoneIsValid] = useState<IsValidUserPhone>(IsValidUserPhone.UNKNOW);
-  const regExpTel = /^(\+79)\d{9}$/;
-  const regExpTelReplace = /-|\(|\)/g;
-
-  const checkValidateNumberPhoneUser = (value: string) => {
-    if (regExpTel.test(value)) {
-      setNumberPhoneIsValid(IsValidUserPhone.ISVALID);
-    } else if (numberPhoneIsValid !== IsValidUserPhone.ISINVALID) {
-      setNumberPhoneIsValid(IsValidUserPhone.ISINVALID);
-    }
-  };
+  const [validateNumberPhoneUser, sendOrder, setNumberPhoneIsValid, numberPhoneIsValid] = useSendOrder(cameraId);
 
   useEffect(() => {
     if (resultPlacingOrder !== ResultPlacingOrder.SUCCESSFULY) {
@@ -43,7 +26,7 @@ export default function FormTel({ inputTel, orderButton, inedxFocusElement, came
     }
     inputTel.current.value = defaultValue;
     setNumberPhoneIsValid(IsValidUserPhone.UNKNOW);
-  }, [resultPlacingOrder, inputTel]);
+  }, [resultPlacingOrder, inputTel, setNumberPhoneIsValid]);
 
   return (
     <>
@@ -59,9 +42,7 @@ export default function FormTel({ inputTel, orderButton, inedxFocusElement, came
               if (evt.currentTarget.value.length === 0) {
                 evt.currentTarget.value = defaultValue;
               }
-              const value = evt.currentTarget.value.replace(regExpTelReplace, '');
-              checkValidateNumberPhoneUser(value);
-              setNumberPhone(value);
+              validateNumberPhoneUser(evt.currentTarget.value);
             }}
             onFocus={() => {
               inedxFocusElement.current = 0;
@@ -72,14 +53,7 @@ export default function FormTel({ inputTel, orderButton, inedxFocusElement, came
       </div>
       <div className="modal__buttons">
         <button className="btn btn--purple modal__btn modal__btn--fit-width"
-          onClick={() => {
-            const orderInformation: OrderContactMe = {
-              camerasIds: [cameraId],
-              coupon: null,
-              tel: numberPhone
-            };
-            dispatch(postOrder(orderInformation));
-          }}
+          onClick = {sendOrder}
           type="button"
           ref={orderButton}
           disabled={numberPhoneIsValid !== IsValidUserPhone.ISVALID}
@@ -88,27 +62,7 @@ export default function FormTel({ inputTel, orderButton, inedxFocusElement, came
             <use xlinkHref="#icon-add-basket"></use>
           </svg>Заказать
         </button>
-        {resultPlacingOrder === ResultPlacingOrder.SUCCESSFULY &&
-          <p
-            style={{
-              fontSize: '16px',
-              fontWeight: 'bold',
-              lineHeight: '18px',
-              color: '#65cd54'
-            }}
-          >
-            Заказ успешно создан. Мы с вами свяжимся!
-          </ p>}
-        {resultPlacingOrder === ResultPlacingOrder.ERROR &&
-          <p
-            style={{
-              fontSize: '16px',
-              fontWeight:'bold',
-              lineHeight: '18px',
-              color: '#ed6041'
-            }}
-          >Произошла ошибка. Попробуйте снова.
-          </ p>}
+        <MessagePlacingOrder resultPlacingOrder={resultPlacingOrder}/>
       </div>
     </>
   );

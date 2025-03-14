@@ -53,3 +53,9 @@ export enum ResultPlacingOrder {
   SUCCESSFULY = 'successfuly',
   ERROR = 'error',
 }
+
+export enum IsValidUserPhone {
+  UNKNOW = 'unknow',
+  ISVALID = 'is-valid',
+  ISINVALID = 'is-invalid'
+}
