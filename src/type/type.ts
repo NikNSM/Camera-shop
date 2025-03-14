@@ -41,3 +41,15 @@ export type PromoProduct = {
   previewImgWebp: string;
   previewImgWebp2x: string;
 };
+
+export type OrderContactMe = {
+  camerasIds: number[];
+  coupon: string | null;
+  tel: string;
+}
+
+export enum ResultPlacingOrder {
+  UNKNOW = 'unknow',
+  SUCCESSFULY = 'successfuly',
+  ERROR = 'error',
+}

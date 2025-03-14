@@ -12,3 +12,9 @@ export const getStatePromoList = (state: TypeState) =>
 
 export const getStateLoadingPromoList = (state: TypeState) =>
   state[NameSpaceState.PRODUCT].loadingPromoList;
+
+export const getStateLoadingPostOreder = (state: TypeState) =>
+  state[NameSpaceState.PRODUCT].loadingPostOrder;
+
+export const getResultPlacingOrder = (state: TypeState) =>
+  state[NameSpaceState.PRODUCT].resultPlacingOrder;

@@ -1,4 +1,5 @@
 import { ProductCard } from '../../../../type/type';
+import { getConversionTypeCamera } from '../../../../utils';
 
 type PropsInformationCamera = {
   camera: ProductCard;
@@ -19,7 +20,7 @@ export default function InformationCamera({ camera }: PropsInformationCamera): J
         <ul className="basket-item__list">
           <li className="basket-item__list-item"><span className="basket-item__article">Артикул:</span> <span className="basket-item__number">{camera.vendorCode}</span>
           </li>
-          <li className="basket-item__list-item">{`${camera.type} ${camera.category}`}</li>
+          <li className="basket-item__list-item">{`${getConversionTypeCamera(camera.type, camera.category)} ${camera.category}`}</li>
           <li className="basket-item__list-item">{camera.level} уровень</li>
         </ul>
         <p className="basket-item__price"><span className="visually-hidden">Цена:</span>{price} ₽</p>

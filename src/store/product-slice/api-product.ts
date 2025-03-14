@@ -1,7 +1,17 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ProductCard, PromoProduct } from '../../type/type';
+import { OrderContactMe, ProductCard, PromoProduct } from '../../type/type';
 import { AxiosInstance } from 'axios';
 import { ApiRoute } from '../../const';
+import { setPlacingOrderUnknow } from './product-slice';
+import { TypeAppDispatch } from '../../type/type-redux';
+
+export const resetResultPlacingOrder = createAsyncThunk(
+  'product/resetResultPlacingOrder',(_arg, {dispatch}) => {
+    setTimeout(() => {
+      dispatch(setPlacingOrderUnknow());
+    }, 3000);
+  }
+);
 
 export const getCameraList = createAsyncThunk<
   ProductCard[],
@@ -23,4 +33,21 @@ export const getPromoList = createAsyncThunk<
 >('product/getPromoList', async (_arg, { extra: api }) => {
   const { data } = await api.get<PromoProduct[]>(ApiRoute.PROMO);
   return data;
+});
+
+export const postOrder = createAsyncThunk<
+  void,
+  OrderContactMe,
+  {
+    extra: AxiosInstance;
+    dispatch: TypeAppDispatch;
+  }
+>('product/postOrder', async (arg, { extra: api, dispatch }) => {
+  try {
+    await api.post(ApiRoute.ORDERS, arg);
+    dispatch(resetResultPlacingOrder());
+  } catch (error) {
+    dispatch(resetResultPlacingOrder());
+    throw new Error();
+  }
 });

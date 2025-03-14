@@ -5,7 +5,8 @@ export enum AddresesRoute {
 
 export enum ApiRoute {
   CAMERAS_LIST = '/cameras',
-  PROMO = 'promo',
+  PROMO = '/promo',
+  ORDERS = '/orders'
 }
 
 export enum NameSpaceState {

@@ -12,8 +12,8 @@ type PorpsModalWindow = {
 
 export default function ModalWindow({ camera, setCamera }: PorpsModalWindow): JSX.Element {
   const inputTel = useMask({
-    mask: '+7(___)-___-__-__',
-    replacement: { _: /\d/ }
+    mask: '+7(9__)-___-__-__',
+    replacement: { _: /\d/ },
   });
 
   const orderButton = useRef<HTMLButtonElement | null>(null);
@@ -47,7 +47,7 @@ export default function ModalWindow({ camera, setCamera }: PorpsModalWindow): JS
         <div className="modal__content">
           <p className="title title--h4">Свяжитесь со мной</p>
           <InformationCamera camera={camera}/>
-          <FormTel orderButton={orderButton} inputTel={inputTel} inedxFocusElement={indexFocusElement}/>
+          <FormTel orderButton={orderButton} inputTel={inputTel} inedxFocusElement={indexFocusElement} cameraId={camera.id}/>
           <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={closeModalWindow} ref={closeButton}>
             <svg width="10" height="10" aria-hidden="true">
               <use xlinkHref="#icon-close"></use>
