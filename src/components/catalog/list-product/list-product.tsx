@@ -7,8 +7,10 @@ import { ProductCard } from '../../../type/type';
 
 type PropsListProduct = {
   setActiveCamera: React.Dispatch<React.SetStateAction<ProductCard | null>>;
+  searchParams: URLSearchParams;
+  setSearchParamsModalWindow: (cameraId: number | null) => void;
 }
-export default function ListProduct({setActiveCamera}: PropsListProduct): JSX.Element {
+export default function ListProduct({setActiveCamera, searchParams, setSearchParamsModalWindow}: PropsListProduct): JSX.Element {
   const dispatch = useAppDispatch();
   const loadingCameraList = useAppSelector(getStateLoadingCameraList);
   const cameraList = useAppSelector(getStateCameraList);
@@ -17,9 +19,23 @@ export default function ListProduct({setActiveCamera}: PropsListProduct): JSX.El
     dispatch(getCameraList());
   }, [dispatch]);
 
+  useEffect(() => {
+    if(searchParams.has('camera')){
+      if(cameraList.length !== 0){
+        const cameraId = Number(searchParams.get('camera'));
+        const activeCamera = cameraList.find((camera) => camera.id === cameraId);
+        if(activeCamera) {
+          setActiveCamera(activeCamera);
+        } else {
+          setActiveCamera(null);
+        }
+      }
+    }
+  }, [cameraList, searchParams, setActiveCamera]);
+
   return (
     <div className="cards catalog__cards">
-      {loadingCameraList ? 'Загрузка имеющихся камер...' : cameraList.map((camera) => <CardProduct key={`camera-key-${camera.id}`} setActiveCamera={setActiveCamera} camera={camera} />)}
+      {loadingCameraList ? 'Загрузка имеющихся камер...' : cameraList.map((camera) => <CardProduct key={`camera-key-${camera.id}`} setSearchParamsModalWindow={setSearchParamsModalWindow} camera={camera} />)}
     </div>
   );
 }

@@ -4,9 +4,21 @@ import ListProduct from './list-product/list-product';
 import ModalWindow from './modal-window/modal-window';
 import { ProductCard } from '../../type/type';
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 export default function Catalog(): JSX.Element {
   const [activeCamera, setActiveCamera] = useState<null | ProductCard>(null);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const setSearchParamsModalWindow = (cameraId: number | null) => {
+    const camera = cameraId && cameraId.toString();
+    if(camera) {
+      setSearchParams({camera});
+    } else {
+      setSearchParams({});
+    }
+  };
 
   return (
     <main>
@@ -34,10 +46,10 @@ export default function Catalog(): JSX.Element {
             <div className="page-content__columns">
               <Aside />
               <div className="catalog__content">
-                <ListProduct setActiveCamera={setActiveCamera}/>
+                <ListProduct setActiveCamera={setActiveCamera} setSearchParamsModalWindow={setSearchParamsModalWindow} searchParams={searchParams}/>
               </div>
             </div>
-            {activeCamera !== null && <ModalWindow camera={activeCamera} setCamera={setActiveCamera}/>}
+            {activeCamera !== null && <ModalWindow camera={activeCamera} setCamera={setActiveCamera} setSearchParamsModalWindow={setSearchParamsModalWindow}/>}
           </div>
         </section>
       </div>

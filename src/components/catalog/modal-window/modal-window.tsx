@@ -8,9 +8,10 @@ import { useHandleTab } from './use-handle-tab/use-handle-tab';
 type PorpsModalWindow = {
   camera: ProductCard;
   setCamera: React.Dispatch<React.SetStateAction<null | ProductCard>>;
+  setSearchParamsModalWindow: (cameraId: number | null) => void;
 }
 
-export default function ModalWindow({ camera, setCamera }: PorpsModalWindow): JSX.Element {
+export default function ModalWindow({ camera, setCamera, setSearchParamsModalWindow }: PorpsModalWindow): JSX.Element {
   const inputTel = useMask({
     mask: '+7(9__)-___-__-__',
     replacement: { _: /\d/ },
@@ -19,7 +20,10 @@ export default function ModalWindow({ camera, setCamera }: PorpsModalWindow): JS
   const orderButton = useRef<HTMLButtonElement | null>(null);
   const closeButton = useRef<HTMLButtonElement | null>(null);
 
-  const closeModalWindow = () => setCamera(null);
+  const closeModalWindow = () => {
+    setCamera(null);
+    setSearchParamsModalWindow(null);
+  };
 
   const indexFocusElement = useHandleTab(true, inputTel, orderButton, closeButton);
 

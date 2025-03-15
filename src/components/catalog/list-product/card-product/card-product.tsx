@@ -2,10 +2,10 @@ import { ProductCard } from '../../../../type/type';
 
 type PropsCardProduct = {
   camera: ProductCard;
-  setActiveCamera: React.Dispatch<React.SetStateAction<ProductCard | null>>;
+  setSearchParamsModalWindow: (cameraId: number | null) => void;
 }
 
-export default function CardProduct({ camera, setActiveCamera }: PropsCardProduct): JSX.Element {
+export default function CardProduct({ camera, setSearchParamsModalWindow }: PropsCardProduct): JSX.Element {
   const price = new Intl.NumberFormat('ru-RU').format(camera.price);
 
   return (
@@ -30,7 +30,7 @@ export default function CardProduct({ camera, setActiveCamera }: PropsCardProduc
         </p>
       </div>
       <div className="product-card__buttons">
-        <button className="btn btn--purple product-card__btn" type="button" onClick={() => setActiveCamera(camera)}>Купить
+        <button className="btn btn--purple product-card__btn" type="button" onClick={() => setSearchParamsModalWindow(camera.id)}>Купить
         </button>
         <a className="btn btn--transparent" href="#">Подробнее
         </a>
