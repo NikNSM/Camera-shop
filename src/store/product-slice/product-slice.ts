@@ -1,23 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ProductCard, PromoProduct, ResultPlacingOrder } from '../../type/type';
-import { getCameraList, getPromoList, postOrder } from './api-product';
+import { getCamera, getCameraList, getPromoList, postOrder } from './api-product';
 
 type ProductState = {
   loadingCameraList: boolean;
   loadingPromoList: boolean;
   loadingPostOrder: boolean;
+  loadingCamera: boolean;
   resultPlacingOrder: ResultPlacingOrder;
   cameraList: ProductCard[];
   promoList: PromoProduct[];
+  camera: ProductCard | null;
 };
 
 const initialState: ProductState = {
   loadingCameraList: false,
   loadingPromoList: false,
   loadingPostOrder: false,
+  loadingCamera: false,
   resultPlacingOrder: ResultPlacingOrder.UNKNOW,
   cameraList: [],
   promoList: [],
+  camera: null
 };
 
 const productSlice = createSlice({
@@ -26,6 +30,9 @@ const productSlice = createSlice({
   reducers: {
     setPlacingOrderUnknow: (state) => {
       state.resultPlacingOrder = ResultPlacingOrder.UNKNOW;
+    },
+    clearCamera: (state) => {
+      state.camera = null;
     }
   },
   extraReducers: (builder) => {
@@ -54,9 +61,16 @@ const productSlice = createSlice({
       .addCase(postOrder.rejected, (state) => {
         state.resultPlacingOrder = ResultPlacingOrder.ERROR;
         state.loadingPostOrder = false;
+      })
+      .addCase(getCamera.pending, (state) => {
+        state.loadingCamera = true;
+      })
+      .addCase(getCamera.fulfilled, (state, action) => {
+        state.camera = action.payload;
+        state.loadingCamera = false;
       });
   },
 });
 
 export const productReducer = productSlice.reducer;
-export const {setPlacingOrderUnknow} = productSlice.actions;
+export const {setPlacingOrderUnknow, clearCamera} = productSlice.actions;

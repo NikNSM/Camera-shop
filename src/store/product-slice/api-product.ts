@@ -6,7 +6,7 @@ import { setPlacingOrderUnknow } from './product-slice';
 import { TypeAppDispatch } from '../../type/type-redux';
 
 export const resetResultPlacingOrder = createAsyncThunk(
-  'product/resetResultPlacingOrder',(_arg, {dispatch}) => {
+  'product/resetResultPlacingOrder', (_arg, { dispatch }) => {
     setTimeout(() => {
       dispatch(setPlacingOrderUnknow());
     }, 3000);
@@ -50,4 +50,15 @@ export const postOrder = createAsyncThunk<
     dispatch(resetResultPlacingOrder());
     throw new Error();
   }
+});
+
+export const getCamera = createAsyncThunk<
+  ProductCard,
+  string,
+  {
+    extra: AxiosInstance;
+  }
+>('product/getCamera', async (arg, { extra: api }) => {
+  const { data } = await api.get<ProductCard>(`${ApiRoute.CAMERAS_LIST}/${arg}`);
+  return data;
 });

@@ -18,3 +18,9 @@ export const getStateLoadingPostOreder = (state: TypeState) =>
 
 export const getResultPlacingOrder = (state: TypeState) =>
   state[NameSpaceState.PRODUCT].resultPlacingOrder;
+
+export const getStateCamera = (state: TypeState) =>
+  state[NameSpaceState.PRODUCT].camera;
+
+export const getStateLoadingCamera = (state: TypeState) =>
+  state[NameSpaceState.PRODUCT].loadingCamera;

@@ -1,7 +1,34 @@
+import '../../../public/css/style.css';
+import '../../../public/css/style.min.css';
+import { Link, useParams } from 'react-router-dom';
 import InformationCameraPage from './information-camera-page/information-camera-page';
 import Reviews from './reviews/reviews';
+import { useAppDispatch, useAppSelector } from '../../utils';
+import { getStateCamera } from '../../store/product-slice/product-selectors';
+import { useEffect } from 'react';
+import { getCamera } from '../../store/product-slice/api-product';
+import { clearCamera } from '../../store/product-slice/product-slice';
+import { AddresesRoute } from '../../const';
 
 export default function CameraPage(): JSX.Element {
+  const { id } = useParams();
+  const dispatch = useAppDispatch();
+  const camera = useAppSelector(getStateCamera);
+
+  useEffect(() => {
+    if (camera === null) {
+      if (id) {
+        dispatch(getCamera(id));
+      }
+    }
+
+    window.scrollTo(0, 0);
+    return (() => {
+      dispatch(clearCamera());
+    });
+
+  }, [dispatch, id]);
+
   return (
     <>
       <main>
@@ -17,18 +44,22 @@ export default function CameraPage(): JSX.Element {
                   </a>
                 </li>
                 <li className="breadcrumbs__item">
-                  <a className="breadcrumbs__link" href="catalog.html">Каталог
+                  <Link className="breadcrumbs__link" to={`${AddresesRoute.CATALOG}`}>Каталог
                     <svg width="5" height="8" aria-hidden="true">
                       <use xlinkHref="#icon-arrow-mini"></use>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
-                <li className="breadcrumbs__item"><span className="breadcrumbs__link breadcrumbs__link--active">Ретрокамера «Das Auge IV»</span>
-                </li>
+                {camera !== null &&
+                  <li className="breadcrumbs__item">
+                    <span className="breadcrumbs__link breadcrumbs__link--active">
+                      {camera.name}
+                    </span>
+                  </li>}
               </ul>
             </div>
           </div>
-          <InformationCameraPage />
+          {camera === null ? 'Загрузка...' : <InformationCameraPage camera={camera} />}
           <Reviews />
         </div>
       </main>
