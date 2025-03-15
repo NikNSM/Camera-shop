@@ -16,8 +16,11 @@ export default function ListProduct({setActiveCamera, searchParams, setSearchPar
   const cameraList = useAppSelector(getStateCameraList);
 
   useEffect(() => {
+    if(cameraList.length !== 0){
+      return;
+    }
     dispatch(getCameraList());
-  }, [dispatch]);
+  }, [dispatch, cameraList]);
 
   useEffect(() => {
     if(searchParams.has('camera')){
