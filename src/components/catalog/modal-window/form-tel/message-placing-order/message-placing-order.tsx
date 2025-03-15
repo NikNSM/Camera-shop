@@ -13,7 +13,9 @@ export default function MessagePlacingOrder({resultPlacingOrder}: PropsMessagePl
             fontSize: '16px',
             fontWeight: 'bold',
             lineHeight: '18px',
-            color: '#65cd54'
+            color: '#65cd54',
+            textAlign: 'center',
+            marginBottom: '0px',
           }}
         >
           Заказ успешно создан. Мы с вами свяжимся!
@@ -25,7 +27,9 @@ export default function MessagePlacingOrder({resultPlacingOrder}: PropsMessagePl
             fontSize: '16px',
             fontWeight: 'bold',
             lineHeight: '18px',
-            color: '#ed6041'
+            color: '#ed6041',
+            textAlign: 'center',
+            marginBottom: '0px',
           }}
         >
           Произошла ошибка. Попробуйте снова.

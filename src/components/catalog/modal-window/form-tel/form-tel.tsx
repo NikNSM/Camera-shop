@@ -62,8 +62,8 @@ export default function FormTel({ inputTel, orderButton, inedxFocusElement, came
             <use xlinkHref="#icon-add-basket"></use>
           </svg>Заказать
         </button>
-        <MessagePlacingOrder resultPlacingOrder={resultPlacingOrder}/>
       </div>
+      <MessagePlacingOrder resultPlacingOrder={resultPlacingOrder}/>
     </>
   );
 }
