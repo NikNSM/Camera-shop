@@ -1,6 +1,5 @@
 import { ProductCard } from '../../../type/type';
-import CameraTabCharacteristic from './camera-tab-characteristic/camera-tab-characteristic';
-import CameraTabDescription from './camera-tab-description/camera-tab-description';
+import CameraTabs from './camera-tab/camera-tabs';
 
 type PropsInformationCameraPage = {
   camera: ProductCard;
@@ -34,16 +33,7 @@ export default function InformationCameraPage({ camera }: PropsInformationCamera
                 <use xlinkHref="#icon-add-basket"></use>
               </svg>Добавить в корзину
             </button>
-            <div className="tabs product__tabs">
-              <div className="tabs__controls product__tabs-controls">
-                <button className="tabs__control" type="button">Характеристики</button>
-                <button className="tabs__control is-active" type="button">Описание</button>
-              </div>
-              <div className="tabs__content">
-                <CameraTabCharacteristic camera={camera} />
-                <CameraTabDescription description={camera.description} />
-              </div>
-            </div>
+            <CameraTabs camera={camera} />
           </div>
         </div>
       </section>

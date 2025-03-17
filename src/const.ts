@@ -3,6 +3,11 @@ export enum AddresesRoute {
   CAMERA = '/camera/',
 }
 
+export enum NameTabs {
+  CHARACTERISTIC = 'characteristic',
+  DESCRIPTION = 'description',
+}
+
 export enum ApiRoute {
   CAMERAS_LIST = '/cameras',
   PROMO = '/promo',

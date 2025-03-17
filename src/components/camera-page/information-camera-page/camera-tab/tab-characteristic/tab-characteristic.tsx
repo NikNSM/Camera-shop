@@ -1,12 +1,14 @@
-import { ProductCard } from '../../../../type/type';
+import { NameTabs } from '../../../../../const';
+import { ProductCard } from '../../../../../type/type';
 
 type PropsCameraTabCharacteristic = {
   camera: ProductCard;
+  assignClassTab: (nameTab: NameTabs) => string;
 }
 
-export default function CameraTabCharacteristic({camera}: PropsCameraTabCharacteristic): JSX.Element {
+export default function TabCharacteristic({camera, assignClassTab}: PropsCameraTabCharacteristic): JSX.Element {
   return (
-    <div className="tabs__element">
+    <div className={`tabs__element ${assignClassTab(NameTabs.CHARACTERISTIC)}`}>
       <ul className="product__tabs-list">
         <li className="item-list"><span className="item-list__title">Артикул:</span>
           <p className="item-list__text">{camera.vendorCode}</p>
