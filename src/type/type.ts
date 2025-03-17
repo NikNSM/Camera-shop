@@ -59,3 +59,14 @@ export enum IsValidUserPhone {
   ISVALID = 'is-valid',
   ISINVALID = 'is-invalid'
 }
+
+export type ReviewCard = {
+  id: string;
+  createAt: string;
+  cameraId: number;
+  userName: string;
+  advantage: string;
+  disadvantage: string;
+  review: string;
+  rating: number;
+}

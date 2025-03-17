@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ProductCard, PromoProduct, ResultPlacingOrder } from '../../type/type';
 import { getCamera, getCameraList, getPromoList, postOrder } from './api-product';
+import { NameSpaceState } from '../../const';
 
 type ProductState = {
   loadingCameraList: boolean;
@@ -25,7 +26,7 @@ const initialState: ProductState = {
 };
 
 const productSlice = createSlice({
-  name: 'product',
+  name: NameSpaceState.PRODUCT,
   initialState,
   reducers: {
     setPlacingOrderUnknow: (state) => {

@@ -11,9 +11,11 @@ export enum NameTabs {
 export enum ApiRoute {
   CAMERAS_LIST = '/cameras',
   PROMO = '/promo',
-  ORDERS = '/orders'
+  ORDERS = '/orders',
+  REVIEWS = '/reviews'
 }
 
 export enum NameSpaceState {
   PRODUCT = 'product',
+  REVIEWS = 'reviews',
 }

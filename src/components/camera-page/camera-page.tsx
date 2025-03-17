@@ -2,7 +2,7 @@ import '../../../public/css/style.css';
 import '../../../public/css/style.min.css';
 import { Link, useParams } from 'react-router-dom';
 import InformationCameraPage from './information-camera-page/information-camera-page';
-import Reviews from './reviews/reviews';
+import ReviewsComponent from './reviews-component/reviews-component';
 import { useAppDispatch, useAppSelector } from '../../utils';
 import { getStateCamera } from '../../store/product-slice/product-selectors';
 import { useEffect } from 'react';
@@ -59,8 +59,11 @@ export default function CameraPage(): JSX.Element {
               </ul>
             </div>
           </div>
-          {camera === null ? 'Загрузка...' : <InformationCameraPage camera={camera} />}
-          <Reviews />
+          {camera === null ? 'Загрузка...' :
+            <>
+              <InformationCameraPage camera={camera} />
+              <ReviewsComponent cameraId={camera.id} />
+            </>}
         </div>
       </main>
       <a className="up-btn" href="#header">
