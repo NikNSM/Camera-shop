@@ -19,3 +19,7 @@ export enum NameSpaceState {
   PRODUCT = 'product',
   REVIEWS = 'reviews',
 }
+
+export enum DateFormate {
+  DATA_REVIEWS = 'DD MMMM'
+}

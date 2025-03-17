@@ -1,4 +1,6 @@
+import { DateFormate } from '../../../../../const';
 import { ReviewCard } from '../../../../../type/type';
+import { getDateFormate } from '../../../../../utils';
 
 type PropsCardReview = {
   review: ReviewCard;
@@ -9,7 +11,7 @@ export default function CardReview({ review }: PropsCardReview): JSX.Element {
     <li className="review-card">
       <div className="review-card__head">
         <p className="title title--h4">{review.userName}</p>
-        <time className="review-card__data" dateTime="2022-04-13">13 апреля</time>
+        <time className="review-card__data" dateTime="2022-04-13">{getDateFormate(review.createAt, DateFormate.DATA_REVIEWS)}</time>
       </div>
       <div className="rate review-card__rate">
         {Array.from({ length: 5 }, (_, index) => (
