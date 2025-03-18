@@ -3,6 +3,7 @@ import { AddresesRoute } from '../../const';
 import Layout from '../layout/layout';
 import Catalog from '../catalog/catalog';
 import CameraPage from '../camera-page/camera-page';
+import Page404 from '../page-404/page-404';
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
           <Route index element={<Catalog />} />
           <Route path={`${AddresesRoute.CAMERA}:id`} element={<CameraPage />} />
         </Route>
+        <Route path='*' element={<Page404 />}/>
       </Routes>
     </BrowserRouter>
   );
