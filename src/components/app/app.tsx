@@ -1,5 +1,7 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { AddresesRoute } from '../../const';
+import HistoryRoute from '../history-route/history-route';
+import browserHistory from '../../browser-history/browser-history';
 import Layout from '../layout/layout';
 import Catalog from '../catalog/catalog';
 import CameraPage from '../camera-page/camera-page';
@@ -7,7 +9,7 @@ import Page404 from '../page-404/page-404';
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HistoryRoute history={browserHistory}>
       <Routes>
         <Route path={AddresesRoute.CATALOG} element={<Layout />}>
           <Route index element={<Catalog />} />
@@ -15,6 +17,6 @@ export default function App() {
           <Route path='*' element={<Page404 />}/>
         </Route>
       </Routes>
-    </BrowserRouter>
+    </HistoryRoute>
   );
 }

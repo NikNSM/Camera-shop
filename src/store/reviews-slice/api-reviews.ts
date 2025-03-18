@@ -5,7 +5,7 @@ import { ApiRoute } from '../../const';
 
 export const getReviewsCamera = createAsyncThunk<
   ReviewCard[],
-  number,
+  string,
   {
     extra: AxiosInstance;
   }

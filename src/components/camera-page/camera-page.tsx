@@ -1,45 +1,32 @@
 import '../../../public/css/style.css';
 import '../../../public/css/style.min.css';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams} from 'react-router-dom';
 import InformationCameraPage from './information-camera-page/information-camera-page';
 import ReviewsComponent from './reviews-component/reviews-component';
 import { useAppDispatch, useAppSelector } from '../../utils';
-import { getStateCamera, getStateCameraList, getStateLoadingCamera } from '../../store/product-slice/product-selectors';
+import { getStateCamera, getStateLoadingCamera } from '../../store/product-slice/product-selectors';
 import { useEffect } from 'react';
-import { getCamera, getCameraList } from '../../store/product-slice/api-product';
+import { getCamera} from '../../store/product-slice/api-product';
 import { clearCamera } from '../../store/product-slice/product-slice';
 import { AddresesRoute } from '../../const';
-import { getReviewsCamera } from '../../store/reviews-slice/api-reviews';
 import { clearReviews } from '../../store/reviews-slice/reviews-slice';
 
 export default function CameraPage(): JSX.Element {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const cameraList = useAppSelector(getStateCameraList);
   const dispatch = useAppDispatch();
   const camera = useAppSelector(getStateCamera);
   const loadingCamera = useAppSelector(getStateLoadingCamera);
 
   useEffect(() => {
-    if (cameraList.length === 0) {
-      dispatch(getCameraList());
-      return;
-    }
-
     if (id) {
-      if (!cameraList.find((product) => product.id === Number(id))) {
-        navigate(AddresesRoute.PAGE_404);
-        return;
-      }
       dispatch(getCamera(id));
-      dispatch(getReviewsCamera(Number(id)));
       window.scrollTo(0, 0);
       return () => {
         dispatch(clearCamera());
         dispatch(clearReviews());
       };
     }
-  }, [dispatch, id, cameraList, navigate]);
+  }, [dispatch, id]);
 
   return (
     !camera || loadingCamera ? <p>Загрузка...</p> :

@@ -10,6 +10,7 @@ type PropsListProduct = {
   searchParams: URLSearchParams;
   setSearchParamsModalWindow: (cameraId: number | null) => void;
 }
+
 export default function ListProduct({setActiveCamera, searchParams, setSearchParamsModalWindow}: PropsListProduct): JSX.Element {
   const dispatch = useAppDispatch();
   const loadingCameraList = useAppSelector(getStateLoadingCameraList);
