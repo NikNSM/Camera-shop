@@ -12,8 +12,8 @@ export default function App() {
         <Route path={AddresesRoute.CATALOG} element={<Layout />}>
           <Route index element={<Catalog />} />
           <Route path={`${AddresesRoute.CAMERA}:id`} element={<CameraPage />} />
+          <Route path='*' element={<Page404 />}/>
         </Route>
-        <Route path='*' element={<Page404 />}/>
       </Routes>
     </BrowserRouter>
   );

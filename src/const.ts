@@ -1,6 +1,7 @@
 export enum AddresesRoute {
   CATALOG = '/',
   CAMERA = '/camera/',
+  PAGE_404 = '/*'
 }
 
 export enum NameTabs {

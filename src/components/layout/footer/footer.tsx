@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom';
+import { AddresesRoute } from '../../../const';
+
 export default function Footer(): JSX.Element {
   return (
     <footer className="footer">
@@ -38,8 +41,8 @@ export default function Footer(): JSX.Element {
             <p className="footer__title">Навигация</p>
             <ul className="footer__list">
               <li className="footer__item">
-                <a className="link" href="#">Каталог
-                </a>
+                <Link className="link" to={AddresesRoute.CATALOG}>Каталог
+                </Link>
               </li>
               <li className="footer__item">
                 <a className="link" href="#">Гарантии
