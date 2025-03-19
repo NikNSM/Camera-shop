@@ -2,19 +2,24 @@ import Banner from './banner/banner';
 import Aside from './aside/aside';
 import ListProduct from './list-product/list-product';
 import ModalWindow from './modal-window/modal-window';
+import LoaderGetData from '../loader/loader-get-data/loader-get-data';
 import { ProductCard } from '../../type/type';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useAppSelector } from '../../utils';
+import { getStateLoadingCameraList } from '../../store/product-slice/product-selectors';
+import { NameTitleLoader } from '../../const';
+import { Helmet } from 'react-helmet-async';
 
 export default function Catalog(): JSX.Element {
   const [activeCamera, setActiveCamera] = useState<null | ProductCard>(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const loadingCameraList = useAppSelector(getStateLoadingCameraList);
   const setSearchParamsModalWindow = (cameraId: number | null) => {
     const camera = cameraId && cameraId.toString();
-    if(camera) {
-      setSearchParams({camera});
+    if (camera) {
+      setSearchParams({ camera });
     } else {
       setSearchParams({});
     }
@@ -22,6 +27,9 @@ export default function Catalog(): JSX.Element {
 
   return (
     <main>
+      <Helmet>
+        <title>Каталог камер!</title>
+      </Helmet>
       <Banner />
       <div className="page-content">
         <div className="breadcrumbs">
@@ -41,16 +49,18 @@ export default function Catalog(): JSX.Element {
           </div>
         </div>
         <section className="catalog">
-          <div className="container">
-            <h1 className="title title--h2">Каталог фото- и видеотехники</h1>
-            <div className="page-content__columns">
-              <Aside />
-              <div className="catalog__content">
-                <ListProduct setActiveCamera={setActiveCamera} setSearchParamsModalWindow={setSearchParamsModalWindow} searchParams={searchParams}/>
+          {loadingCameraList ?
+            <LoaderGetData title={NameTitleLoader.CAMERA_LIST} /> :
+            <div className="container">
+              <h1 className="title title--h2">Каталог фото- и видеотехники</h1>
+              <div className="page-content__columns">
+                <Aside />
+                <div className="catalog__content">
+                  <ListProduct setActiveCamera={setActiveCamera} setSearchParamsModalWindow={setSearchParamsModalWindow} searchParams={searchParams} />
+                </div>
               </div>
-            </div>
-            {activeCamera !== null && <ModalWindow camera={activeCamera} setCamera={setActiveCamera} setSearchParamsModalWindow={setSearchParamsModalWindow}/>}
-          </div>
+              {activeCamera !== null && <ModalWindow camera={activeCamera} setCamera={setActiveCamera} setSearchParamsModalWindow={setSearchParamsModalWindow} />}
+            </div>}
         </section>
       </div>
     </main>

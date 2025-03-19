@@ -24,3 +24,10 @@ export enum NameSpaceState {
 export enum DateFormate {
   DATA_REVIEWS = 'DD MMMM'
 }
+
+export enum NameTitleLoader {
+  BANNER = 'Загрузка эксклюзивного предложения',
+  CAMERA_LIST = 'Загрузка имеющихся камер',
+  CAMERA = 'Загрузка информации о камере',
+  REVIEWS = 'Загрузка отзывов',
+}

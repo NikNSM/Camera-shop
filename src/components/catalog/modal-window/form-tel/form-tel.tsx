@@ -1,9 +1,10 @@
 import { MutableRefObject, useEffect } from 'react';
 import { useAppSelector } from '../../../../utils';
 import { ResultPlacingOrder, IsValidUserPhone } from '../../../../type/type';
-import { getResultPlacingOrder } from '../../../../store/product-slice/product-selectors';
+import { getResultPlacingOrder, getStateLoadingPostOreder } from '../../../../store/product-slice/product-selectors';
 import { useSendOrder } from '../use-send-order/use-send-order';
 import MessagePlacingOrder from './message-placing-order/message-placing-order';
+import LoaderButtonModalWindow from '../../../loader/loader-upload-data/loader-upload-data';
 
 type PropsFormTel = {
   inputTel: MutableRefObject<HTMLInputElement | null>;
@@ -14,6 +15,7 @@ type PropsFormTel = {
 
 export default function FormTel({ inputTel, orderButton, inedxFocusElement, cameraId }: PropsFormTel): JSX.Element {
   const resultPlacingOrder = useAppSelector(getResultPlacingOrder);
+  const loadingPostOrder = useAppSelector(getStateLoadingPostOreder);
   const defaultValue = '+7(9';
   const [validateNumberPhoneUser, sendOrder, setNumberPhoneIsValid, numberPhoneIsValid] = useSendOrder(cameraId);
 
@@ -52,18 +54,20 @@ export default function FormTel({ inputTel, orderButton, inedxFocusElement, came
         <p className="custom-input__error">Нужно указать номер</p>
       </div>
       <div className="modal__buttons">
-        <button className="btn btn--purple modal__btn modal__btn--fit-width"
-          onClick = {sendOrder}
-          type="button"
-          ref={orderButton}
-          disabled={numberPhoneIsValid !== IsValidUserPhone.ISVALID}
-        >
-          <svg width="24" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-add-basket"></use>
-          </svg>Заказать
-        </button>
+        {loadingPostOrder ? <LoaderButtonModalWindow /> :
+          <button className="btn btn--purple modal__btn modal__btn--fit-width"
+            onClick={sendOrder}
+            type="button"
+            ref={orderButton}
+            disabled={numberPhoneIsValid !== IsValidUserPhone.ISVALID}
+          >
+
+            <svg width="24" height="16" aria-hidden="true">
+              <use xlinkHref="#icon-add-basket"></use>
+            </svg>Заказать
+          </button>}
       </div>
-      <MessagePlacingOrder resultPlacingOrder={resultPlacingOrder}/>
+      <MessagePlacingOrder resultPlacingOrder={resultPlacingOrder} />
     </>
   );
 }

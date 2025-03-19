@@ -1,15 +1,17 @@
 import '../../../public/css/style.css';
 import '../../../public/css/style.min.css';
-import { Link, useParams} from 'react-router-dom';
+import LoaderGetData from '../loader/loader-get-data/loader-get-data';
+import { Link, useParams } from 'react-router-dom';
 import InformationCameraPage from './information-camera-page/information-camera-page';
 import ReviewsComponent from './reviews-component/reviews-component';
 import { useAppDispatch, useAppSelector } from '../../utils';
 import { getStateCamera, getStateLoadingCamera } from '../../store/product-slice/product-selectors';
 import { useEffect } from 'react';
-import { getCamera} from '../../store/product-slice/api-product';
+import { getCamera } from '../../store/product-slice/api-product';
 import { clearCamera } from '../../store/product-slice/product-slice';
-import { AddresesRoute } from '../../const';
+import { AddresesRoute, NameTitleLoader } from '../../const';
 import { clearReviews } from '../../store/reviews-slice/reviews-slice';
+import { Helmet } from 'react-helmet-async';
 
 export default function CameraPage(): JSX.Element {
   const { id } = useParams();
@@ -29,10 +31,16 @@ export default function CameraPage(): JSX.Element {
   }, [dispatch, id]);
 
   return (
-    !camera || loadingCamera ? <p>Загрузка...</p> :
-      <>
-        <main>
+
+    <>
+      <main>
+
+        {!camera || loadingCamera ? <LoaderGetData title={NameTitleLoader.CAMERA} /> :
+
           <div className="page-content">
+            <Helmet>
+              <title>{`Камера: ${camera.name}`}</title>
+            </Helmet>
             <div className="breadcrumbs">
               <div className="container">
                 <ul className="breadcrumbs__list">
@@ -60,8 +68,9 @@ export default function CameraPage(): JSX.Element {
             </div>
             <InformationCameraPage camera={camera} />
             <ReviewsComponent />
-          </div>
-        </main>
+          </div>}
+      </main>
+      {!camera || loadingCamera ? '' :
         <a className="up-btn" href="#header" onClick={(evt) => {
           evt.preventDefault();
           window.scrollTo({
@@ -74,7 +83,7 @@ export default function CameraPage(): JSX.Element {
           <svg width="12" height="18" aria-hidden="true">
             <use xlinkHref="#icon-arrow2"></use>
           </svg>
-        </a>
-      </>
+        </a>}
+    </>
   );
 }

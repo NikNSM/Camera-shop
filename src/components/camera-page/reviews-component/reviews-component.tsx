@@ -1,5 +1,7 @@
+import { NameTitleLoader } from '../../../const';
 import { getStateListReviews, getStateLoadingReviews } from '../../../store/reviews-slice/reviews-selectors';
 import { useAppSelector } from '../../../utils';
+import LoaderGetData from '../../loader/loader-get-data/loader-get-data';
 import ListReviews from './list-reviews/list-reviews';
 import { useHandleShowMoreButton } from './useHandleShowMoreButton/useHandleShowMoreButton';
 
@@ -16,7 +18,7 @@ export default function ReviewsComponent(): JSX.Element {
           <div className="page-content__headed">
             <h2 className="title title--h3">Отзывы</h2>
           </div>
-          {loadingListReviews ? <p>Загрузка отзывов..</p> :
+          {loadingListReviews ? <LoaderGetData title={NameTitleLoader.REVIEWS}/> :
             <>
               <ListReviews listReviews={reviewsRender} />
               <div className="review-block__buttons">

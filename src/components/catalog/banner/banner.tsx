@@ -1,20 +1,22 @@
 import { useAppSelector, useAppDispatch } from '../../../utils';
-import { getStatePromoList } from '../../../store/product-slice/product-selectors';
+import { getStateLoadingPromoList, getStatePromoList } from '../../../store/product-slice/product-selectors';
 import { useEffect } from 'react';
 import { getPromoList } from '../../../store/product-slice/api-product';
 import { Link } from 'react-router-dom';
-import { AddresesRoute } from '../../../const';
+import { AddresesRoute, NameTitleLoader } from '../../../const';
+import LoaderGetData from '../../loader/loader-get-data/loader-get-data';
 
 export default function Banner(): JSX.Element {
   const dispatch = useAppDispatch();
   const promoList = useAppSelector(getStatePromoList);
+  const loadingPromoList = useAppSelector(getStateLoadingPromoList);
 
   useEffect(() => {
     dispatch(getPromoList());
   }, [dispatch]);
 
   return (
-    promoList.length === 0 ? <p> Загрузка</p> :
+    promoList.length === 0 || loadingPromoList ? <LoaderGetData title={NameTitleLoader.BANNER} /> :
       <div className="banner">
         <picture>
           <source type="image/webp" srcSet={`${promoList[0].previewImgWebp}, ${promoList[0].previewImgWebp2x}`} /><img src={promoList[0].previewImg} srcSet={promoList[0].previewImg2x} alt="баннер" />
