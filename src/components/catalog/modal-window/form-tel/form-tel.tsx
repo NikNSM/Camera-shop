@@ -1,7 +1,7 @@
 import { MutableRefObject, useEffect } from 'react';
 import { useAppSelector } from '../../../../utils';
 import { ResultPlacingOrder, IsValidUserPhone } from '../../../../type/type';
-import { getResultPlacingOrder, getStateLoadingPostOreder } from '../../../../store/product-slice/product-selectors';
+import { getResultPlacingOrder, getStateLoadingPostOrder } from '../../../../store/product-slice/product-selectors';
 import { useSendOrder } from '../use-send-order/use-send-order';
 import LoaderButtonModalWindow from '../../../loader/loader-upload-data/loader-upload-data';
 
@@ -15,7 +15,7 @@ type PropsFormTel = {
 
 export default function FormTel({ inputTel, orderButton, inedxFocusElement, closeModalWindow, cameraId }: PropsFormTel): JSX.Element {
   const resultPlacingOrder = useAppSelector(getResultPlacingOrder);
-  const loadingPostOrder = useAppSelector(getStateLoadingPostOreder);
+  const loadingPostOrder = useAppSelector(getStateLoadingPostOrder);
   const defaultValue = '+7(9';
   const [validateNumberPhoneUser, sendOrder, numberPhoneIsValid] = useSendOrder(cameraId);
   const classFormTel = () => {

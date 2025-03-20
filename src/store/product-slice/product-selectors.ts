@@ -1,26 +1,26 @@
 import { NameSpaceState } from '../../const';
 import { TypeState } from '../../type/type-redux';
 
-export const getStateCameraList = (state: TypeState) =>
+export const getStateCameraList = (state: Pick<TypeState, NameSpaceState.PRODUCT>) =>
   state[NameSpaceState.PRODUCT].cameraList;
 
-export const getStateLoadingCameraList = (state: TypeState) =>
+export const getStateLoadingCameraList = (state: Pick<TypeState, NameSpaceState.PRODUCT>) =>
   state[NameSpaceState.PRODUCT].loadingCameraList;
 
-export const getStatePromoList = (state: TypeState) =>
+export const getStatePromoList = (state: Pick<TypeState, NameSpaceState.PRODUCT>) =>
   state[NameSpaceState.PRODUCT].promoList;
 
-export const getStateLoadingPromoList = (state: TypeState) =>
+export const getStateLoadingPromoList = (state: Pick<TypeState, NameSpaceState.PRODUCT>) =>
   state[NameSpaceState.PRODUCT].loadingPromoList;
 
-export const getStateLoadingPostOreder = (state: TypeState) =>
+export const getStateLoadingPostOrder = (state: Pick<TypeState, NameSpaceState.PRODUCT>) =>
   state[NameSpaceState.PRODUCT].loadingPostOrder;
 
-export const getResultPlacingOrder = (state: TypeState) =>
+export const getResultPlacingOrder = (state: Pick<TypeState, NameSpaceState.PRODUCT>) =>
   state[NameSpaceState.PRODUCT].resultPlacingOrder;
 
-export const getStateCamera = (state: TypeState) =>
+export const getStateCamera = (state: Pick<TypeState, NameSpaceState.PRODUCT>) =>
   state[NameSpaceState.PRODUCT].camera;
 
-export const getStateLoadingCamera = (state: TypeState) =>
+export const getStateLoadingCamera = (state: Pick<TypeState, NameSpaceState.PRODUCT>) =>
   state[NameSpaceState.PRODUCT].loadingCamera;
