@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { IsValidUserPhone, OrderContactMe } from '../../../../type/type';
 import { useAppDispatch } from '../../../../utils';
 import { postOrder } from '../../../../store/product-slice/api-product';
 
-type ResultUseSendOrder = [(value: string) => void, () => void, React.Dispatch<React.SetStateAction<IsValidUserPhone>>, IsValidUserPhone]
+type ResultUseSendOrder = [(value: string) => void, () => void, IsValidUserPhone]
 
 export function useSendOrder(cameraId: number): ResultUseSendOrder {
   const dispatch = useAppDispatch();
@@ -31,5 +31,5 @@ export function useSendOrder(cameraId: number): ResultUseSendOrder {
     dispatch(postOrder(orderInformation));
   };
 
-  return [validateNumberPhoneUser, sendOrder, setNumberPhoneIsValid, numberPhoneIsValid];
+  return [validateNumberPhoneUser, sendOrder, numberPhoneIsValid];
 }

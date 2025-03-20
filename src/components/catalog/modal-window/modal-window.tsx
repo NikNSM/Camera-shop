@@ -51,7 +51,7 @@ export default function ModalWindow({ camera, setCamera, setSearchParamsModalWin
         <div className="modal__content">
           <p className="title title--h4">Свяжитесь со мной</p>
           <InformationCamera camera={camera}/>
-          <FormTel orderButton={orderButton} inputTel={inputTel} inedxFocusElement={indexFocusElement} cameraId={camera.id}/>
+          <FormTel closeModalWindow={closeModalWindow} orderButton={orderButton} inputTel={inputTel} inedxFocusElement={indexFocusElement} cameraId={camera.id}/>
           <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={closeModalWindow} ref={closeButton}>
             <svg width="10" height="10" aria-hidden="true">
               <use xlinkHref="#icon-close"></use>

@@ -3,36 +3,39 @@ import { useAppSelector } from '../../../../utils';
 import { ResultPlacingOrder, IsValidUserPhone } from '../../../../type/type';
 import { getResultPlacingOrder, getStateLoadingPostOreder } from '../../../../store/product-slice/product-selectors';
 import { useSendOrder } from '../use-send-order/use-send-order';
-import MessagePlacingOrder from './message-placing-order/message-placing-order';
 import LoaderButtonModalWindow from '../../../loader/loader-upload-data/loader-upload-data';
 
 type PropsFormTel = {
   inputTel: MutableRefObject<HTMLInputElement | null>;
   orderButton: MutableRefObject<HTMLButtonElement | null>;
   inedxFocusElement: MutableRefObject<number>;
+  closeModalWindow: () => void;
   cameraId: number;
 }
 
-export default function FormTel({ inputTel, orderButton, inedxFocusElement, cameraId }: PropsFormTel): JSX.Element {
+export default function FormTel({ inputTel, orderButton, inedxFocusElement, closeModalWindow, cameraId }: PropsFormTel): JSX.Element {
   const resultPlacingOrder = useAppSelector(getResultPlacingOrder);
   const loadingPostOrder = useAppSelector(getStateLoadingPostOreder);
   const defaultValue = '+7(9';
-  const [validateNumberPhoneUser, sendOrder, setNumberPhoneIsValid, numberPhoneIsValid] = useSendOrder(cameraId);
+  const [validateNumberPhoneUser, sendOrder, numberPhoneIsValid] = useSendOrder(cameraId);
+  const classFormTel = () => {
+    if (numberPhoneIsValid === IsValidUserPhone.ISVALID && resultPlacingOrder !== ResultPlacingOrder.ERROR) {
+      return IsValidUserPhone.ISVALID;
+    } else if (numberPhoneIsValid === IsValidUserPhone.ISINVALID || resultPlacingOrder === ResultPlacingOrder.ERROR) {
+      return IsValidUserPhone.ISINVALID;
+    }
+    return '';
+  };
 
   useEffect(() => {
-    if (resultPlacingOrder !== ResultPlacingOrder.SUCCESSFULY) {
-      return;
+    if (resultPlacingOrder === ResultPlacingOrder.SUCCESSFULY) {
+      closeModalWindow();
     }
-    if (inputTel.current === null) {
-      return;
-    }
-    inputTel.current.value = defaultValue;
-    setNumberPhoneIsValid(IsValidUserPhone.UNKNOW);
-  }, [resultPlacingOrder, inputTel, setNumberPhoneIsValid]);
+  }, [resultPlacingOrder, closeModalWindow]);
 
   return (
     <>
-      <div className={`custom-input form-review__item ${numberPhoneIsValid === IsValidUserPhone.UNKNOW ? '' : numberPhoneIsValid}`}>
+      <div className={`custom-input form-review__item ${classFormTel()}`}>
         <label>
           <span className="custom-input__label">Телефон
             <svg width="9" height="9" aria-hidden="true">
@@ -51,7 +54,8 @@ export default function FormTel({ inputTel, orderButton, inedxFocusElement, came
             }}
           />
         </label>
-        <p className="custom-input__error">Нужно указать номер</p>
+        {numberPhoneIsValid === IsValidUserPhone.ISINVALID && <p className="custom-input__error">Нужно указать номер</p>}
+        {resultPlacingOrder === ResultPlacingOrder.ERROR && <p className="custom-input__error">Ошибка! Попробуйте снова</p>}
       </div>
       <div className="modal__buttons">
         {loadingPostOrder ? <LoaderButtonModalWindow /> :
@@ -67,7 +71,6 @@ export default function FormTel({ inputTel, orderButton, inedxFocusElement, came
             </svg>Заказать
           </button>}
       </div>
-      <MessagePlacingOrder resultPlacingOrder={resultPlacingOrder} />
     </>
   );
 }
