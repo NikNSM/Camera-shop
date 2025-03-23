@@ -5,16 +5,12 @@ type PropsLoader = {
   title: NameTitleLoader;
 }
 
-export default function LoaderGetData({title}: PropsLoader): JSX.Element {
+export default function LoaderGetData({ title }: PropsLoader): JSX.Element {
   return (
-    <div className='container-loader'>
+    <div className='container-loader' data-testid="loader-get-data-container">
       <h1 className='loader-title'>{title}</h1>
-      <div className='loader'>
-        <div className='dot'></div>
-        <div className='dot'></div>
-        <div className='dot'></div>
-        <div className='dot'></div>
-        <div className='dot'></div>
+      <div className='loader' data-testid="loader">
+        {Array.from({ length: 5 }, (_, index) => <div className='dot' key={index} data-testid="dot"></div>)}
       </div>
     </div>
   );
