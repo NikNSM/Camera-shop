@@ -1,21 +1,16 @@
-import { NameSpaceState } from '../../const';
-import { getStateListReviews, getStateLoadingReviews } from './reviews-selectors';
+import { NameSpaceState } from '../../../const';
+import { review } from '../../../mocks/mocks';
+import {
+  getStateListReviews,
+  getStateLoadingReviews,
+} from '../reviews-selectors';
 
 describe('Reviews selectors', () => {
   const state = {
     [NameSpaceState.REVIEWS]: {
-      listReviews: [{
-        id: '12343dd',
-        createAt: '22.02.2020',
-        cameraId: 1,
-        userName: 'Q1q1',
-        advantage: 'Достоинства',
-        disadvantage: 'Недостатки',
-        review: 'Как то так',
-        rating: 2,
-      }],
+      listReviews: [review],
       loadingReviews: false,
-    }
+    },
   };
 
   it('should return list reviews from state', () => {
