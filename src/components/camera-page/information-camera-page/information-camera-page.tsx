@@ -1,6 +1,6 @@
 import { ProductCard } from '../../../type/type';
 import CameraTabs from './camera-tab/camera-tabs';
-
+import StarsRating from '../../stars-rating/stars-rating';
 type PropsInformationCameraPage = {
   camera: ProductCard;
 }
@@ -20,10 +20,7 @@ export default function InformationCameraPage({ camera }: PropsInformationCamera
           <div className="product__content">
             <h1 className="title title--h3">{camera.name}</h1>
             <div className="rate product__rate">
-              {Array.from({ length: 5 }, (_, index) => (
-                <svg key={`stars-${index + 1}`} width="17" height="16" aria-hidden="true">
-                  {camera.rating >= index + 1 ? <use xlinkHref="#icon-full-star"></use> : <use xlinkHref="#icon-star"></use>}
-                </svg>))}
+              <StarsRating rating={camera.rating} />
               <p className="visually-hidden">Рейтинг: {camera.rating}</p>
               <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{camera.reviewCount}</p>
             </div>

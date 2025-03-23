@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ProductCard } from '../../../../type/type';
 import { AddresesRoute } from '../../../../const';
+import StarsRating from '../../../stars-rating/stars-rating';
 
 type PropsCardProduct = {
   camera: ProductCard;
@@ -20,10 +21,7 @@ export default function CardProduct({ camera, setSearchParamsModalWindow }: Prop
       </div>
       <div className="product-card__info">
         <div className="rate product-card__rate">
-          {Array.from({ length: 5 }, (_, index) => (
-            <svg key={`stars-${index + 1}`} width="17" height="16" aria-hidden="true">
-              {camera.rating >= index + 1 ? <use xlinkHref="#icon-full-star"></use> : <use xlinkHref="#icon-star"></use>}
-            </svg>))}
+          <StarsRating rating={camera.rating} />
           <p className="visually-hidden">Рейтинг: {camera.rating}</p>
           <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{camera.reviewCount}</p>
         </div>
