@@ -1,9 +1,10 @@
 import { MutableRefObject, useEffect } from 'react';
-import { useAppSelector } from '../../../../utils';
+import { useAppDispatch, useAppSelector } from '../../../../utils';
 import { ResultPlacingOrder, IsValidUserPhone } from '../../../../type/type';
 import { getResultPlacingOrder, getStateLoadingPostOrder } from '../../../../store/product-slice/product-selectors';
 import { useSendOrder } from '../use-send-order/use-send-order';
 import LoaderButtonModalWindow from '../../../loader/loader-upload-data/loader-upload-data';
+import { setPlacingOrderUnknow } from '../../../../store/product-slice/product-slice';
 
 type PropsFormTel = {
   inputTel: MutableRefObject<HTMLInputElement | null>;
@@ -14,6 +15,7 @@ type PropsFormTel = {
 }
 
 export default function FormTel({ inputTel, orderButton, inedxFocusElement, closeModalWindow, cameraId }: PropsFormTel): JSX.Element {
+  const dispatch = useAppDispatch();
   const resultPlacingOrder = useAppSelector(getResultPlacingOrder);
   const loadingPostOrder = useAppSelector(getStateLoadingPostOrder);
   const defaultValue = '+7(9';
@@ -30,8 +32,9 @@ export default function FormTel({ inputTel, orderButton, inedxFocusElement, clos
   useEffect(() => {
     if (resultPlacingOrder === ResultPlacingOrder.SUCCESSFULY) {
       closeModalWindow();
+      dispatch(setPlacingOrderUnknow());
     }
-  }, [resultPlacingOrder, closeModalWindow]);
+  }, [resultPlacingOrder, closeModalWindow, dispatch]);
 
   return (
     <>
@@ -44,9 +47,14 @@ export default function FormTel({ inputTel, orderButton, inedxFocusElement, clos
           </span>
           <input type="tel" name="user-tel" placeholder="Введите ваш номер" required defaultValue={defaultValue} ref={inputTel}
             onInput={(evt) => {
+              if(resultPlacingOrder === ResultPlacingOrder.ERROR){
+                dispatch(setPlacingOrderUnknow());
+              }
+
               if (evt.currentTarget.value.length === 0) {
                 evt.currentTarget.value = defaultValue;
               }
+
               validateNumberPhoneUser(evt.currentTarget.value);
             }}
             onFocus={() => {
@@ -60,7 +68,12 @@ export default function FormTel({ inputTel, orderButton, inedxFocusElement, clos
       <div className="modal__buttons">
         {loadingPostOrder ? <LoaderButtonModalWindow /> :
           <button className="btn btn--purple modal__btn modal__btn--fit-width"
-            onClick={sendOrder}
+            onClick={() => {
+              if(resultPlacingOrder === ResultPlacingOrder.ERROR){
+                dispatch(setPlacingOrderUnknow());
+              }
+              sendOrder();
+            }}
             type="button"
             ref={orderButton}
             disabled={numberPhoneIsValid !== IsValidUserPhone.ISVALID}

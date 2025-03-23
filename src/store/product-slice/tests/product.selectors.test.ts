@@ -1,5 +1,5 @@
-import { NameSpaceState } from '../../const';
-import { CategoryProduct, LevelProduct, TypeProduct, ResultPlacingOrder } from '../../type/type';
+import { NameSpaceState } from '../../../const';
+import { CategoryProduct, LevelProduct, TypeProduct, ResultPlacingOrder } from '../../../type/type';
 import {
   getResultPlacingOrder,
   getStateCamera,
@@ -9,7 +9,7 @@ import {
   getStateLoadingPostOrder,
   getStateLoadingPromoList,
   getStatePromoList
-} from './product-selectors';
+} from '../product-selectors';
 
 describe(
   'Product selectors', () => {

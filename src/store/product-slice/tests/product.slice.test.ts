@@ -1,7 +1,7 @@
-import { camera, promo } from '../../mocks/mocks';
-import { ResultPlacingOrder } from '../../type/type';
-import { getCamera, getCameraList, getPromoList, postOrder } from './api-product';
-import { clearCamera, productReducer, setPlacingOrderUnknow } from './product-slice';
+import { camera, promo } from '../../../mocks/mocks';
+import { ResultPlacingOrder } from '../../../type/type';
+import { getCamera, getCameraList, getPromoList, postOrder } from '../api-product';
+import { clearCamera, productReducer, setPlacingOrderUnknow } from '../product-slice';
 
 describe(
   'Product slice', () => {

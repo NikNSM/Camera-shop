@@ -1,4 +1,7 @@
+import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 import { TypeProduct, CategoryProduct, LevelProduct } from '../type/type';
+import { TypeState } from '../type/type-redux';
+import { createApi } from '../api/api';
 
 
 export const camera = {
@@ -38,3 +41,6 @@ export const review = {
   rating: 2,
 };
 
+export type TypeAppThunkAppDispatch = ThunkDispatch<TypeState, ReturnType<typeof createApi>, Action>;
+
+export const extractActionsType = (actions: Action<string>[]) => actions.map((action) => action.type);

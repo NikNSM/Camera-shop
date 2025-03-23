@@ -3,7 +3,7 @@ import { TypeState } from '../../type/type-redux';
 import { redirect } from './redirect';
 import { AnyAction } from '@reduxjs/toolkit';
 import browserHistory from '../../browser-history/browser-history';
-import { actionRedirect } from './action-redirect';
+import { redirectToRoute } from './action-redirect';
 import { AddresesRoute } from '../../const';
 vi.mock('../../browser-history/browser-history', () => ({
   default: {
@@ -28,8 +28,8 @@ describe('Middleware redirect', () => {
   });
 
   it('should redirect to "/*" with action "actionRedirect"', () => {
-    const redirectToRoute = actionRedirect(AddresesRoute.PAGE_404);
-    store.dispatch(redirectToRoute);
+    const redirectToRoutePage404 = redirectToRoute(AddresesRoute.PAGE_404);
+    store.dispatch(redirectToRoutePage404);
     expect(browserHistory.location.pathname).toBe(AddresesRoute.PAGE_404);
   });
 

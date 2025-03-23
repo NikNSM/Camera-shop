@@ -2,18 +2,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { OrderContactMe, ProductCard, PromoProduct } from '../../type/type';
 import { AxiosInstance } from 'axios';
 import { AddresesRoute, ApiRoute } from '../../const';
-import { setPlacingOrderUnknow } from './product-slice';
 import { TypeAppDispatch } from '../../type/type-redux';
-import { actionRedirect } from '../middleware-redirect/action-redirect';
+import { redirectToRoute } from '../middleware-redirect/action-redirect';
 import { getReviewsCamera } from '../reviews-slice/api-reviews';
-
-export const resetResultPlacingOrder = createAsyncThunk(
-  'product/resetResultPlacingOrder', (_arg, { dispatch }) => {
-    setTimeout(() => {
-      dispatch(setPlacingOrderUnknow());
-    }, 3000);
-  }
-);
 
 export const getCameraList = createAsyncThunk<
   ProductCard[],
@@ -42,14 +33,11 @@ export const postOrder = createAsyncThunk<
   OrderContactMe,
   {
     extra: AxiosInstance;
-    dispatch: TypeAppDispatch;
   }
->('product/postOrder', async (arg, { extra: api, dispatch }) => {
+>('product/postOrder', async (arg, { extra: api }) => {
   try {
     await api.post(ApiRoute.ORDERS, arg);
-    dispatch(resetResultPlacingOrder());
   } catch (error) {
-    dispatch(resetResultPlacingOrder());
     throw new Error();
   }
 });
@@ -67,8 +55,7 @@ export const getCamera = createAsyncThunk<
     dispatch(getReviewsCamera(arg));
     return data;
   } catch (error) {
-    dispatch(actionRedirect(AddresesRoute.PAGE_404));
+    dispatch(redirectToRoute(AddresesRoute.PAGE_404));
     throw new Error();
   }
-
 });
