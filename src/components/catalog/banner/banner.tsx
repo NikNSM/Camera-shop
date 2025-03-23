@@ -12,8 +12,11 @@ export default function Banner(): JSX.Element {
   const loadingPromoList = useAppSelector(getStateLoadingPromoList);
 
   useEffect(() => {
+    if(promoList.length !== 0) {
+      return;
+    }
     dispatch(getPromoList());
-  }, [dispatch]);
+  }, [dispatch, promoList]);
 
   return (
     promoList.length === 0 || loadingPromoList ? <LoaderGetData title={NameTitleLoader.BANNER} /> :
