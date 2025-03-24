@@ -1,5 +1,3 @@
-import '../../../public/css/style.css';
-import '../../../public/css/style.min.css';
 import LoaderGetData from '../loader/loader-get-data/loader-get-data';
 import { Link, useParams } from 'react-router-dom';
 import InformationCameraPage from './information-camera-page/information-camera-page';
@@ -39,7 +37,7 @@ export default function CameraPage(): JSX.Element {
 
           <div className="page-content">
             <Helmet>
-              <title>{`Камера: ${camera.name}`}</title>
+              <title>{`${camera.name}`}</title>
             </Helmet>
             <div className="breadcrumbs">
               <div className="container">
