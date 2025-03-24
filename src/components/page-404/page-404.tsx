@@ -21,7 +21,7 @@ export default function Page404(): JSX.Element {
       <h1 className="title title--h1">404</h1>
       <h3 className="title title--h3">Что-то пошло не так. Вернемся в начало?</h3>
       <div>
-        <Link className="btn btn--purple product-card__btn" to={AddresesRoute.CATALOG}>
+        <Link className="btn btn--purple product-card__btn" to={AddresesRoute.CATALOG} data-testid={'link'}>
           <p className="title--size-s">На Главную</p>
         </Link>
       </div>
