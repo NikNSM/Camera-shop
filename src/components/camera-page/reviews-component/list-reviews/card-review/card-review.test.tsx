@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import { review } from '../../../../../mocks/mocks';
-import { withHistory } from '../../../../../mocks/mock-component';
 import CardReview from './card-review';
 
 describe('Component: CardReview', () => {
@@ -12,9 +11,7 @@ describe('Component: CardReview', () => {
     const mockReview = review;
     const expectedTextStarsMock = 'Рейтинг в звездах';
 
-    const componentHistory = withHistory(<CardReview review={mockReview} />);
-
-    render(componentHistory);
+    render(<CardReview review={mockReview} />);
 
     expect(screen.getByText(mockReview.userName)).toBeInTheDocument();
     expect(screen.getByText(expectedTextStarsMock)).toBeInTheDocument();
