@@ -12,7 +12,7 @@ export default function Banner(): JSX.Element {
   const loadingPromoList = useAppSelector(getStateLoadingPromoList);
 
   useEffect(() => {
-    if(promoList.length !== 0) {
+    if (promoList.length !== 0) {
       return;
     }
     dispatch(getPromoList());
@@ -21,10 +21,10 @@ export default function Banner(): JSX.Element {
   return (
     promoList.length === 0 || loadingPromoList ? <LoaderGetData title={NameTitleLoader.BANNER} /> :
       <div className="banner">
-        <picture>
+        <picture data-testid="banner-img">
           <source type="image/webp" srcSet={`${promoList[0].previewImgWebp}, ${promoList[0].previewImgWebp2x}`} /><img src={promoList[0].previewImg} srcSet={promoList[0].previewImg2x} alt="баннер" />
         </picture>
-        <p className="banner__info">
+        <p className="banner__info" data-testid="banner-description">
           <span className="banner__message">Новинка!</span>
           <span className="title title--h1">{promoList[0].name}</span>
           <span className="banner__text">Профессиональная камера от&nbsp;известного производителя</span>
