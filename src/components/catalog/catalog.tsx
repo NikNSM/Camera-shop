@@ -4,7 +4,7 @@ import ListProduct from './list-product/list-product';
 import ModalWindow from './modal-window/modal-window';
 import LoaderGetData from '../loader/loader-get-data/loader-get-data';
 import { ProductCard } from '../../type/type';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAppSelector } from '../../utils';
 import { getStateLoadingCameraList } from '../../store/product-slice/product-selectors';
@@ -24,6 +24,10 @@ export default function Catalog(): JSX.Element {
       setSearchParams({});
     }
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <main>
