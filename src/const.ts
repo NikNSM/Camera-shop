@@ -1,7 +1,7 @@
 export enum AddresesRoute {
   CATALOG = '/',
   CAMERA = '/camera/',
-  PAGE_404 = '/*'
+  PAGE_404 = '/*',
 }
 
 export enum NameTabs {
@@ -13,7 +13,7 @@ export enum ApiRoute {
   CAMERAS_LIST = '/cameras',
   PROMO = '/promo',
   ORDERS = '/orders',
-  REVIEWS = '/reviews'
+  REVIEWS = '/reviews',
 }
 
 export enum NameSpaceState {
@@ -22,7 +22,8 @@ export enum NameSpaceState {
 }
 
 export enum DateFormate {
-  DATA_REVIEWS = 'DD MMMM'
+  DATE_REVIEWS = 'DD MMMM',
+  DATE_REVIEWS_DATE_TIME = 'YYYY-MM-DD',
 }
 
 export enum NameTitleLoader {

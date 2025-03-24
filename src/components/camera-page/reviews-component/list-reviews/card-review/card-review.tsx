@@ -12,7 +12,7 @@ export default function CardReview({ review }: PropsCardReview): JSX.Element {
     <li className="review-card">
       <div className="review-card__head">
         <p className="title title--h4">{review.userName}</p>
-        <time className="review-card__data" dateTime="2022-04-13">{getDateFormate(review.createAt, DateFormate.DATA_REVIEWS)}</time>
+        <time className="review-card__data" dateTime={getDateFormate(review.createAt, DateFormate.DATE_REVIEWS_DATE_TIME)}>{getDateFormate(review.createAt, DateFormate.DATE_REVIEWS)}</time>
       </div>
       <div className="rate review-card__rate">
         <StarsRating rating={review.rating} />
