@@ -6,31 +6,31 @@ export default function Footer(): JSX.Element {
     <footer className="footer">
       <div className="container">
         <div className="footer__info">
-          <a className="footer__logo" href="index.html" aria-label="Переход на главную">
-            <svg width="100" height="36" aria-hidden="true">
-              <use xlinkHref="#icon-logo-mono"></use>
+          <Link className="footer__logo" to={AddresesRoute.CATALOG} aria-label="Переход на главную" data-testid="link-footer-logo">
+            <svg width="100" height="36" aria-hidden="true" >
+              <use xlinkHref="#icon-logo-mono" data-testid="link-footer-logo-img"></use>
             </svg>
-          </a>
+          </Link>
           <p className="footer__description">Интернет-магазин фото- и видеотехники</p>
           <ul className="social">
             <li className="social__item">
-              <a className="link" href="#" aria-label="Переход на страницу вконтатке">
+              <a className="link" href="#" aria-label="Переход на страницу вконтатке" data-testid="link-footer-vk">
                 <svg width="20" height="20" aria-hidden="true">
-                  <use xlinkHref="#icon-vk"></use>
+                  <use xlinkHref="#icon-vk" data-testid="link-footer-vk-img"></use>
                 </svg>
               </a>
             </li>
             <li className="social__item">
-              <a className="link" href="#" aria-label="Переход на страницу pinterest">
+              <a className="link" href="#" aria-label="Переход на страницу pinterest" data-testid="link-footer-pinterest">
                 <svg width="20" height="20" aria-hidden="true">
-                  <use xlinkHref="#icon-pinterest"></use>
+                  <use xlinkHref="#icon-pinterest" data-testid="link-footer-pinterest-img"></use>
                 </svg>
               </a>
             </li>
             <li className="social__item">
-              <a className="link" href="#" aria-label="Переход на страницу reddit">
+              <a className="link" href="#" aria-label="Переход на страницу reddit" data-testid="link-footer-reddit">
                 <svg width="20" height="20" aria-hidden="true">
-                  <use xlinkHref="#icon-reddit"></use>
+                  <use xlinkHref="#icon-reddit" data-testid="link-footer-reddit-img"></use>
                 </svg>
               </a>
             </li>

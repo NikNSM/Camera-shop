@@ -5,11 +5,11 @@ export default function Header(): JSX.Element {
   return (
     <header className="header" id="header">
       <div className="container">
-        <a className="header__logo" href="index.html" aria-label="Переход на главную">
-          <svg width="100" height="36" aria-hidden="true" >
-            <use xlinkHref="#icon-logo"></use>
+        <Link className="header__logo" to={AddresesRoute.CATALOG} aria-label="Переход на главную" data-testid="link-header-logo">
+          <svg width="100" height="36" aria-hidden="true">
+            <use xlinkHref="#icon-logo" data-testid="link-header-use"></use>
           </svg>
-        </a>
+        </Link>
         <nav className="main-nav header__main-nav">
           <ul className="main-nav__list">
             <li className="main-nav__item"><Link className="main-nav__link" to={AddresesRoute.CATALOG}>Каталог</Link>
