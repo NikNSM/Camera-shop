@@ -1,5 +1,6 @@
 import Banner from './banner/banner';
-import Aside from './aside/aside';
+import Sort from './sort/sort';
+import Filters from './filters/filters';
 import ListProduct from './list-product/list-product';
 import ModalWindow from './modal-window/modal-window';
 import LoaderGetData from '../loader/loader-get-data/loader-get-data';
@@ -58,8 +59,9 @@ export default function Catalog(): JSX.Element {
             <div className="container">
               <h1 className="title title--h2">Каталог фото- и видеотехники</h1>
               <div className="page-content__columns">
-                <Aside />
+                <Filters />
                 <div className="catalog__content">
+                  <Sort />
                   <ListProduct setActiveCamera={setActiveCamera} setSearchParamsModalWindow={setSearchParamsModalWindow} searchParams={searchParams} />
                 </div>
               </div>
