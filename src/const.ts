@@ -37,6 +37,11 @@ export enum NameSpaceSearchParams {
   MODAL_WINDOW = 'camera',
   TYPE_SORT = 'type-sort',
   DIRECTION_SORT = 'direction-sort',
+  FILTER_CATEGORY = 'category',
+  FILTER_LEVEL = 'level',
+  FILTER_TYPE_CAMERA = 'type-camera',
+  FILTER_MIN_PRICE = 'min-price',
+  FILTER_MAX_PRICE = 'max-price',
 }
 
 export enum TypeSort {

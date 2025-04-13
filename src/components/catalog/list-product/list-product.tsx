@@ -18,16 +18,34 @@ export default function ListProduct({ setActiveCamera, searchParams, setSearchPa
   const typeActiveSort = searchParams.get(NameSpaceSearchParams.TYPE_SORT);
   const directionSort = searchParams.get(NameSpaceSearchParams.DIRECTION_SORT);
 
-  const sortListProduct = () => {
+  const filterCameraList = (productList: ProductCard[]) => {
+    const cameraListFilterCategory = searchParams.has(NameSpaceSearchParams.FILTER_CATEGORY) ?
+      productList.filter((product) => product.category === searchParams.get(NameSpaceSearchParams.FILTER_CATEGORY)) :
+      productList;
+
+    const levelFilters = searchParams.getAll(NameSpaceSearchParams.FILTER_LEVEL);
+    const typeFilters = searchParams.getAll(NameSpaceSearchParams.FILTER_TYPE_CAMERA);
+
+    const cameraListFilterLevelAndCategory = levelFilters.length === 0 ?
+      cameraListFilterCategory :
+      levelFilters.reduce((acc: ProductCard[], parameter) => acc.concat(cameraListFilterCategory.filter((product) => product.level === parameter)), []);
+
+    const cameraListFilters = typeFilters.length === 0 ?
+      cameraListFilterLevelAndCategory :
+      typeFilters.reduce((acc: ProductCard[], parameter) => acc.concat(cameraListFilterLevelAndCategory.filter((product) => product.type === parameter)), []);
+    return cameraListFilters;
+  };
+
+  const sortListProduct = (productList: ProductCard[]) => {
     if (typeActiveSort === TypeSort.PRICE) {
-      return [...cameraList].sort((a, b) => {
+      return [...productList].sort((a, b) => {
         if (directionSort === DirectionSort.UP) {
           return a.price - b.price;
         }
         return b.price - a.price;
       });
     }
-    return [...cameraList].sort((a, b) => {
+    return [...productList].sort((a, b) => {
       if (directionSort === DirectionSort.UP) {
         return a.reviewCount - b.reviewCount;
       }
@@ -58,7 +76,7 @@ export default function ListProduct({ setActiveCamera, searchParams, setSearchPa
 
   return (
     <div className="cards catalog__cards">
-      {sortListProduct().map((camera) => <CardProduct key={`camera-key-${camera.id}`} setSearchParamsModalWindow={setSearchParamsModalWindow} camera={camera} />)}
+      {sortListProduct(filterCameraList(cameraList)).map((camera) => <CardProduct key={`camera-key-${camera.id}`} setSearchParamsModalWindow={setSearchParamsModalWindow} camera={camera} />)}
     </div>
   );
 }
