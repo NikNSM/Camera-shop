@@ -32,3 +32,19 @@ export enum NameTitleLoader {
   CAMERA = 'Загрузка информации о камере',
   REVIEWS = 'Загрузка отзывов',
 }
+
+export enum NameSpaceSearchParams {
+  MODAL_WINDOW = 'camera',
+  TYPE_SORT = 'type-sort',
+  DIRECTION_SORT = 'direction-sort',
+}
+
+export enum TypeSort {
+  PRICE = 'price',
+  POPULARITY = 'popularity',
+}
+
+export enum DirectionSort {
+  UP = 'up',
+  DOWN = 'down',
+}

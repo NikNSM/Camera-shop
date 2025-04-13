@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAppSelector } from '../../utils';
 import { getStateLoadingCameraList } from '../../store/product-slice/product-selectors';
-import { NameTitleLoader } from '../../const';
+import { DirectionSort, NameSpaceSearchParams, NameTitleLoader, TypeSort } from '../../const';
 import { Helmet } from 'react-helmet-async';
 
 export default function Catalog(): JSX.Element {
@@ -18,13 +18,32 @@ export default function Catalog(): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams();
   const loadingCameraList = useAppSelector(getStateLoadingCameraList);
   const setSearchParamsModalWindow = (cameraId: number | null) => {
-    const camera = cameraId && cameraId.toString();
-    if (camera) {
-      setSearchParams({ camera });
+    if (cameraId) {
+      searchParams.set(NameSpaceSearchParams.MODAL_WINDOW, cameraId.toString());
+      setSearchParams(searchParams);
     } else {
-      setSearchParams({});
+      searchParams.delete(NameSpaceSearchParams.MODAL_WINDOW);
+      setSearchParams(searchParams);
     }
   };
+
+  const setActiveTypeSort = (typeSort: TypeSort) => {
+    searchParams.set(NameSpaceSearchParams.TYPE_SORT, typeSort);
+    setSearchParams(searchParams);
+  };
+
+  const setDirectionSort = (directionSort: DirectionSort) => {
+    searchParams.set(NameSpaceSearchParams.DIRECTION_SORT, directionSort);
+    setSearchParams(searchParams);
+  };
+
+  useEffect(() => {
+    if (!searchParams.has(NameSpaceSearchParams.TYPE_SORT) && !searchParams.has(NameSpaceSearchParams.DIRECTION_SORT)) {
+      setActiveTypeSort(TypeSort.PRICE);
+      setDirectionSort(DirectionSort.UP);
+    }
+  }, []);
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -61,7 +80,7 @@ export default function Catalog(): JSX.Element {
               <div className="page-content__columns">
                 <Filters />
                 <div className="catalog__content">
-                  <Sort />
+                  <Sort searchParams={searchParams} setActiveTypeSort={setActiveTypeSort} setActiveDirectionSort={setDirectionSort} />
                   <ListProduct setActiveCamera={setActiveCamera} setSearchParamsModalWindow={setSearchParamsModalWindow} searchParams={searchParams} />
                 </div>
               </div>
