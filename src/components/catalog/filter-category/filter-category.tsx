@@ -26,17 +26,11 @@ export default function FilterCategory({ searchParams, setSearchParams }: PropsF
               type="radio"
               name="category"
               value={getValueFilterCategory(category)}
-              defaultChecked={searchParams.get(NameSpaceSearchParams.FILTER_CATEGORY) === category}
+              checked={searchParams.get(NameSpaceSearchParams.FILTER_CATEGORY) === category}
               data-category={category}
-              onClick={(evt) => {
+              onChange={(evt) => {
                 const valueCategory = evt.currentTarget.dataset.category as string;
-                if (valueCategory === searchParams.get(NameSpaceSearchParams.FILTER_CATEGORY)) {
-                  searchParams.delete(NameSpaceSearchParams.FILTER_CATEGORY);
-                  evt.currentTarget.checked = false;
-                } else {
-                  searchParams.set(NameSpaceSearchParams.FILTER_CATEGORY, valueCategory);
-                }
-
+                searchParams.set(NameSpaceSearchParams.FILTER_CATEGORY, valueCategory);
                 setSearchParams(searchParams);
               }}
             />

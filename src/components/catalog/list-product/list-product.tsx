@@ -5,6 +5,7 @@ import { getCameraList } from '../../../store/product-slice/api-product';
 import { getStateCameraList } from '../../../store/product-slice/product-selectors';
 import { ProductCard } from '../../../type/type';
 import { DirectionSort, NameSpaceSearchParams, TypeSort } from '../../../const';
+import { setMaxPrice, setMinPrice } from '../../../store/product-slice/product-slice';
 
 type PropsListProduct = {
   setActiveCamera: React.Dispatch<React.SetStateAction<ProductCard | null>>;
@@ -19,20 +20,40 @@ export default function ListProduct({ setActiveCamera, searchParams, setSearchPa
   const directionSort = searchParams.get(NameSpaceSearchParams.DIRECTION_SORT);
 
   const filterCameraList = (productList: ProductCard[]) => {
-    const cameraListFilterCategory = searchParams.has(NameSpaceSearchParams.FILTER_CATEGORY) ?
+    let cameraListFilters = searchParams.has(NameSpaceSearchParams.FILTER_CATEGORY) ?
       productList.filter((product) => product.category === searchParams.get(NameSpaceSearchParams.FILTER_CATEGORY)) :
       productList;
 
     const levelFilters = searchParams.getAll(NameSpaceSearchParams.FILTER_LEVEL);
     const typeFilters = searchParams.getAll(NameSpaceSearchParams.FILTER_TYPE_CAMERA);
+    const minPriceFilter = searchParams.get(NameSpaceSearchParams.FILTER_MIN_PRICE);
+    const maxPriceFilter = searchParams.get(NameSpaceSearchParams.FILTER_MAX_PRICE);
 
-    const cameraListFilterLevelAndCategory = levelFilters.length === 0 ?
-      cameraListFilterCategory :
-      levelFilters.reduce((acc: ProductCard[], parameter) => acc.concat(cameraListFilterCategory.filter((product) => product.level === parameter)), []);
+    cameraListFilters = levelFilters.length === 0 ?
+      cameraListFilters :
+      levelFilters.reduce((acc: ProductCard[], parameter) => acc.concat(cameraListFilters.filter((product) => product.level === parameter)), []);
 
-    const cameraListFilters = typeFilters.length === 0 ?
-      cameraListFilterLevelAndCategory :
-      typeFilters.reduce((acc: ProductCard[], parameter) => acc.concat(cameraListFilterLevelAndCategory.filter((product) => product.type === parameter)), []);
+    cameraListFilters = typeFilters.length === 0 ?
+      cameraListFilters :
+      typeFilters.reduce((acc: ProductCard[], parameter) => acc.concat(cameraListFilters.filter((product) => product.type === parameter)), []);
+
+    const priceArray = cameraListFilters.map((camera) => camera.price);
+    if (priceArray.length === 0) {
+      dispatch(setMinPrice(0));
+      dispatch(setMaxPrice(0));
+    } else {
+      dispatch(setMinPrice(Math.min(...priceArray)));
+      dispatch(setMaxPrice(Math.max(...priceArray)));
+    }
+
+    cameraListFilters = minPriceFilter ?
+      cameraListFilters.filter((camera) => camera.price >= Number(minPriceFilter)) :
+      cameraListFilters;
+
+    cameraListFilters = maxPriceFilter ?
+      cameraListFilters.filter((camera) => camera.price <= Number(maxPriceFilter)) :
+      cameraListFilters;
+
     return cameraListFilters;
   };
 

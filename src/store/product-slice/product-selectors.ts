@@ -24,3 +24,9 @@ export const getStateCamera = (state: Pick<TypeState, NameSpaceState.PRODUCT>) =
 
 export const getStateLoadingCamera = (state: Pick<TypeState, NameSpaceState.PRODUCT>) =>
   state[NameSpaceState.PRODUCT].loadingCamera;
+
+export const getMinPrice = (state: Pick<TypeState, NameSpaceState.PRODUCT>) =>
+  state[NameSpaceState.PRODUCT].minPrice;
+
+export const getMaxPrice = (state: Pick<TypeState, NameSpaceState.PRODUCT>) =>
+  state[NameSpaceState.PRODUCT].maxPrice;

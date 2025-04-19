@@ -1,6 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ProductCard, PromoProduct, ResultPlacingOrder } from '../../type/type';
-import { getCamera, getCameraList, getPromoList, postOrder } from './api-product';
+import {
+  getCamera,
+  getCameraList,
+  getPromoList,
+  postOrder,
+} from './api-product';
 import { NameSpaceState } from '../../const';
 
 type ProductState = {
@@ -12,6 +17,8 @@ type ProductState = {
   cameraList: ProductCard[];
   promoList: PromoProduct[];
   camera: ProductCard | null;
+  minPrice: number;
+  maxPrice: number;
 };
 
 const initialState: ProductState = {
@@ -22,7 +29,9 @@ const initialState: ProductState = {
   resultPlacingOrder: ResultPlacingOrder.UNKNOW,
   cameraList: [],
   promoList: [],
-  camera: null
+  camera: null,
+  minPrice: 0,
+  maxPrice: 0,
 };
 
 const productSlice = createSlice({
@@ -34,6 +43,12 @@ const productSlice = createSlice({
     },
     clearCamera: (state) => {
       state.camera = null;
+    },
+    setMinPrice: (state, action: PayloadAction<number>) => {
+      state.minPrice = action.payload;
+    },
+    setMaxPrice: (state, action: PayloadAction<number>) => {
+      state.maxPrice = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -44,6 +59,9 @@ const productSlice = createSlice({
       .addCase(getCameraList.fulfilled, (state, action) => {
         state.cameraList = action.payload;
         state.loadingCameraList = false;
+        const priceArray = action.payload.map((camera) => camera.price);
+        state.minPrice = Math.min(...priceArray);
+        state.maxPrice = Math.max(...priceArray);
       })
       .addCase(getPromoList.pending, (state) => {
         state.loadingPromoList = true;
@@ -74,4 +92,4 @@ const productSlice = createSlice({
 });
 
 export const productReducer = productSlice.reducer;
-export const {setPlacingOrderUnknow, clearCamera} = productSlice.actions;
+export const { setPlacingOrderUnknow, clearCamera, setMaxPrice, setMinPrice } = productSlice.actions;

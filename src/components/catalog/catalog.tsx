@@ -20,6 +20,7 @@ export default function Catalog(): JSX.Element {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const loadingCameraList = useAppSelector(getStateLoadingCameraList);
+
   const setSearchParamsModalWindow = (cameraId: number | null) => {
     if (cameraId) {
       searchParams.set(NameSpaceSearchParams.MODAL_WINDOW, cameraId.toString());
@@ -46,7 +47,6 @@ export default function Catalog(): JSX.Element {
       setDirectionSort(DirectionSort.UP);
     }
   }, []);
-
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -94,7 +94,7 @@ export default function Catalog(): JSX.Element {
                     }}
                   >
                     <h2 className="visually-hidden">Фильтр</h2>
-                    <FilterPrice />
+                    <FilterPrice searchParams={searchParams} setSearchParams={setSearchParams} />
                     <FilterCategory searchParams={searchParams} setSearchParams={setSearchParams} />
                     <FilterType searchParams={searchParams} setSearchParams={setSearchParams} />
                     <FilterLevel searchParams={searchParams} setSearchParams={setSearchParams} />
