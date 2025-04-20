@@ -21,8 +21,7 @@ export default function Sort({ searchParams, setActiveTypeSort, setActiveDirecti
                 id="sortPrice"
                 name="sort"
                 checked={typeActiveSort === TypeSort.PRICE}
-                onChange={(evt) => {
-                  evt.preventDefault();
+                onChange={() => {
                   setActiveTypeSort(TypeSort.PRICE);
                 }}
               />
@@ -34,8 +33,7 @@ export default function Sort({ searchParams, setActiveTypeSort, setActiveDirecti
                 id="sortPopular"
                 name="sort"
                 checked={typeActiveSort === TypeSort.POPULARITY}
-                onChange={(evt) => {
-                  evt.preventDefault();
+                onChange={() => {
                   setActiveTypeSort(TypeSort.POPULARITY);
                 }}
               />
@@ -48,8 +46,7 @@ export default function Sort({ searchParams, setActiveTypeSort, setActiveDirecti
                 id="up" name="sort-icon"
                 aria-label="По возрастанию"
                 checked={directionSort === DirectionSort.UP}
-                onChange={(evt) => {
-                  evt.preventDefault();
+                onChange={() => {
                   setActiveDirectionSort(DirectionSort.UP);
                 }}
               />
@@ -65,8 +62,7 @@ export default function Sort({ searchParams, setActiveTypeSort, setActiveDirecti
                 name="sort-icon"
                 aria-label="По убыванию"
                 checked={directionSort === DirectionSort.DOWN}
-                onChange={(evt) => {
-                  evt.preventDefault();
+                onChange={() => {
                   setActiveDirectionSort(DirectionSort.DOWN);
                 }}
               />

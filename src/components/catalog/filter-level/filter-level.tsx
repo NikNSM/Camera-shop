@@ -29,16 +29,15 @@ export default function FilterLevel({ searchParams, setSearchParams }: PropsFilt
               name={getNameFilterLevel(level)}
               checked={searchParams.getAll(NameSpaceSearchParams.FILTER_LEVEL).includes(level)}
               data-level={level}
-              onChange={(evt) => {
-                const valueLevel = evt.currentTarget.dataset.level as string;
+              onChange={() => {
                 const levelSearchParams = searchParams.getAll(NameSpaceSearchParams.FILTER_LEVEL);
                 searchParams.delete(NameSpaceSearchParams.FILTER_LEVEL);
 
-                if (levelSearchParams.includes(valueLevel)) {
-                  const newLevelSearchParams = levelSearchParams.filter((parameter) => parameter !== valueLevel);
+                if (levelSearchParams.includes(level)) {
+                  const newLevelSearchParams = levelSearchParams.filter((parameter) => parameter !== level);
                   newLevelSearchParams.forEach((perameter) => searchParams.append(NameSpaceSearchParams.FILTER_LEVEL, perameter));
                 } else {
-                  levelSearchParams.push(valueLevel);
+                  levelSearchParams.push(level);
                   levelSearchParams.forEach((perameter) => searchParams.append(NameSpaceSearchParams.FILTER_LEVEL, perameter));
                 }
                 setSearchParams(searchParams);

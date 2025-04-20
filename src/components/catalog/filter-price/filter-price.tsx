@@ -1,18 +1,15 @@
-import { useAppSelector } from '../../../utils';
-import { getMaxPrice, getMinPrice } from '../../../store/product-slice/product-selectors';
 import { SetURLSearchParams } from 'react-router-dom';
 import { NameSpaceSearchParams } from '../../../const';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type PropsFilterPrice = {
   searchParams: URLSearchParams;
   setSearchParams: SetURLSearchParams;
+  minPrice: number;
+  maxPrice: number;
 }
 
-export default function FilterPrice({ searchParams, setSearchParams }: PropsFilterPrice): JSX.Element {
-  const minPrice = useAppSelector(getMinPrice);
-  const maxPrice = useAppSelector(getMaxPrice);
-
+export default function FilterPrice({ searchParams, setSearchParams, minPrice, maxPrice }: PropsFilterPrice): JSX.Element {
   const [valueMinPrice, setValueMinPrice] = useState<string>(searchParams.get(NameSpaceSearchParams.FILTER_MIN_PRICE) !== null ?
     searchParams.get(NameSpaceSearchParams.FILTER_MIN_PRICE) as string :
     '');
@@ -20,6 +17,13 @@ export default function FilterPrice({ searchParams, setSearchParams }: PropsFilt
   const [valueMaxPrice, setValueMaxPrice] = useState<string>(searchParams.get(NameSpaceSearchParams.FILTER_MAX_PRICE) !== null ?
     searchParams.get(NameSpaceSearchParams.FILTER_MAX_PRICE) as string :
     '');
+
+  useEffect(() => {
+    setValueMaxPrice(searchParams.get(NameSpaceSearchParams.FILTER_MAX_PRICE) !== null ?
+      searchParams.get(NameSpaceSearchParams.FILTER_MAX_PRICE) as string : '');
+    setValueMinPrice(searchParams.get(NameSpaceSearchParams.FILTER_MIN_PRICE) !== null ?
+      searchParams.get(NameSpaceSearchParams.FILTER_MIN_PRICE) as string : '');
+  }, [searchParams]);
 
   return (
     <fieldset className="catalog-filter__block">
@@ -41,15 +45,12 @@ export default function FilterPrice({ searchParams, setSearchParams }: PropsFilt
                   setSearchParams(searchParams);
                   return;
                 }
-
                 let newValueMinPrice = Number(valueMinPrice) > minPrice ? Number(valueMinPrice) : minPrice;
                 newValueMinPrice = newValueMinPrice < maxPrice ? newValueMinPrice : maxPrice;
 
                 if (valueMaxPrice.length !== 0 && Number(valueMinPrice) > Number(valueMaxPrice)) {
-                  setValueMaxPrice(newValueMinPrice.toString());
                   searchParams.set(NameSpaceSearchParams.FILTER_MAX_PRICE, newValueMinPrice.toString());
                 }
-                setValueMinPrice(newValueMinPrice.toString());
                 searchParams.set(NameSpaceSearchParams.FILTER_MIN_PRICE, newValueMinPrice.toString());
                 setSearchParams(searchParams);
               }}
@@ -73,16 +74,12 @@ export default function FilterPrice({ searchParams, setSearchParams }: PropsFilt
                   setSearchParams(searchParams);
                   return;
                 }
-
                 let newValueMaxPrice = Number(valueMaxPrice) > minPrice ? Number(valueMaxPrice) : minPrice;
                 newValueMaxPrice = newValueMaxPrice < maxPrice ? newValueMaxPrice : maxPrice;
 
                 if (valueMaxPrice.length !== 0 && Number(valueMaxPrice) < Number(valueMinPrice)) {
-                  setValueMinPrice(newValueMaxPrice.toString());
-                  searchParams.set(NameSpaceSearchParams.FILTER_MAX_PRICE, newValueMaxPrice.toString());
+                  searchParams.set(NameSpaceSearchParams.FILTER_MIN_PRICE, newValueMaxPrice.toString());
                 }
-
-                setValueMaxPrice(newValueMaxPrice.toString());
                 searchParams.set(NameSpaceSearchParams.FILTER_MAX_PRICE, newValueMaxPrice.toString());
                 setSearchParams(searchParams);
               }}

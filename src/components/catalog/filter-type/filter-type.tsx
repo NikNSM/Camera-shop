@@ -51,16 +51,15 @@ export default function FilterType({ searchParams, setSearchParams }: PropsFilte
               checked={searchParams.getAll(NameSpaceSearchParams.FILTER_TYPE_CAMERA).includes(type)}
               disabled={isDisabled(type)}
               data-type={type}
-              onChange={(evt) => {
-                const valueType = evt.currentTarget.dataset.type as string;
+              onChange={() => {
                 const typeSearchParams = searchParams.getAll(NameSpaceSearchParams.FILTER_TYPE_CAMERA);
                 searchParams.delete(NameSpaceSearchParams.FILTER_TYPE_CAMERA);
 
-                if (typeSearchParams.includes(valueType)) {
-                  const newTypeSearchParams = typeSearchParams.filter((parameter) => parameter !== valueType);
+                if (typeSearchParams.includes(type)) {
+                  const newTypeSearchParams = typeSearchParams.filter((parameter) => parameter !== type);
                   newTypeSearchParams.forEach((perameter) => searchParams.append(NameSpaceSearchParams.FILTER_TYPE_CAMERA, perameter));
                 } else {
-                  typeSearchParams.push(valueType);
+                  typeSearchParams.push(type);
                   typeSearchParams.forEach((perameter) => searchParams.append(NameSpaceSearchParams.FILTER_TYPE_CAMERA, perameter));
                 }
                 setSearchParams(searchParams);

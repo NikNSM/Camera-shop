@@ -12,12 +12,13 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAppSelector } from '../../utils';
 import { getStateLoadingCameraList } from '../../store/product-slice/product-selectors';
-import { DirectionSort, NameSpaceSearchParams, NameTitleLoader, TypeSort } from '../../const';
+import { NameSpaceSearchParams, NameTitleLoader } from '../../const';
 import { Helmet } from 'react-helmet-async';
+import { useSort } from './use-sort/use-sort';
+import { useFilters } from './use-filters/use-filters';
 
 export default function Catalog(): JSX.Element {
   const [activeCamera, setActiveCamera] = useState<null | ProductCard>(null);
-
   const [searchParams, setSearchParams] = useSearchParams();
   const loadingCameraList = useAppSelector(getStateLoadingCameraList);
 
@@ -31,22 +32,8 @@ export default function Catalog(): JSX.Element {
     }
   };
 
-  const setActiveTypeSort = (typeSort: TypeSort) => {
-    searchParams.set(NameSpaceSearchParams.TYPE_SORT, typeSort);
-    setSearchParams(searchParams);
-  };
-
-  const setDirectionSort = (directionSort: DirectionSort) => {
-    searchParams.set(NameSpaceSearchParams.DIRECTION_SORT, directionSort);
-    setSearchParams(searchParams);
-  };
-
-  useEffect(() => {
-    if (!searchParams.has(NameSpaceSearchParams.TYPE_SORT) && !searchParams.has(NameSpaceSearchParams.DIRECTION_SORT)) {
-      setActiveTypeSort(TypeSort.PRICE);
-      setDirectionSort(DirectionSort.UP);
-    }
-  }, []);
+  const [setActiveTypeSort, setActiveDirectionSort, sortListProduct] = useSort(searchParams, setSearchParams);
+  const [minPrice, maxPrice, filterCameraList, resetFilters] = useFilters(searchParams, setSearchParams);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -84,17 +71,10 @@ export default function Catalog(): JSX.Element {
                 <div className="catalog-filter">
                   <form
                     action="#"
-                    onReset={() => {
-                      searchParams.delete(NameSpaceSearchParams.FILTER_CATEGORY);
-                      searchParams.delete(NameSpaceSearchParams.FILTER_TYPE_CAMERA);
-                      searchParams.delete(NameSpaceSearchParams.FILTER_LEVEL);
-                      searchParams.delete(NameSpaceSearchParams.FILTER_MIN_PRICE);
-                      searchParams.delete(NameSpaceSearchParams.FILTER_MAX_PRICE);
-                      setSearchParams(searchParams);
-                    }}
+                    onReset={resetFilters}
                   >
                     <h2 className="visually-hidden">Фильтр</h2>
-                    <FilterPrice searchParams={searchParams} setSearchParams={setSearchParams} />
+                    <FilterPrice searchParams={searchParams} setSearchParams={setSearchParams} minPrice={minPrice} maxPrice={maxPrice}/>
                     <FilterCategory searchParams={searchParams} setSearchParams={setSearchParams} />
                     <FilterType searchParams={searchParams} setSearchParams={setSearchParams} />
                     <FilterLevel searchParams={searchParams} setSearchParams={setSearchParams} />
@@ -103,8 +83,8 @@ export default function Catalog(): JSX.Element {
                   </form>
                 </div>
                 <div className="catalog__content">
-                  <Sort searchParams={searchParams} setActiveTypeSort={setActiveTypeSort} setActiveDirectionSort={setDirectionSort} />
-                  <ListProduct setActiveCamera={setActiveCamera} setSearchParamsModalWindow={setSearchParamsModalWindow} searchParams={searchParams} />
+                  <Sort searchParams={searchParams} setActiveTypeSort={setActiveTypeSort} setActiveDirectionSort={setActiveDirectionSort} />
+                  <ListProduct setActiveCamera={setActiveCamera} setSearchParamsModalWindow={setSearchParamsModalWindow} searchParams={searchParams} filtersCameraList={filterCameraList} sortListProduct={sortListProduct}/>
                 </div>
               </div>
               {activeCamera !== null && <ModalWindow camera={activeCamera} setCamera={setActiveCamera} setSearchParamsModalWindow={setSearchParamsModalWindow} />}

@@ -28,9 +28,8 @@ export default function FilterCategory({ searchParams, setSearchParams }: PropsF
               value={getValueFilterCategory(category)}
               checked={searchParams.get(NameSpaceSearchParams.FILTER_CATEGORY) === category}
               data-category={category}
-              onChange={(evt) => {
-                const valueCategory = evt.currentTarget.dataset.category as string;
-                searchParams.set(NameSpaceSearchParams.FILTER_CATEGORY, valueCategory);
+              onChange={() => {
+                searchParams.set(NameSpaceSearchParams.FILTER_CATEGORY, category);
                 setSearchParams(searchParams);
               }}
             />
