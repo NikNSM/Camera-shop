@@ -1,39 +1,13 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import { AddresesRoute } from '../../../const';
 import { useAppSelector } from '../../../utils';
 import { getStateCameraList } from '../../../store/product-slice/product-selectors';
-import { useEffect, useState } from 'react';
-import { ProductCard } from '../../../type/type';
+import { useSearchCameras, NameSpaceElementsFocus } from './use-search-cameras/use-search-cameras';
 
 export default function Header(): JSX.Element {
-  const MIN_LENGTH_SEARCH_NAME = 3;
-  const navigate = useNavigate();
   const cameraList = useAppSelector(getStateCameraList);
-  const [valueSearch, setValueSearch] = useState<string>('');
-  const [foundCamerasName, setFoundCamersName] = useState<ProductCard[]>([]);
+  const [foundCamerasName, valueSearch, listElements, setActiveFocusElement, resetSearch, redirectToCamerPage, setValueSearch] = useSearchCameras(cameraList);
   const classListSearch = valueSearch.length >= 1 ? 'form-search list-opened' : 'form-search';
-
-  const findCamerasName = (productList: ProductCard[], searchName: string) => {
-    if (searchName.length >= MIN_LENGTH_SEARCH_NAME) {
-      const regExp = new RegExp(searchName, 'i');
-      const newFoundCamerasName = productList.filter((camera) => regExp.test(camera.name));
-      setFoundCamersName(newFoundCamerasName);
-    }
-  };
-
-  const resetSearch = () => {
-    setValueSearch('');
-    setFoundCamersName([]);
-  };
-
-  const handleSearchCameraClick = (id: number) => {
-    resetSearch();
-    navigate(`${AddresesRoute.CAMERA}${id}`);
-  };
-
-  useEffect(() => {
-    findCamerasName(cameraList, valueSearch);
-  }, [valueSearch, cameraList]);
 
   return (
     <header className="header" id="header">
@@ -62,25 +36,42 @@ export default function Header(): JSX.Element {
                 <use xlinkHref="#icon-lens"></use>
               </svg>
               <input
+                ref={(el) => {
+                  listElements.current[NameSpaceElementsFocus.INPUT_SEARCH] = el;
+                }}
                 className="form-search__input"
                 type="text" autoComplete="off"
                 placeholder="Поиск по сайту"
                 onInput={(evt) => {
                   setValueSearch(evt.currentTarget.value);
                 }}
-
+                onFocus={() => {
+                  setActiveFocusElement(NameSpaceElementsFocus.INPUT_SEARCH);
+                }}
+                onBlur={() => {
+                  setActiveFocusElement(null);
+                }}
                 value={valueSearch}
               />
             </label>
-            {valueSearch.length >= MIN_LENGTH_SEARCH_NAME && foundCamerasName.length !== 0 ?
+            {foundCamerasName.length !== 0 ?
               <ul className="form-search__select-list">
-                {foundCamerasName.map((camera) => (
+                {foundCamerasName.map((camera, index) => (
                   <li
+                    ref={(el) => {
+                      listElements.current[NameSpaceElementsFocus.CAMERAS_SEARCH_LIST][index] = el;
+                    }}
                     key={camera.name}
                     className="form-search__select-item"
                     tabIndex={0}
                     onClick={() => {
-                      handleSearchCameraClick(camera.id);
+                      redirectToCamerPage(camera.id);
+                    }}
+                    onFocus={() => {
+                      setActiveFocusElement(NameSpaceElementsFocus.CAMERAS_SEARCH_LIST, index, camera.id);
+                    }}
+                    onBlur={() => {
+                      setActiveFocusElement(null);
                     }}
                   >
                     {camera.name}
@@ -88,10 +79,19 @@ export default function Header(): JSX.Element {
               </ul> : ''}
           </form>
           <button
+            ref={(el) => {
+              listElements.current[NameSpaceElementsFocus.RESET_BUTTON] = el;
+            }}
             className="form-search__reset"
             type="reset"
             onClick={() => {
               resetSearch();
+            }}
+            onFocus={() => {
+              setActiveFocusElement(NameSpaceElementsFocus.RESET_BUTTON);
+            }}
+            onBlur={() => {
+              setActiveFocusElement(null);
             }}
           >
             <svg width="10" height="10" aria-hidden="true">
