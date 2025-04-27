@@ -1,14 +1,17 @@
 import { SetURLSearchParams } from 'react-router-dom';
 import { NameSpaceSearchParams } from '../../../const';
 import { CategoryProduct, TypeProduct } from '../../../type/type';
+import { NameSpaceElementsFilters, SetListFiltersElements, SetActiveFocusFilterElement } from '../use -keydown-filters/use-keydown-filters';
 import { useEffect } from 'react';
 
 type PropsFilterType = {
   searchParams: URLSearchParams;
   setSearchParams: SetURLSearchParams;
+  setActiveFocusFilterElement: SetActiveFocusFilterElement;
+  setListFiltersElements: SetListFiltersElements;
 }
 
-export default function FilterType({ searchParams, setSearchParams }: PropsFilterType): JSX.Element {
+export default function FilterType({ searchParams, setSearchParams, setActiveFocusFilterElement, setListFiltersElements }: PropsFilterType): JSX.Element {
   const getNameFilterType = (type: TypeProduct) => {
     switch (type) {
       case TypeProduct.COLLECTION:
@@ -46,11 +49,26 @@ export default function FilterType({ searchParams, setSearchParams }: PropsFilte
         <div key={type} className="custom-checkbox catalog-filter__item">
           <label>
             <input
+              ref={(element) => {
+                if(type === TypeProduct.COLLECTION){
+                  setListFiltersElements(NameSpaceElementsFilters.TYPE_COLLECTION, element);
+                }
+              }}
               type="checkbox"
               name={getNameFilterType(type)}
               checked={searchParams.getAll(NameSpaceSearchParams.FILTER_TYPE_CAMERA).includes(type)}
               disabled={isDisabled(type)}
               data-type={type}
+              onFocus={() => {
+                if(type === TypeProduct.COLLECTION){
+                  setActiveFocusFilterElement(NameSpaceElementsFilters.TYPE_COLLECTION);
+                }
+              }}
+              onBlur={() => {
+                if(type === TypeProduct.COLLECTION){
+                  setActiveFocusFilterElement();
+                }
+              }}
               onChange={() => {
                 const typeSearchParams = searchParams.getAll(NameSpaceSearchParams.FILTER_TYPE_CAMERA);
                 searchParams.delete(NameSpaceSearchParams.FILTER_TYPE_CAMERA);
@@ -65,8 +83,8 @@ export default function FilterType({ searchParams, setSearchParams }: PropsFilte
                 setSearchParams(searchParams);
               }}
             />
-            <span className="custom-checkbox__icon"></span>
-            <span className="custom-checkbox__label">{type}</span>
+            <span className="custom-checkbox__icon" ></span>
+            <span className="custom-checkbox__label" >{type}</span>
           </label>
         </div>
       ))}

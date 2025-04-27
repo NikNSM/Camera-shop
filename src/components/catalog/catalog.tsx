@@ -16,6 +16,7 @@ import { NameSpaceSearchParams, NameTitleLoader } from '../../const';
 import { Helmet } from 'react-helmet-async';
 import { useSort } from './use-sort/use-sort';
 import { useFilters } from './use-filters/use-filters';
+import { useKeydownFilters } from './use -keydown-filters/use-keydown-filters';
 
 export default function Catalog(): JSX.Element {
   const [activeCamera, setActiveCamera] = useState<null | ProductCard>(null);
@@ -34,6 +35,7 @@ export default function Catalog(): JSX.Element {
 
   const [setActiveTypeSort, setActiveDirectionSort, sortListProduct] = useSort(searchParams, setSearchParams);
   const [minPrice, maxPrice, filterCameraList, resetFilters] = useFilters(searchParams, setSearchParams);
+  const [setActiveFocusFilterElement, setListFiltersElements] = useKeydownFilters(loadingCameraList);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -74,9 +76,9 @@ export default function Catalog(): JSX.Element {
                     onReset={resetFilters}
                   >
                     <h2 className="visually-hidden">Фильтр</h2>
-                    <FilterPrice searchParams={searchParams} setSearchParams={setSearchParams} minPrice={minPrice} maxPrice={maxPrice}/>
-                    <FilterCategory searchParams={searchParams} setSearchParams={setSearchParams} />
-                    <FilterType searchParams={searchParams} setSearchParams={setSearchParams} />
+                    <FilterPrice searchParams={searchParams} setSearchParams={setSearchParams} minPrice={minPrice} maxPrice={maxPrice} setActiveFocusFilterElement={setActiveFocusFilterElement} setListFiltersElements={setListFiltersElements}/>
+                    <FilterCategory searchParams={searchParams} setSearchParams={setSearchParams} setActiveFocusFilterElement={setActiveFocusFilterElement} setListFiltersElements={setListFiltersElements}/>
+                    <FilterType searchParams={searchParams} setSearchParams={setSearchParams} setActiveFocusFilterElement={setActiveFocusFilterElement} setListFiltersElements={setListFiltersElements}/>
                     <FilterLevel searchParams={searchParams} setSearchParams={setSearchParams} />
                     <button className="btn catalog-filter__reset-btn" type="reset">Сбросить фильтры
                     </button>

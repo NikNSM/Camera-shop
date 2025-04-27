@@ -111,24 +111,26 @@ export function useSearchCameras(cameraList: ProductCard[]): [
       return;
     }
     if (evt.key === 'ArrowDown') {
-      evt.preventDefault();
       if (activeFocusElement.current.activeNameElement === NameSpaceElementsFocus.INPUT_SEARCH || activeFocusElement.current.activeNameElement === NameSpaceElementsFocus.RESET_BUTTON) {
+        evt.preventDefault();
         listElements.current[NameSpaceElementsFocus.CAMERAS_SEARCH_LIST][0]?.focus();
         return;
       }
       if (activeFocusElement.current.activeNameElement === NameSpaceElementsFocus.CAMERAS_SEARCH_LIST && activeFocusElement.current.indexElement !== null) {
+        evt.preventDefault();
         listElements.current[NameSpaceElementsFocus.CAMERAS_SEARCH_LIST][activeFocusElement.current.indexElement + 1]?.focus();
         return;
       }
     }
     if (evt.key === 'ArrowUp') {
-      evt.preventDefault();
       if (activeFocusElement.current.activeNameElement === NameSpaceElementsFocus.CAMERAS_SEARCH_LIST && activeFocusElement.current.indexElement === 0) {
+        evt.preventDefault();
         activeFocusElement.current.indexElement = null;
         listElements.current[NameSpaceElementsFocus.INPUT_SEARCH]?.focus();
         return;
       }
       if (activeFocusElement.current.activeNameElement === NameSpaceElementsFocus.CAMERAS_SEARCH_LIST && activeFocusElement.current.indexElement) {
+        evt.preventDefault();
         listElements.current[NameSpaceElementsFocus.CAMERAS_SEARCH_LIST][activeFocusElement.current.indexElement - 1]?.focus();
       }
     }

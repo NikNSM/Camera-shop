@@ -1,15 +1,17 @@
 import { SetURLSearchParams } from 'react-router-dom';
 import { NameSpaceSearchParams } from '../../../const';
 import { useEffect, useState } from 'react';
-
+import { NameSpaceElementsFilters, SetActiveFocusFilterElement, SetListFiltersElements } from '../use -keydown-filters/use-keydown-filters';
 type PropsFilterPrice = {
   searchParams: URLSearchParams;
   setSearchParams: SetURLSearchParams;
   minPrice: number;
   maxPrice: number;
+  setActiveFocusFilterElement: SetActiveFocusFilterElement;
+  setListFiltersElements: SetListFiltersElements;
 }
 
-export default function FilterPrice({ searchParams, setSearchParams, minPrice, maxPrice }: PropsFilterPrice): JSX.Element {
+export default function FilterPrice({ searchParams, setSearchParams, minPrice, maxPrice, setActiveFocusFilterElement, setListFiltersElements }: PropsFilterPrice): JSX.Element {
   const [valueMinPrice, setValueMinPrice] = useState<string>(searchParams.get(NameSpaceSearchParams.FILTER_MIN_PRICE) !== null ?
     searchParams.get(NameSpaceSearchParams.FILTER_MIN_PRICE) as string :
     '');
@@ -32,9 +34,15 @@ export default function FilterPrice({ searchParams, setSearchParams, minPrice, m
         <div className="custom-input">
           <label>
             <input
+              ref={(element) => {
+                setListFiltersElements(NameSpaceElementsFilters.MIN_PRICE, element);
+              }}
               type="number"
               name="price"
               placeholder={`${minPrice}`}
+              onFocus={() => {
+                setActiveFocusFilterElement(NameSpaceElementsFilters.MIN_PRICE);
+              }}
               onInput={(evt) => {
                 evt.preventDefault();
                 setValueMinPrice(evt.currentTarget.value);
@@ -53,6 +61,7 @@ export default function FilterPrice({ searchParams, setSearchParams, minPrice, m
                 }
                 searchParams.set(NameSpaceSearchParams.FILTER_MIN_PRICE, newValueMinPrice.toString());
                 setSearchParams(searchParams);
+                setActiveFocusFilterElement();
               }}
               value={valueMinPrice}
             />
@@ -61,9 +70,15 @@ export default function FilterPrice({ searchParams, setSearchParams, minPrice, m
         <div className="custom-input">
           <label>
             <input
+              ref={(element) => {
+                setListFiltersElements(NameSpaceElementsFilters.MAX_PRICE, element);
+              }}
               type="number"
               name="priceUp"
               placeholder={`${maxPrice}`}
+              onFocus={() => {
+                setActiveFocusFilterElement(NameSpaceElementsFilters.MAX_PRICE);
+              }}
               onInput={(evt) => {
                 evt.preventDefault();
                 setValueMaxPrice(evt.currentTarget.value);
@@ -82,6 +97,7 @@ export default function FilterPrice({ searchParams, setSearchParams, minPrice, m
                 }
                 searchParams.set(NameSpaceSearchParams.FILTER_MAX_PRICE, newValueMaxPrice.toString());
                 setSearchParams(searchParams);
+                setActiveFocusFilterElement();
               }}
               value={valueMaxPrice}
             />
