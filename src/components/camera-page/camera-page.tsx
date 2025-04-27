@@ -64,7 +64,7 @@ export default function CameraPage(): JSX.Element {
                 </ul>
               </div>
             </div>
-            <InformationCameraPage camera={camera} />
+            <InformationCameraPage camera={camera}/>
             <ReviewsComponent />
           </div>}
       </main>

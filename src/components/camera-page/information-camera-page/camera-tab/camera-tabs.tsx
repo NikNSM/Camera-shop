@@ -1,16 +1,32 @@
-import { useState } from 'react';
 import { ProductCard } from '../../../../type/type';
-import { NameTabs } from '../../../../const';
+import { NameSpaceSearchParams, NameTabs } from '../../../../const';
 import TabCharacteristic from './tab-characteristic/tab-characteristic';
 import TabDescription from './tab-description/tab-description';
-
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 type PropsCameraTabs = {
   camera: ProductCard;
 }
 
 export default function CameraTabs({ camera }: PropsCameraTabs): JSX.Element {
-  const [activeTab, setActiveTab] = useState<NameTabs>(NameTabs.CHARACTERISTIC);
-  const assignClassTab = (nameTab: NameTabs) => activeTab === nameTab ? 'is-active' : '';
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tabSearch = searchParams.get(NameSpaceSearchParams.TAB_PAGE_CAMERA);
+  const assignClassTab = (nameTab: NameTabs) => tabSearch === nameTab ? 'is-active' : '';
+
+  useEffect(() => {
+    const valuesTab = Object.values(NameTabs);
+    const keysSearch = searchParams.keys();
+    [...keysSearch].forEach((key) => {
+      if(key !== NameSpaceSearchParams.TAB_PAGE_CAMERA){
+        searchParams.delete(key);
+      }
+    });
+    if(!searchParams.has(NameSpaceSearchParams.TAB_PAGE_CAMERA) || !valuesTab.includes(tabSearch as NameTabs)){
+      searchParams.set(NameSpaceSearchParams.TAB_PAGE_CAMERA, NameTabs.CHARACTERISTIC);
+    }
+    setSearchParams(searchParams);
+  }, []);
+
   return (
     <div className="tabs product__tabs">
       <div className="tabs__controls product__tabs-controls">
@@ -18,7 +34,8 @@ export default function CameraTabs({ camera }: PropsCameraTabs): JSX.Element {
           className={`tabs__control ${assignClassTab(NameTabs.CHARACTERISTIC)}`}
           type="button"
           onClick={() => {
-            setActiveTab(NameTabs.CHARACTERISTIC);
+            searchParams.set(NameSpaceSearchParams.TAB_PAGE_CAMERA, NameTabs.CHARACTERISTIC);
+            setSearchParams(searchParams);
           }}
         >Характеристики
         </button>
@@ -26,7 +43,8 @@ export default function CameraTabs({ camera }: PropsCameraTabs): JSX.Element {
           className={`tabs__control ${assignClassTab(NameTabs.DESCRIPTION)}`}
           type="button"
           onClick={() => {
-            setActiveTab(NameTabs.DESCRIPTION);
+            searchParams.set(NameSpaceSearchParams.TAB_PAGE_CAMERA, NameTabs.DESCRIPTION);
+            setSearchParams(searchParams);
           }}
         >Описание
         </button>

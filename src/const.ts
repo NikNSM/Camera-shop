@@ -42,6 +42,7 @@ export enum NameSpaceSearchParams {
   FILTER_TYPE_CAMERA = 'type-camera',
   FILTER_MIN_PRICE = 'min-price',
   FILTER_MAX_PRICE = 'max-price',
+  TAB_PAGE_CAMERA = 'tab'
 }
 
 export enum TypeSort {
