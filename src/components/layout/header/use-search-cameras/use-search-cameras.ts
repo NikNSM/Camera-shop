@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ProductCard } from '../../../../type/type';
-import { AddresesRoute } from '../../../../const';
+import { AddresesRoute, NameSpaceSearchParams, NameTabs } from '../../../../const';
 
 export enum NameSpaceElementsFocus {
   INPUT_SEARCH = 'inputSearch',
@@ -74,7 +74,7 @@ export function useSearchCameras(cameraList: ProductCard[]): [
 
   const redirectToCamerPage: RedirectToCamerPage = (id: number) => {
     resetSearch();
-    navigate(`${AddresesRoute.CAMERA}${id}`);
+    navigate(`${AddresesRoute.CAMERA}${id}?${NameSpaceSearchParams.TYPE_SORT}=${NameTabs.CHARACTERISTIC}`);
     setActiveFocusElement(null);
   };
 
