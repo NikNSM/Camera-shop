@@ -3,7 +3,7 @@ import { getStateLoadingPromoList, getStatePromoList } from '../../../store/prod
 import { useEffect } from 'react';
 import { getPromoList } from '../../../store/product-slice/api-product';
 import { Link } from 'react-router-dom';
-import { AddresesRoute, NameTitleLoader } from '../../../const';
+import { AddresesRoute, NameSpaceSearchParams, NameTabs, NameTitleLoader } from '../../../const';
 import LoaderGetData from '../../loader/loader-get-data/loader-get-data';
 
 export default function Banner(): JSX.Element {
@@ -28,7 +28,7 @@ export default function Banner(): JSX.Element {
           <span className="banner__message">Новинка!</span>
           <span className="title title--h1">{promoList[0].name}</span>
           <span className="banner__text">Профессиональная камера от&nbsp;известного производителя</span>
-          <Link className="btn" to={`${AddresesRoute.CAMERA}${promoList[0].id}`}>Подробнее</Link>
+          <Link className="btn" to={`${AddresesRoute.CAMERA}${promoList[0].id}?${NameSpaceSearchParams.TAB_PAGE_CAMERA}=${NameTabs.CHARACTERISTIC}`}>Подробнее</Link>
         </p>
       </div>
   );
