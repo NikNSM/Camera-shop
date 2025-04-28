@@ -23,8 +23,8 @@ export default function CameraTabs({ camera }: PropsCameraTabs): JSX.Element {
     });
     if(!searchParams.has(NameSpaceSearchParams.TAB_PAGE_CAMERA) || !valuesTab.includes(tabSearch as NameTabs)){
       searchParams.set(NameSpaceSearchParams.TAB_PAGE_CAMERA, NameTabs.CHARACTERISTIC);
+      setSearchParams(searchParams);
     }
-    setSearchParams(searchParams);
   }, []);
 
   return (

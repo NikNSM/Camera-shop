@@ -29,10 +29,8 @@ export default function CameraPage(): JSX.Element {
   }, [dispatch, id]);
 
   return (
-
     <>
       <main>
-
         {!camera || loadingCamera ? <LoaderGetData title={NameTitleLoader.CAMERA} /> :
 
           <div className="page-content">

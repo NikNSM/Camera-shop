@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ProductCard } from '../../../../type/type';
-import { AddresesRoute } from '../../../../const';
+import { AddresesRoute, NameSpaceSearchParams, NameTabs } from '../../../../const';
 import StarsRating from '../../../stars-rating/stars-rating';
 
 type PropsCardProduct = {
@@ -32,7 +32,7 @@ export default function CardProduct({ camera, setSearchParamsModalWindow }: Prop
       <div className="product-card__buttons">
         <button className="btn btn--purple product-card__btn" type="button" onClick={() => setSearchParamsModalWindow(camera.id)}>Купить
         </button>
-        <Link className="btn btn--transparent" to={`${AddresesRoute.CAMERA}${camera.id}`}>
+        <Link className="btn btn--transparent" to={`${AddresesRoute.CAMERA}${camera.id}?${NameSpaceSearchParams.TAB_PAGE_CAMERA}=${NameTabs.CHARACTERISTIC}`}>
           Подробнее
         </Link>
       </div>
