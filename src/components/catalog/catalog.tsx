@@ -33,10 +33,20 @@ export default function Catalog(): JSX.Element {
     }
   };
 
-  const [setActiveTypeSort, setActiveDirectionSort, sortListProduct] = useSort(searchParams, setSearchParams);
+  const [setActiveSort, sortListProduct] = useSort(searchParams, setSearchParams);
   const [minPrice, maxPrice, filterCameraList, resetFilters] = useFilters(searchParams, setSearchParams);
   const [setActiveFocusFilterElement, setListFiltersElements] = useKeydownFilters(loadingCameraList);
 
+  useEffect(() => {
+    const keysSearch = [...searchParams.keys()];
+    const keysReference = Object.values(NameSpaceSearchParams);
+    keysSearch.forEach((key) => {
+      if(!keysReference.includes(key as NameSpaceSearchParams) || key === NameSpaceSearchParams.TAB_PAGE_CAMERA){
+        searchParams.delete(key);
+        setSearchParams(searchParams);
+      }
+    });
+  }, []);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -85,7 +95,7 @@ export default function Catalog(): JSX.Element {
                   </form>
                 </div>
                 <div className="catalog__content">
-                  <Sort searchParams={searchParams} setActiveTypeSort={setActiveTypeSort} setActiveDirectionSort={setActiveDirectionSort} />
+                  <Sort searchParams={searchParams} setActiveSort={setActiveSort} />
                   <ListProduct setActiveCamera={setActiveCamera} setSearchParamsModalWindow={setSearchParamsModalWindow} searchParams={searchParams} filtersCameraList={filterCameraList} sortListProduct={sortListProduct}/>
                 </div>
               </div>

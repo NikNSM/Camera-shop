@@ -2,11 +2,10 @@ import { DirectionSort, NameSpaceSearchParams, TypeSort } from '../../../const';
 
 type PropsSort = {
   searchParams: URLSearchParams;
-  setActiveTypeSort: (typeSort: TypeSort) => void;
-  setActiveDirectionSort: (directionSort: DirectionSort) => void;
+  setActiveSort: (name: NameSpaceSearchParams, value: string) => void;
 }
 
-export default function Sort({ searchParams, setActiveTypeSort, setActiveDirectionSort }: PropsSort): JSX.Element {
+export default function Sort({ searchParams, setActiveSort }: PropsSort): JSX.Element {
   const typeActiveSort = searchParams.get(NameSpaceSearchParams.TYPE_SORT);
   const directionSort = searchParams.get(NameSpaceSearchParams.DIRECTION_SORT);
   return (
@@ -22,7 +21,7 @@ export default function Sort({ searchParams, setActiveTypeSort, setActiveDirecti
                 name="sort"
                 checked={typeActiveSort === TypeSort.PRICE}
                 onChange={() => {
-                  setActiveTypeSort(TypeSort.PRICE);
+                  setActiveSort(NameSpaceSearchParams.TYPE_SORT, TypeSort.PRICE);
                 }}
               />
               <label htmlFor="sortPrice">по цене</label>
@@ -34,7 +33,7 @@ export default function Sort({ searchParams, setActiveTypeSort, setActiveDirecti
                 name="sort"
                 checked={typeActiveSort === TypeSort.POPULARITY}
                 onChange={() => {
-                  setActiveTypeSort(TypeSort.POPULARITY);
+                  setActiveSort(NameSpaceSearchParams.TYPE_SORT, TypeSort.POPULARITY);
                 }}
               />
               <label htmlFor="sortPopular">по популярности</label>
@@ -47,7 +46,7 @@ export default function Sort({ searchParams, setActiveTypeSort, setActiveDirecti
                 aria-label="По возрастанию"
                 checked={directionSort === DirectionSort.UP}
                 onChange={() => {
-                  setActiveDirectionSort(DirectionSort.UP);
+                  setActiveSort(NameSpaceSearchParams.DIRECTION_SORT, DirectionSort.UP);
                 }}
               />
               <label htmlFor="up">
@@ -63,7 +62,7 @@ export default function Sort({ searchParams, setActiveTypeSort, setActiveDirecti
                 aria-label="По убыванию"
                 checked={directionSort === DirectionSort.DOWN}
                 onChange={() => {
-                  setActiveDirectionSort(DirectionSort.DOWN);
+                  setActiveSort(NameSpaceSearchParams.DIRECTION_SORT, DirectionSort.DOWN);
                 }}
               />
               <label htmlFor="down">
