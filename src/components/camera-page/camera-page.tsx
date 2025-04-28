@@ -7,7 +7,7 @@ import { getStateCamera, getStateLoadingCamera } from '../../store/product-slice
 import { useEffect } from 'react';
 import { getCamera } from '../../store/product-slice/api-product';
 import { clearCamera } from '../../store/product-slice/product-slice';
-import { AddresesRoute, NameTitleLoader } from '../../const';
+import { AddresesRoute, DirectionSort, NameSpaceSearchParams, NameTitleLoader, TypeSort } from '../../const';
 import { clearReviews } from '../../store/reviews-slice/reviews-slice';
 import { Helmet } from 'react-helmet-async';
 
@@ -48,7 +48,7 @@ export default function CameraPage(): JSX.Element {
                     </a>
                   </li>
                   <li className="breadcrumbs__item">
-                    <Link className="breadcrumbs__link" to={`${AddresesRoute.CATALOG}`}>Каталог
+                    <Link className="breadcrumbs__link" to={`${AddresesRoute.CATALOG}?${NameSpaceSearchParams.TYPE_SORT}=${TypeSort.PRICE}&${NameSpaceSearchParams.DIRECTION_SORT}=${DirectionSort.UP}`}>Каталог
                       <svg width="5" height="8" aria-hidden="true">
                         <use xlinkHref="#icon-arrow-mini"></use>
                       </svg>

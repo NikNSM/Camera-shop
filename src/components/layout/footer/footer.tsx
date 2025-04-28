@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
-import { AddresesRoute } from '../../../const';
+import { AddresesRoute, DirectionSort, NameSpaceSearchParams, TypeSort } from '../../../const';
 
 export default function Footer(): JSX.Element {
   return (
     <footer className="footer">
       <div className="container">
         <div className="footer__info">
-          <Link className="footer__logo" to={AddresesRoute.CATALOG} aria-label="Переход на главную" data-testid="link-footer-logo">
+          <Link className="footer__logo" to={`${AddresesRoute.CATALOG}?${NameSpaceSearchParams.TYPE_SORT}=${TypeSort.PRICE}&${NameSpaceSearchParams.DIRECTION_SORT}=${DirectionSort.UP}`} aria-label="Переход на главную" data-testid="link-footer-logo">
             <svg width="100" height="36" aria-hidden="true" >
               <use xlinkHref="#icon-logo-mono" data-testid="link-footer-logo-img"></use>
             </svg>
@@ -41,7 +41,7 @@ export default function Footer(): JSX.Element {
             <p className="footer__title">Навигация</p>
             <ul className="footer__list">
               <li className="footer__item">
-                <Link className="link" to={AddresesRoute.CATALOG}>Каталог
+                <Link className="link" to={`${AddresesRoute.CATALOG}?${NameSpaceSearchParams.TYPE_SORT}=${TypeSort.PRICE}&${NameSpaceSearchParams.DIRECTION_SORT}=${DirectionSort.UP}`}>Каталог
                 </Link>
               </li>
               <li className="footer__item">

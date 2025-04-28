@@ -19,21 +19,10 @@ export function useSort(searchParams: URLSearchParams, setSearchParams: SetURLSe
     setSearchParams(searchParams);
   };
 
-  const setSearchParamsSortDefault = (name: NameSpaceSearchParams, referenceSort: string[],defaultValue: string): void => {
-    const sortValues = searchParams.getAll(name);
-    const newSorts: string[] = [];
-    sortValues.forEach((value) => {
-      if (referenceSort.includes(value)) {
-        newSorts.push(value);
-      }
-    });
-    searchParams.delete(name);
-    if (newSorts.length > 0) {
-      searchParams.set(name, newSorts[0]);
-      setSearchParams(searchParams);
-      return;
+  const setSearchParamsSortDefault = (name: NameSpaceSearchParams, value: string | null, referenceSort: string[], defaultValue: string): void => {
+    if (!value || !referenceSort.includes(value)) {
+      setActiveSort(name, defaultValue);
     }
-    setActiveSort(name, defaultValue);
   };
 
   const sortListProduct = (productList: ProductCard[]) => {
@@ -54,8 +43,8 @@ export function useSort(searchParams: URLSearchParams, setSearchParams: SetURLSe
   };
 
   useEffect(() => {
-    setSearchParamsSortDefault(NameSpaceSearchParams.DIRECTION_SORT, referenceSortDirection, DirectionSort.UP);
-    setSearchParamsSortDefault(NameSpaceSearchParams.TYPE_SORT, referenceSortType, TypeSort.PRICE);
+    setSearchParamsSortDefault(NameSpaceSearchParams.TYPE_SORT, typeSortSearchParams, referenceSortType, TypeSort.PRICE);
+    setSearchParamsSortDefault(NameSpaceSearchParams.DIRECTION_SORT, directionSortSearchParams, referenceSortDirection, DirectionSort.UP);
   }, []);
 
   return [setActiveSort, sortListProduct];

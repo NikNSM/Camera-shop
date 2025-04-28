@@ -1,5 +1,5 @@
 import { Link} from 'react-router-dom';
-import { AddresesRoute } from '../../../const';
+import { AddresesRoute, DirectionSort, NameSpaceSearchParams, TypeSort } from '../../../const';
 import { useAppSelector } from '../../../utils';
 import { getStateCameraList } from '../../../store/product-slice/product-selectors';
 import { useSearchCameras, NameSpaceElementsFocus } from './use-search-cameras/use-search-cameras';
@@ -12,14 +12,14 @@ export default function Header(): JSX.Element {
   return (
     <header className="header" id="header">
       <div className="container">
-        <Link className="header__logo" to={AddresesRoute.CATALOG} aria-label="Переход на главную" data-testid="link-header-logo">
+        <Link className="header__logo" to={`${AddresesRoute.CATALOG}?${NameSpaceSearchParams.TYPE_SORT}=${TypeSort.PRICE}&${NameSpaceSearchParams.DIRECTION_SORT}=${DirectionSort.UP}`} aria-label="Переход на главную" data-testid="link-header-logo">
           <svg width="100" height="36" aria-hidden="true">
             <use xlinkHref="#icon-logo" data-testid="link-header-use"></use>
           </svg>
         </Link>
         <nav className="main-nav header__main-nav">
           <ul className="main-nav__list">
-            <li className="main-nav__item"><Link className="main-nav__link" to={AddresesRoute.CATALOG}>Каталог</Link>
+            <li className="main-nav__item"><Link className="main-nav__link" to={`${AddresesRoute.CATALOG}?${NameSpaceSearchParams.TYPE_SORT}=${TypeSort.PRICE}&${NameSpaceSearchParams.DIRECTION_SORT}=${DirectionSort.UP}`}>Каталог</Link>
             </li>
             <li className="main-nav__item"><a className="main-nav__link" href="#">Гарантии</a>
             </li>

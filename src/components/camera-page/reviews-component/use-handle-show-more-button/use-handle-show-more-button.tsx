@@ -11,7 +11,7 @@ export function useHandleShowMoreButton (reviews: ReviewCard[]): [ReviewCard[], 
   const renderCount = 3;
   const [renderReviewsCount, setRenderReviewsCount] = useState(Math.min(renderCount, sortReviews.length));
 
-  const handlerClickShowMoreButton = () => {
+  const handleShowMoreButtonClick = () => {
     const newRenderReviewsCount = Math.min(sortReviews.length, renderReviewsCount + renderCount);
     setRenderReviewsCount(newRenderReviewsCount);
   };
@@ -24,5 +24,5 @@ export function useHandleShowMoreButton (reviews: ReviewCard[]): [ReviewCard[], 
     setRenderReviewsCount(newRenderReviewsCount);
   }, [reviews, setRenderReviewsCount]);
 
-  return [reviewsRender, isShowMoreButton, handlerClickShowMoreButton];
+  return [reviewsRender, isShowMoreButton, handleShowMoreButtonClick];
 }

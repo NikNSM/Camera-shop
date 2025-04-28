@@ -3,14 +3,14 @@ import { getStateListReviews, getStateLoadingReviews } from '../../../store/revi
 import { useAppSelector } from '../../../utils';
 import LoaderGetData from '../../loader/loader-get-data/loader-get-data';
 import ListReviews from './list-reviews/list-reviews';
-import { useHandleShowMoreButton } from './useHandleShowMoreButton/useHandleShowMoreButton';
+import { useHandleShowMoreButton } from './use-handle-show-more-button/use-handle-show-more-button';
 
 
 export default function ReviewsComponent(): JSX.Element {
   const listReviews = useAppSelector(getStateListReviews);
   const loadingListReviews = useAppSelector(getStateLoadingReviews);
 
-  const [reviewsRender, isShowMoreButton, handlerClickShowMoreButton] = useHandleShowMoreButton(listReviews);
+  const [reviewsRender, isShowMoreButton, handleShowMoreButtonClick] = useHandleShowMoreButton(listReviews);
   return (
     <div className="page-content__section">
       <section className="review-block">
@@ -26,7 +26,7 @@ export default function ReviewsComponent(): JSX.Element {
                   <button
                     className="btn btn--purple"
                     type="button"
-                    onClick={handlerClickShowMoreButton}
+                    onClick={handleShowMoreButtonClick}
                   >
                     Показать больше отзывов
                   </button> : ''}

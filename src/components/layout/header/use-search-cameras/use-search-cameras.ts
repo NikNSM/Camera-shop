@@ -74,7 +74,7 @@ export function useSearchCameras(cameraList: ProductCard[]): [
 
   const redirectToCamerPage: RedirectToCamerPage = (id: number) => {
     resetSearch();
-    navigate(`${AddresesRoute.CAMERA}${id}?${NameSpaceSearchParams.TYPE_SORT}=${NameTabs.CHARACTERISTIC}`);
+    navigate(`${AddresesRoute.CAMERA}${id}?${NameSpaceSearchParams.TAB_PAGE_CAMERA}=${NameTabs.CHARACTERISTIC}`);
     setActiveFocusElement(null);
   };
 
