@@ -87,10 +87,34 @@ export function useFilters(searchParams: URLSearchParams, setSearchParams: SetUR
     }
   };
 
+  const searchParamsPriceDefault = (name: NameSpaceSearchParams) => {
+    const minPriceFilters = searchParams.getAll(name);
+    const newFilters: string[] = [];
+    minPriceFilters.forEach((value) => {
+      if (!isNaN(Number(value))) {
+        newFilters.push(value);
+      }
+    });
+    searchParams.delete(name);
+    if(newFilters.length > 0){
+      searchParams.set(name, newFilters[0]);
+      setSearchParams(searchParams);
+    }
+  };
+
   useEffect(() => {
     setSearchParamsDefault(referenceLevel, levelFilters, NameSpaceSearchParams.FILTER_LEVEL);
     setSearchParamsDefault(referenceType, typeFilters, NameSpaceSearchParams.FILTER_TYPE_CAMERA);
+    searchParamsPriceDefault(NameSpaceSearchParams.FILTER_MIN_PRICE);
+    searchParamsPriceDefault(NameSpaceSearchParams.FILTER_MAX_PRICE);
     searchParamsCategoryDefault();
+    const maxSearchPrice = Number(searchParams.get(NameSpaceSearchParams.FILTER_MAX_PRICE));
+    const minSearchPrice = Number(searchParams.get(NameSpaceSearchParams.FILTER_MIN_PRICE));
+    if(maxSearchPrice < minSearchPrice){
+      searchParams.set(NameSpaceSearchParams.FILTER_MAX_PRICE, minSearchPrice.toString());
+      searchParams.set(NameSpaceSearchParams.FILTER_MIN_PRICE, maxSearchPrice.toString());
+      setSearchParams(searchParams);
+    }
   }, []);
 
   return [minPrice, maxPrice, filterCameraList, resetFilters];
