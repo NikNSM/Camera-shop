@@ -1,4 +1,4 @@
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AddresesRoute, DirectionSort, NameSpaceSearchParams, TypeSort } from '../../../const';
 import { useAppSelector } from '../../../utils';
 import { getStateCameraList } from '../../../store/product-slice/product-selectors';
@@ -99,6 +99,12 @@ export default function Header(): JSX.Element {
             </svg><span className="visually-hidden">Сбросить поиск</span>
           </button>
         </div>
+        <Link className="header__basket-link" to={AddresesRoute.BASKET}>
+          <svg width="16" height="16" aria-hidden="true">
+            <use xlinkHref="#icon-basket"></use>
+          </svg>
+          <span className="header__basket-count">99+</span>
+        </Link>
       </div>
     </header >
   );
