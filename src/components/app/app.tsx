@@ -7,7 +7,7 @@ import Layout from '../layout/layout';
 import Catalog from '../catalog/catalog';
 import CameraPage from '../camera-page/camera-page';
 import Page404 from '../page-404/page-404';
-
+import Basket from '../basket/basket';
 export default function App() {
   return (
     <HelmetProvider>
@@ -15,6 +15,7 @@ export default function App() {
         <Routes>
           <Route path={AddresesRoute.CATALOG} element={<Layout />}>
             <Route index element={<Catalog />} />
+            <Route path={AddresesRoute.BASKET} element={<Basket />} />
             <Route path={`${AddresesRoute.CAMERA}:id`} element={<CameraPage />} />
             <Route path='*' element={<Page404 />} />
           </Route>
