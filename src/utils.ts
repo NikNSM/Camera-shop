@@ -1,7 +1,7 @@
 import 'dayjs/locale/ru';
 import dayjs from 'dayjs';
 import { DateFormate } from './const';
-import { CategoryProduct, TypeProduct } from './type/type';
+import { CategoryProduct, DataBasket, DataLocalStorage, TypeProduct } from './type/type';
 import { TypeAppDispatch, TypeState } from './type/type-redux';
 import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux';
 
@@ -28,3 +28,6 @@ export const getConversionTypeCamera = (type: TypeProduct, category: CategoryPro
 
 export const getDateFormate = (date: string, dateFormate: DateFormate) =>
   dayjs(date).locale('ru').format(dateFormate);
+
+export const convertBasketDataType = (data: DataLocalStorage): DataBasket => new Map(Object.entries(data).map(([key, value]) => [Number(key), value]));
+
