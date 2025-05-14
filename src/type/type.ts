@@ -70,3 +70,9 @@ export type ReviewCard = {
   review: string;
   rating: number;
 }
+
+export type DataLocalStorage ={
+  [key: string]: number;
+}
+
+export type DataBasket = Map<number, number>;
