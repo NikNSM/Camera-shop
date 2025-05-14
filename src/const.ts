@@ -54,3 +54,11 @@ export enum DirectionSort {
   UP = 'up',
   DOWN = 'down',
 }
+
+export enum NameSpaceModalWindowProduct {
+  ADD = 'add',
+  SUCCESSFULLY ='successfully',
+  THANKS = 'thanks',
+  DELETE = 'delete',
+  UNKNOW = 'uknow'
+}
