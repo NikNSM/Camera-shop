@@ -6,10 +6,10 @@ import { TypeState } from '../../../type/type-redux';
 import { Action } from '@reduxjs/toolkit';
 import { camera, extractActionsType, promo, TypeAppThunkAppDispatch } from '../../../mocks/mocks';
 import { OrderContactMe, ResultPlacingOrder } from '../../../type/type';
-import { getCamera, getCameraList, getPromoList, postOrder} from '../api-product';
+import { getCamera, getCameraList, getPromoList, postOrder } from '../api-product';
 import { ApiRoute } from '../../../const';
 import { getReviewsCamera } from '../../reviews-slice/api-reviews';
-import { redirectToRoute } from '../../middleware-redirect/action-redirect';
+import { redirectToRoute } from '../../middleware/redirect/action-redirect';
 
 describe('Api product', () => {
   const axios = createApi();

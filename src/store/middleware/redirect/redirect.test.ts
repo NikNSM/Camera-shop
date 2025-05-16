@@ -1,11 +1,12 @@
 import { MockStore, configureMockStore } from '@jedmao/redux-mock-store';
-import { TypeState } from '../../type/type-redux';
+import { TypeState } from '../../../type/type-redux';
 import { redirect } from './redirect';
 import { AnyAction } from '@reduxjs/toolkit';
-import browserHistory from '../../browser-history/browser-history';
+import browserHistory from '../../../browser-history/browser-history';
 import { redirectToRoute } from './action-redirect';
-import { AddresesRoute } from '../../const';
-vi.mock('../../browser-history/browser-history', () => ({
+import { AddresesRoute } from '../../../const';
+
+vi.mock('../../../browser-history/browser-history', () => ({
   default: {
     location: { pathname: '' },
     push(path: string) {

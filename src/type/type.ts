@@ -71,8 +71,7 @@ export type ReviewCard = {
   rating: number;
 }
 
-export type DataLocalStorage ={
-  [key: string]: number;
+export type DataBasket = {
+  cameraId: number;
+  count: number;
 }
-
-export type DataBasket = Map<number, number>;

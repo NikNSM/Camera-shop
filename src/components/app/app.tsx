@@ -8,7 +8,22 @@ import Catalog from '../catalog/catalog';
 import CameraPage from '../camera-page/camera-page';
 import Page404 from '../page-404/page-404';
 import Basket from '../basket/basket';
+import { initializeStateBasket } from '../../store/basket-slice/basket-slice';
+import { getBasketLocalStorage } from '../../api/basket-local-storage';
+import { useEffect } from 'react';
+import { useAppDispatch } from '../../utils';
+
 export default function App() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const basketLocalStorage = getBasketLocalStorage();
+    if (!basketLocalStorage) {
+      return;
+    }
+    dispatch(initializeStateBasket(basketLocalStorage));
+  }, [dispatch]);
+
   return (
     <HelmetProvider>
       <HistoryRoute history={browserHistory}>

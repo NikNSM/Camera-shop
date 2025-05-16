@@ -3,7 +3,7 @@ import { OrderContactMe, ProductCard, PromoProduct } from '../../type/type';
 import { AxiosInstance } from 'axios';
 import { AddresesRoute, ApiRoute } from '../../const';
 import { TypeAppDispatch } from '../../type/type-redux';
-import { redirectToRoute } from '../middleware-redirect/action-redirect';
+import { redirectToRoute } from '../middleware/redirect/action-redirect';
 import { getReviewsCamera } from '../reviews-slice/api-reviews';
 
 export const getCameraList = createAsyncThunk<

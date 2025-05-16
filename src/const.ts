@@ -20,6 +20,7 @@ export enum ApiRoute {
 export enum NameSpaceState {
   PRODUCT = 'product',
   REVIEWS = 'reviews',
+  BASKET = 'basket'
 }
 
 export enum DateFormate {
