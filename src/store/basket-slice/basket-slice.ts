@@ -17,28 +17,28 @@ const basketSlice = createSlice({
     initializeStateBasket: (state, action: PayloadAction<DataBasket[]>) => {
       state.product = action.payload;
     },
+    setQuantityProduct: (state, action: PayloadAction<DataBasket>) => {
+      const indexElement = state.product.findIndex((item) => item.cameraId === action.payload.cameraId);
+      state.product[indexElement].quantity = action.payload.quantity;
+    },
     addProductBasket: (state, action: PayloadAction<DataBasket>) => {
       const indexElement = state.product.findIndex((item) => item.cameraId === action.payload.cameraId);
       if (indexElement !== -1) {
-        if (action.payload.count > 1) {
-          state.product[indexElement].count = action.payload.count;
-          return;
-        }
-        state.product[indexElement].count++;
+        state.product[indexElement].quantity++;
         return;
       }
       state.product.unshift(action.payload);
     },
     reduceProductBasket: (state, action: PayloadAction<number>) => {
       const indexElement = state.product.findIndex((item) => item.cameraId === action.payload);
-      state.product[indexElement].count--;
+      state.product[indexElement].quantity--;
     },
     deleteProductBasket: (state, action: PayloadAction<number>) => {
       const indexElement = state.product.findIndex((item) => item.cameraId === action.payload);
-      state.product.slice(indexElement, 1);
+      state.product.splice(indexElement, 1);
     }
   }
 });
 
 export const basketReducer = basketSlice.reducer;
-export const { addProductBasket, initializeStateBasket } = basketSlice.actions;
+export const { addProductBasket, initializeStateBasket, reduceProductBasket, deleteProductBasket, setQuantityProduct} = basketSlice.actions;

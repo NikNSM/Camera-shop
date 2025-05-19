@@ -1,7 +1,21 @@
 import { Link } from 'react-router-dom';
 import CardProductBasket from './card-product-basket/card-product-basket';
 import { AddresesRoute, NameSpaceSearchParams, TypeSort, DirectionSort } from '../../const';
+import { useAppSelector } from '../../utils';
+import { getProductsBasket } from '../../store/basket-slice/basket-selectors';
+import { getStateCameraList } from '../../store/product-slice/product-selectors';
+import { ProductCard, StateProductsBasket } from '../../type/type';
+
 export default function Basket(): JSX.Element {
+  const camerasInBasket = useAppSelector(getProductsBasket);
+  const camerasList = useAppSelector(getStateCameraList);
+  const camerasListBasket: StateProductsBasket[] = camerasInBasket.reduce((acc: StateProductsBasket[], item) => {
+    const newCamera = camerasList.find((camera) => camera.id === item.cameraId) as ProductCard;
+    return acc.concat({
+      ...newCamera,
+      quantity: item.quantity
+    });
+  } , []);
   return (
     <main>
       <div className="page-content">
@@ -32,7 +46,7 @@ export default function Basket(): JSX.Element {
           <div className="container">
             <h1 className="title title--h2">Корзина</h1>
             <ul className="basket__list">
-              <CardProductBasket />
+              {camerasListBasket.map((camera) => <CardProductBasket key={camera.id} camera={camera}/>)}
             </ul>
             <div className="basket__summary">
               <div className="basket__promo">

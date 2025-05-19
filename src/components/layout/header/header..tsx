@@ -3,8 +3,11 @@ import { AddresesRoute, DirectionSort, NameSpaceSearchParams, TypeSort } from '.
 import { useAppSelector } from '../../../utils';
 import { getStateCameraList } from '../../../store/product-slice/product-selectors';
 import { useSearchCameras, NameSpaceElementsFocus } from './use-search-cameras/use-search-cameras';
+import { getProductsBasket } from '../../../store/basket-slice/basket-selectors';
 
 export default function Header(): JSX.Element {
+  const camerasInBasket = useAppSelector(getProductsBasket);
+  const countCamerasInBasket = camerasInBasket.reduce((acc, item) => acc + item.quantity, 0);
   const cameraList = useAppSelector(getStateCameraList);
   const [foundCamerasName, valueSearch, listElements, setActiveFocusElement, resetSearch, redirectToCamerPage, setValueSearch] = useSearchCameras(cameraList);
   const classListSearch = valueSearch.length >= 1 ? 'form-search list-opened' : 'form-search';
@@ -103,7 +106,9 @@ export default function Header(): JSX.Element {
           <svg width="16" height="16" aria-hidden="true">
             <use xlinkHref="#icon-basket"></use>
           </svg>
-          <span className="header__basket-count">99+</span>
+          <span className="header__basket-count">
+            {countCamerasInBasket >= 100 ? '99+' : countCamerasInBasket}
+          </span>
         </Link>
       </div>
     </header >

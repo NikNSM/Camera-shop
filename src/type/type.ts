@@ -73,5 +73,9 @@ export type ReviewCard = {
 
 export type DataBasket = {
   cameraId: number;
-  count: number;
+  quantity: number;
 }
+
+export type StateProductsBasket = ProductCard & {
+  quantity: number;
+};

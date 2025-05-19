@@ -1,38 +1,93 @@
-export default function CardProductBasket(): JSX.Element {
+import { useState } from 'react';
+import { addProductBasket, deleteProductBasket, reduceProductBasket, setQuantityProduct } from '../../../store/basket-slice/basket-slice';
+import { StateProductsBasket } from '../../../type/type';
+import { getConversionTypeCamera, getDataBasket, useAppDispatch } from '../../../utils';
+type PropsCardProductBasket = {
+  camera: StateProductsBasket;
+}
+export default function CardProductBasket({ camera }: PropsCardProductBasket): JSX.Element {
+  const [quantityCamera, setQuantityCamera] = useState<string>(camera.quantity.toString());
+  const dispatch = useAppDispatch();
+  const price = new Intl.NumberFormat('ru-RU').format(camera.price);
+  const sumPrice = new Intl.NumberFormat('ru-RU').format(camera.price * camera.quantity);
+
   return (
     <li className="basket-item">
       <div className="basket-item__img">
         <picture>
-          <source type="image/webp" srcSet="img/content/orlenok.webp, img/content/orlenok@2x.webp 2x" />
-          <img src="img/content/orlenok.jpg" srcSet="img/content/orlenok@2x.jpg 2x" width="140" height="120" alt="Фотоаппарат «Орлёнок»" />
+          <source type="image/webp" srcSet={`${camera.previewImgWebp}, ${camera.previewImgWebp2x}`} />
+          <img src={camera.previewImg} srcSet={`${camera.previewImg2x} 2x`} width="140" height="120" alt="Фотоаппарат «Орлёнок»" />
         </picture>
       </div>
       <div className="basket-item__description">
-        <p className="basket-item__title">Фотоаппарат «Орлёнок»</p>
+        <p className="basket-item__title">{camera.name}</p>
         <ul className="basket-item__list">
-          <li className="basket-item__list-item"><span className="basket-item__article">Артикул:</span> <span className="basket-item__number">O78DFGSD832</span>
+          <li className="basket-item__list-item"><span className="basket-item__article">Артикул:</span> <span className="basket-item__number">{camera.vendorCode}</span>
           </li>
-          <li className="basket-item__list-item">Плёночная фотокамера</li>
-          <li className="basket-item__list-item">Любительский уровень</li>
+          <li className="basket-item__list-item">{`${getConversionTypeCamera(camera.type, camera.category)} ${camera.category}`} </li>
+          <li className="basket-item__list-item">{camera.level} уровень</li>
         </ul>
       </div>
-      <p className="basket-item__price"><span className="visually-hidden">Цена:</span>18 970 ₽</p>
+      <p className="basket-item__price"><span className="visually-hidden">Цена:</span>{price} ₽</p>
       <div className="quantity">
-        <button className="btn-icon btn-icon--prev" aria-label="уменьшить количество товара">
+        <button
+          className="btn-icon btn-icon--prev" aria-label="уменьшить количество товара"
+          onClick={() => {
+            const newQuantity = Number(quantityCamera) - 1;
+            dispatch(reduceProductBasket(camera.id));
+            setQuantityCamera(newQuantity.toString());
+          }}
+          disabled={camera.quantity === 1}
+        >
           <svg width="7" height="12" aria-hidden="true">
             <use xlinkHref="#icon-arrow"></use>
           </svg>
         </button>
         <label className="visually-hidden" htmlFor="counter1"></label>
-        <input type="number" id="counter1" value="2" min="1" max="99" aria-label="количество товара" />
-        <button className="btn-icon btn-icon--next" aria-label="увеличить количество товара">
+        <input
+          type="number"
+          id="counter1"
+          value={quantityCamera}
+          min="1"
+          max="99"
+          aria-label="количество товара"
+          onInput={(evt) => {
+            setQuantityCamera(evt.currentTarget.value);
+          }}
+          onBlur={(evt) => {
+            let newQuantity = Number(evt.currentTarget.value);
+            if (newQuantity > 99) {
+              newQuantity = 99;
+            }
+            if (newQuantity < 1) {
+              newQuantity = 1;
+            }
+            dispatch(setQuantityProduct(getDataBasket(camera.id, newQuantity)));
+            setQuantityCamera(newQuantity.toString());
+          }}
+        />
+        <button
+          className="btn-icon btn-icon--next" aria-label="увеличить количество товара"
+          onClick={() => {
+            const newQuantity = Number(quantityCamera) + 1;
+            dispatch(addProductBasket(getDataBasket(camera.id)));
+            setQuantityCamera(newQuantity.toString());
+          }}
+          disabled={camera.quantity === 99}
+        >
           <svg width="7" height="12" aria-hidden="true">
             <use xlinkHref="#icon-arrow"></use>
           </svg>
         </button>
       </div>
-      <div className="basket-item__total-price"><span className="visually-hidden">Общая цена:</span>37 940 ₽</div>
-      <button className="cross-btn" type="button" aria-label="Удалить товар">
+      <div className="basket-item__total-price"><span className="visually-hidden">Общая цена:</span>{sumPrice} ₽</div>
+      <button
+        className="cross-btn" type="button"
+        aria-label="Удалить товар"
+        onClick={() => {
+          dispatch(deleteProductBasket(camera.id));
+        }}
+      >
         <svg width="10" height="10" aria-hidden="true">
           <use xlinkHref="#icon-close"></use>
         </svg>

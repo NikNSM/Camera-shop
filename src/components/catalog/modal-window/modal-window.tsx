@@ -1,31 +1,25 @@
 import { useEffect, useRef } from 'react';
-import { useMask } from '@react-input/mask';
 import { ProductCard } from '../../../type/type';
-import InformationCamera from './information-camera/information-camera';
-import FormTel from './form-tel/form-tel';
+import { NameSpaceModalWindowProduct } from '../../../const';
 import { useHandleTab } from './use-handle-tab/use-handle-tab';
+import ModalWindowContent from './modal-window-content/modal-window-content';
+import { SetInformationModalWindow } from '../catalog';
 
 type PorpsModalWindow = {
-  camera: ProductCard;
-  setCamera: React.Dispatch<React.SetStateAction<null | ProductCard>>;
-  setSearchParamsModalWindow: (cameraId: number | null) => void;
+  name: NameSpaceModalWindowProduct;
+  camera: ProductCard | null;
+  setActiveModalWindow: SetInformationModalWindow;
 }
 
-export default function ModalWindow({ camera, setCamera, setSearchParamsModalWindow }: PorpsModalWindow): JSX.Element {
-  const inputTel = useMask({
-    mask: '+7(9__)-___-__-__',
-    replacement: { _: /\d/ },
-  });
-
+export default function ModalWindow({name, camera, setActiveModalWindow}: PorpsModalWindow): JSX.Element {
   const orderButton = useRef<HTMLButtonElement | null>(null);
   const closeButton = useRef<HTMLButtonElement | null>(null);
 
   const closeModalWindow = () => {
-    setCamera(null);
-    setSearchParamsModalWindow(null);
+    setActiveModalWindow(NameSpaceModalWindowProduct.UNKNOW);
   };
 
-  const indexFocusElement = useHandleTab(true, inputTel, orderButton, closeButton);
+  useHandleTab(true, orderButton, closeButton);
 
   useEffect(() => {
     const handleEscape = (evt: KeyboardEvent) => {
@@ -45,13 +39,11 @@ export default function ModalWindow({ camera, setCamera, setSearchParamsModalWin
   });
 
   return (
-    <div className="modal is-active">
+    <div className={`modal is-active ${name === NameSpaceModalWindowProduct.SUCCESSFULLY || name === NameSpaceModalWindowProduct.THANKS ? 'modal--narrow' : ''}`}>
       <div className="modal__wrapper">
         <div className="modal__overlay" onClick={closeModalWindow}></div>
         <div className="modal__content">
-          <p className="title title--h4">Свяжитесь со мной</p>
-          <InformationCamera camera={camera}/>
-          <FormTel closeModalWindow={closeModalWindow} orderButton={orderButton} inputTel={inputTel} inedxFocusElement={indexFocusElement} cameraId={camera.id}/>
+          <ModalWindowContent name={name} camera={camera} setActiveModalWindow={setActiveModalWindow} orderButton={orderButton}/>
           <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={closeModalWindow} ref={closeButton}>
             <svg width="10" height="10" aria-hidden="true">
               <use xlinkHref="#icon-close"></use>

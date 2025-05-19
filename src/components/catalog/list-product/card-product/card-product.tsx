@@ -1,16 +1,19 @@
 import { Link } from 'react-router-dom';
 import { ProductCard } from '../../../../type/type';
-import { AddresesRoute, NameSpaceSearchParams, NameTabs } from '../../../../const';
+import { AddresesRoute, NameSpaceModalWindowProduct, NameSpaceSearchParams, NameTabs } from '../../../../const';
 import StarsRating from '../../../stars-rating/stars-rating';
+import { SetInformationModalWindow } from '../../catalog';
+import { useAppSelector } from '../../../../utils';
+import { getProductsBasket } from '../../../../store/basket-slice/basket-selectors';
 
 type PropsCardProduct = {
   camera: ProductCard;
-  setSearchParamsModalWindow: (cameraId: number | null) => void;
+  setActiveCamera: SetInformationModalWindow;
 }
 
-export default function CardProduct({ camera, setSearchParamsModalWindow }: PropsCardProduct): JSX.Element {
+export default function CardProduct({ camera, setActiveCamera }: PropsCardProduct): JSX.Element {
   const price = new Intl.NumberFormat('ru-RU').format(camera.price);
-
+  const camerasInBasket = useAppSelector(getProductsBasket);
   return (
     <div className="product-card">
       <div className="product-card__img">
@@ -30,8 +33,18 @@ export default function CardProduct({ camera, setSearchParamsModalWindow }: Prop
         </p>
       </div>
       <div className="product-card__buttons">
-        <button className="btn btn--purple product-card__btn" type="button" onClick={() => setSearchParamsModalWindow(camera.id)}>Купить
-        </button>
+        {camerasInBasket.some((item) => item.cameraId === camera.id) ?
+          <Link className="btn btn--purple-border product-card__btn product-card__btn--in-cart" to={AddresesRoute.BASKET}>
+            <svg width="16" height="16" aria-hidden="true">
+              <use xlinkHref="#icon-basket"></use>
+            </svg>В корзине
+          </Link> :
+          <button
+            className="btn btn--purple product-card__btn" type="button"
+            onClick={() => setActiveCamera(NameSpaceModalWindowProduct.ADD, camera)}
+          >
+            Купить
+          </button>}
         <Link className="btn btn--transparent" to={`${AddresesRoute.CAMERA}${camera.id}?${NameSpaceSearchParams.TAB_PAGE_CAMERA}=${NameTabs.CHARACTERISTIC}`}>
           Подробнее
         </Link>

@@ -1,7 +1,7 @@
 import { MutableRefObject, useEffect, useRef } from 'react';
 
 
-export function useHandleTab(isFocusOneElement = false, ...elements: (MutableRefObject<HTMLInputElement | null> | MutableRefObject<HTMLButtonElement | null>)[]) {
+export function useHandleTab(isFocusOneElement = false, ...elements: (MutableRefObject<HTMLButtonElement | null>)[]) {
   const indexFocusElement = useRef<number>(0);
   const isOneFocusElement = useRef<boolean>(isFocusOneElement);
   const focusElements = elements;

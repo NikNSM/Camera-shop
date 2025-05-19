@@ -22,6 +22,7 @@ export default function App() {
       return;
     }
     dispatch(initializeStateBasket(basketLocalStorage));
+
   }, [dispatch]);
 
   return (
