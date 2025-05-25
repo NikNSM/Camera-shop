@@ -3,19 +3,24 @@ import CardProductBasket from './card-product-basket/card-product-basket';
 import { AddresesRoute, NameSpaceSearchParams, TypeSort, DirectionSort } from '../../const';
 import { useAppSelector } from '../../utils';
 import { getProductsBasket } from '../../store/basket-slice/basket-selectors';
-import { getStateCameraList } from '../../store/product-slice/product-selectors';
+import { getStateCameraList, getStatePromoList } from '../../store/product-slice/product-selectors';
 import { ProductCard, StateProductsBasket } from '../../type/type';
+import { getDiscount, getAmountBasket } from './utils-basket';
 
 export default function Basket(): JSX.Element {
   const camerasInBasket = useAppSelector(getProductsBasket);
   const camerasList = useAppSelector(getStateCameraList);
+  const promoCameras = useAppSelector(getStatePromoList);
   const camerasListBasket: StateProductsBasket[] = camerasInBasket.reduce((acc: StateProductsBasket[], item) => {
     const newCamera = camerasList.find((camera) => camera.id === item.cameraId) as ProductCard;
     return acc.concat({
       ...newCamera,
       quantity: item.quantity
     });
-  } , []);
+  }, []);
+  const amountProducts: number = getAmountBasket(camerasListBasket);
+  const dicount = getDiscount(camerasListBasket, promoCameras);
+  const totalAmount = amountProducts - dicount;
   return (
     <main>
       <div className="page-content">
@@ -46,15 +51,15 @@ export default function Basket(): JSX.Element {
           <div className="container">
             <h1 className="title title--h2">Корзина</h1>
             <ul className="basket__list">
-              {camerasListBasket.map((camera) => <CardProductBasket key={camera.id} camera={camera}/>)}
+              {camerasListBasket.map((camera) => <CardProductBasket key={camera.id} camera={camera} />)}
             </ul>
             <div className="basket__summary">
               <div className="basket__promo">
               </div>
               <div className="basket__summary-order">
-                <p className="basket__summary-item"><span className="basket__summary-text">Всего:</span><span className="basket__summary-value">111 390 ₽</span></p>
-                <p className="basket__summary-item"><span className="basket__summary-text">Скидка:</span><span className="basket__summary-value basket__summary-value--bonus">0 ₽</span></p>
-                <p className="basket__summary-item"><span className="basket__summary-text basket__summary-text--total">К оплате:</span><span className="basket__summary-value basket__summary-value--total">111 390 ₽</span></p>
+                <p className="basket__summary-item"><span className="basket__summary-text">Всего:</span><span className="basket__summary-value">{new Intl.NumberFormat('ru-RU').format(amountProducts)} ₽</span></p>
+                <p className="basket__summary-item"><span className="basket__summary-text">Скидка:</span><span className="basket__summary-value basket__summary-value--bonus">{new Intl.NumberFormat('ru-RU').format(dicount)} ₽</span></p>
+                <p className="basket__summary-item"><span className="basket__summary-text basket__summary-text--total">К оплате:</span><span className="basket__summary-value basket__summary-value--total">{new Intl.NumberFormat('ru-RU').format(totalAmount)} ₽</span></p>
                 <button className="btn btn--purple" type="submit">Оформить заказ
                 </button>
               </div>
