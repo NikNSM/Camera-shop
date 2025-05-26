@@ -1,12 +1,23 @@
 import { StateProductsBasket, PromoProduct } from '../../type/type';
 
-const getQuantityBasketProducts = (products: StateProductsBasket[]) => products.reduce((acc, camera) => acc + camera.quantity, 0);
-export const getAmountBasket = (products: StateProductsBasket[]) => products.reduce((acc, camera) => acc + camera.price * camera.quantity, 0);
+const getQuantityBasketProductsWithoutPromo = (products: StateProductsBasket[], promo: PromoProduct[]) => products.reduce((acc, camera) => {
+  if (promo.find((item) => item.id === camera.id)) {
+    return acc;
+  }
+  return acc + camera.quantity;
+}, 0);
 
-const getDiscountPercent = (products: StateProductsBasket[]): number => {
+const getAmountBasketWithoutPromo = (products: StateProductsBasket[], promo: PromoProduct[]) => products.reduce((acc, camera) => {
+  if (promo.find((item) => item.id === camera.id)) {
+    return acc;
+  }
+  return acc + camera.price * camera.quantity;
+}, 0);
+
+const getDiscountPercent = (products: StateProductsBasket[], promo: PromoProduct[]): number => {
   let discount = 0;
-  const quantityProducts = getQuantityBasketProducts(products);
-  const sumPrice = getAmountBasket(products);
+  const quantityProducts = getQuantityBasketProductsWithoutPromo(products, promo);
+  const sumPrice = getAmountBasketWithoutPromo(products, promo);
   if (quantityProducts >= 10) {
     discount = 0.15;
   } else if (quantityProducts === 2) {
@@ -28,13 +39,10 @@ const getDiscountPercent = (products: StateProductsBasket[]): number => {
   return discount;
 };
 
+export const getAmountBasket = (products: StateProductsBasket[]) => products.reduce((acc, camera) => acc + camera.price * camera.quantity, 0);
+
 export const getDiscount = (basket: StateProductsBasket[], promo: PromoProduct[]) => {
-  const percentDiscount = getDiscountPercent(basket);
-  const sumPriceOfDiscount = basket.reduce((acc, camera) => {
-    if (promo.find((item) => item.id === camera.id)) {
-      return acc;
-    }
-    return acc + camera.price * camera.quantity;
-  }, 0);
+  const percentDiscount = getDiscountPercent(basket, promo);
+  const sumPriceOfDiscount = getAmountBasketWithoutPromo(basket, promo);
   return Math.round((sumPriceOfDiscount * percentDiscount) * 100) / 100;
 };

@@ -1,16 +1,13 @@
 import { useState } from 'react';
 import { addProductBasket, deleteProductBasket, reduceProductBasket, setQuantityProduct } from '../../../store/basket-slice/basket-slice';
 import { StateProductsBasket } from '../../../type/type';
-import { getConversionTypeCamera, getDataBasket, useAppDispatch } from '../../../utils';
+import { getConversionTypeCamera, getCurrenceRub, getDataBasket, useAppDispatch } from '../../../utils';
 type PropsCardProductBasket = {
   camera: StateProductsBasket;
 }
 export default function CardProductBasket({ camera }: PropsCardProductBasket): JSX.Element {
   const [quantityCamera, setQuantityCamera] = useState<string>(camera.quantity.toString());
   const dispatch = useAppDispatch();
-  const price = new Intl.NumberFormat('ru-RU').format(camera.price);
-  const sumPrice = new Intl.NumberFormat('ru-RU').format(camera.price * camera.quantity);
-
   return (
     <li className="basket-item">
       <div className="basket-item__img">
@@ -28,7 +25,7 @@ export default function CardProductBasket({ camera }: PropsCardProductBasket): J
           <li className="basket-item__list-item">{camera.level} уровень</li>
         </ul>
       </div>
-      <p className="basket-item__price"><span className="visually-hidden">Цена:</span>{price} ₽</p>
+      <p className="basket-item__price"><span className="visually-hidden">Цена:</span>{getCurrenceRub(camera.price)} ₽</p>
       <div className="quantity">
         <button
           className="btn-icon btn-icon--prev" aria-label="уменьшить количество товара"
@@ -80,7 +77,7 @@ export default function CardProductBasket({ camera }: PropsCardProductBasket): J
           </svg>
         </button>
       </div>
-      <div className="basket-item__total-price"><span className="visually-hidden">Общая цена:</span>{sumPrice} ₽</div>
+      <div className="basket-item__total-price"><span className="visually-hidden">Общая цена:</span>{getCurrenceRub(camera.price * camera.quantity)} ₽</div>
       <button
         className="cross-btn" type="button"
         aria-label="Удалить товар"

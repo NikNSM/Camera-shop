@@ -35,3 +35,5 @@ export const getDataBasket:
     cameraId,
     quantity: count,
   });
+
+export const getCurrenceRub = (meaning: number): string => new Intl.NumberFormat('ru-RU').format(meaning);

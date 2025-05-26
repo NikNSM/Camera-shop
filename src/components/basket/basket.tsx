@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import CardProductBasket from './card-product-basket/card-product-basket';
 import { AddresesRoute, NameSpaceSearchParams, TypeSort, DirectionSort } from '../../const';
-import { useAppSelector } from '../../utils';
+import { getCurrenceRub, useAppSelector } from '../../utils';
 import { getProductsBasket } from '../../store/basket-slice/basket-selectors';
 import { getStateCameraList, getStatePromoList } from '../../store/product-slice/product-selectors';
 import { ProductCard, StateProductsBasket } from '../../type/type';
@@ -57,9 +57,9 @@ export default function Basket(): JSX.Element {
               <div className="basket__promo">
               </div>
               <div className="basket__summary-order">
-                <p className="basket__summary-item"><span className="basket__summary-text">Всего:</span><span className="basket__summary-value">{new Intl.NumberFormat('ru-RU').format(amountProducts)} ₽</span></p>
-                <p className="basket__summary-item"><span className="basket__summary-text">Скидка:</span><span className="basket__summary-value basket__summary-value--bonus">{new Intl.NumberFormat('ru-RU').format(dicount)} ₽</span></p>
-                <p className="basket__summary-item"><span className="basket__summary-text basket__summary-text--total">К оплате:</span><span className="basket__summary-value basket__summary-value--total">{new Intl.NumberFormat('ru-RU').format(totalAmount)} ₽</span></p>
+                <p className="basket__summary-item"><span className="basket__summary-text">Всего:</span><span className="basket__summary-value">{getCurrenceRub(amountProducts)} ₽</span></p>
+                <p className="basket__summary-item"><span className="basket__summary-text">Скидка:</span><span className="basket__summary-value basket__summary-value--bonus">{getCurrenceRub(dicount)} ₽</span></p>
+                <p className="basket__summary-item"><span className="basket__summary-text basket__summary-text--total">К оплате:</span><span className="basket__summary-value basket__summary-value--total">{getCurrenceRub(totalAmount)} ₽</span></p>
                 <button className="btn btn--purple" type="submit">Оформить заказ
                 </button>
               </div>
