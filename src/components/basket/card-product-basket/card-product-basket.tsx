@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import { addProductBasket, deleteProductBasket, reduceProductBasket, setQuantityProduct } from '../../../store/basket-slice/basket-slice';
-import { StateProductsBasket } from '../../../type/type';
+import { addProductBasket, reduceProductBasket, setQuantityProduct } from '../../../store/basket-slice/basket-slice';
+import { SetInformationModalWindow, StateProductsBasket } from '../../../type/type';
 import { getConversionTypeCamera, getCurrenceRub, getDataBasket, useAppDispatch } from '../../../utils';
+import { NameSpaceModalWindowProduct } from '../../../const';
+
 type PropsCardProductBasket = {
   camera: StateProductsBasket;
+  setInformationModalWindow: SetInformationModalWindow;
 }
-export default function CardProductBasket({ camera }: PropsCardProductBasket): JSX.Element {
+export default function CardProductBasket({ camera, setInformationModalWindow }: PropsCardProductBasket): JSX.Element {
   const [quantityCamera, setQuantityCamera] = useState<string>(camera.quantity.toString());
   const dispatch = useAppDispatch();
   return (
@@ -82,7 +85,7 @@ export default function CardProductBasket({ camera }: PropsCardProductBasket): J
         className="cross-btn" type="button"
         aria-label="Удалить товар"
         onClick={() => {
-          dispatch(deleteProductBasket(camera.id));
+          setInformationModalWindow(NameSpaceModalWindowProduct.DELETE, camera);
         }}
       >
         <svg width="10" height="10" aria-hidden="true">

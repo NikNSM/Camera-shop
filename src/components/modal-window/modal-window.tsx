@@ -1,9 +1,8 @@
 import { useEffect, useRef } from 'react';
-import { ProductCard } from '../../../type/type';
-import { NameSpaceModalWindowProduct } from '../../../const';
+import { ProductCard, SetInformationModalWindow } from '../../type/type';
+import { NameSpaceModalWindowProduct } from '../../const';
 import { useHandleTab } from './use-handle-tab/use-handle-tab';
 import ModalWindowContent from './modal-window-content/modal-window-content';
-import { SetInformationModalWindow } from '../catalog';
 
 type PorpsModalWindow = {
   name: NameSpaceModalWindowProduct;
@@ -11,7 +10,7 @@ type PorpsModalWindow = {
   setActiveModalWindow: SetInformationModalWindow;
 }
 
-export default function ModalWindow({name, camera, setActiveModalWindow}: PorpsModalWindow): JSX.Element {
+export default function ModalWindow({ name, camera, setActiveModalWindow }: PorpsModalWindow): JSX.Element {
   const orderButton = useRef<HTMLButtonElement | null>(null);
   const closeButton = useRef<HTMLButtonElement | null>(null);
 
@@ -43,7 +42,7 @@ export default function ModalWindow({name, camera, setActiveModalWindow}: PorpsM
       <div className="modal__wrapper">
         <div className="modal__overlay" onClick={closeModalWindow}></div>
         <div className="modal__content">
-          <ModalWindowContent name={name} camera={camera} setActiveModalWindow={setActiveModalWindow} orderButton={orderButton}/>
+          <ModalWindowContent name={name} camera={camera} setActiveModalWindow={setActiveModalWindow} orderButton={orderButton} />
           <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={closeModalWindow} ref={closeButton}>
             <svg width="10" height="10" aria-hidden="true">
               <use xlinkHref="#icon-close"></use>

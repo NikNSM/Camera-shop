@@ -1,13 +1,32 @@
 import { Link } from 'react-router-dom';
 import CardProductBasket from './card-product-basket/card-product-basket';
-import { AddresesRoute, NameSpaceSearchParams, TypeSort, DirectionSort } from '../../const';
+import { AddresesRoute, NameSpaceSearchParams, TypeSort, DirectionSort, NameSpaceModalWindowProduct } from '../../const';
 import { getCurrenceRub, useAppSelector } from '../../utils';
 import { getProductsBasket } from '../../store/basket-slice/basket-selectors';
 import { getStateCameraList, getStatePromoList } from '../../store/product-slice/product-selectors';
-import { ProductCard, StateProductsBasket } from '../../type/type';
+import { ProductCard, StateProductsBasket, SetInformationModalWindow } from '../../type/type';
 import { getDiscount, getAmountBasket } from './utils-basket';
+import { useState } from 'react';
+import ModalWindow from '../modal-window/modal-window';
 
 export default function Basket(): JSX.Element {
+  const [activeModalWindow, setActiveModalWindow] = useState<{
+    name: NameSpaceModalWindowProduct;
+    camera: ProductCard | null;
+  }>({
+    name: NameSpaceModalWindowProduct.UNKNOW,
+    camera: null
+  });
+
+  const setInformationModalWindow: SetInformationModalWindow = (newName, newCamera = null) => {
+    const newActiveModalWindow = {
+      name: newName,
+      camera: newCamera
+    };
+
+    setActiveModalWindow(newActiveModalWindow);
+  };
+
   const camerasInBasket = useAppSelector(getProductsBasket);
   const camerasList = useAppSelector(getStateCameraList);
   const promoCameras = useAppSelector(getStatePromoList);
@@ -51,11 +70,9 @@ export default function Basket(): JSX.Element {
           <div className="container">
             <h1 className="title title--h2">Корзина</h1>
             <ul className="basket__list">
-              {camerasListBasket.map((camera) => <CardProductBasket key={camera.id} camera={camera} />)}
+              {camerasListBasket.map((camera) => <CardProductBasket key={camera.id} camera={camera} setInformationModalWindow={setInformationModalWindow} />)}
             </ul>
             <div className="basket__summary">
-              <div className="basket__promo">
-              </div>
               <div className="basket__summary-order">
                 <p className="basket__summary-item"><span className="basket__summary-text">Всего:</span><span className="basket__summary-value">{getCurrenceRub(amountProducts)} ₽</span></p>
                 <p className="basket__summary-item"><span className="basket__summary-text">Скидка:</span><span className="basket__summary-value basket__summary-value--bonus">{getCurrenceRub(dicount)} ₽</span></p>
@@ -67,6 +84,7 @@ export default function Basket(): JSX.Element {
           </div>
         </section>
       </div>
+      {activeModalWindow.name !== NameSpaceModalWindowProduct.UNKNOW && <ModalWindow name={activeModalWindow.name} camera={activeModalWindow.camera} setActiveModalWindow={setInformationModalWindow} />}
     </main>
   );
 }

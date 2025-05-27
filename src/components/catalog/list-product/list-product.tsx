@@ -3,9 +3,8 @@ import { useAppDispatch, useAppSelector } from '../../../utils';
 import CardProduct from './card-product/card-product';
 import { getCameraList } from '../../../store/product-slice/api-product';
 import { getStateCameraList } from '../../../store/product-slice/product-selectors';
-import { ProductCard } from '../../../type/type';
+import { ProductCard, SetInformationModalWindow } from '../../../type/type';
 // import { NameSpaceModalWindowProduct, NameSpaceSearchParams } from '../../../const';
-import { SetInformationModalWindow } from '../catalog';
 
 type PropsListProduct = {
   setActiveCamera: SetInformationModalWindow;

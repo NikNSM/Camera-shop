@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { IsValidUserPhone, OrderContactMe } from '../../../../type/type';
-import { useAppDispatch } from '../../../../utils';
-import { postOrder } from '../../../../store/product-slice/api-product';
+import { IsValidUserPhone, OrderContactMe } from '../../../type/type';
+import { useAppDispatch } from '../../../utils';
+import { postOrder } from '../../../store/product-slice/api-product';
 
 type ResultUseSendOrder = [(value: string) => void, () => void, IsValidUserPhone]
 

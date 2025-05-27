@@ -1,3 +1,5 @@
+import { NameSpaceModalWindowProduct } from '../const';
+
 export enum TypeProduct {
   COLLECTION = 'Коллекционная',
   INSTANTLY = 'Моментальная',
@@ -79,3 +81,5 @@ export type DataBasket = {
 export type StateProductsBasket = ProductCard & {
   quantity: number;
 };
+
+export type SetInformationModalWindow = (newName: NameSpaceModalWindowProduct, newCamera?: null | ProductCard) => void

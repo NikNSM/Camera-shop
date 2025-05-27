@@ -1,5 +1,5 @@
-import { ProductCard } from '../../../../type/type';
-import { getConversionTypeCamera } from '../../../../utils';
+import { ProductCard } from '../../../type/type';
+import { getConversionTypeCamera } from '../../../utils';
 
 type PropsInformationCamera = {
   camera: ProductCard;

@@ -1,11 +1,11 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { AddresesRoute, NameSpaceModalWindowProduct, TypeSort, DirectionSort, NameSpaceSearchParams } from '../../../../const';
-import { addProductBasket } from '../../../../store/basket-slice/basket-slice';
-import { ProductCard } from '../../../../type/type';
-import { getDataBasket, useAppDispatch } from '../../../../utils';
-import { SetInformationModalWindow } from '../../catalog';
+import { useNavigate } from 'react-router-dom';
+import { AddresesRoute, NameSpaceModalWindowProduct, TypeSort, DirectionSort, NameSpaceSearchParams } from '../../../const';
+import { addProductBasket, deleteProductBasket } from '../../../store/basket-slice/basket-slice';
+import { ProductCard, SetInformationModalWindow } from '../../../type/type';
+import { getDataBasket, useAppDispatch } from '../../../utils';
 import InformationCamera from '../information-camera/information-camera';
 import { MutableRefObject } from 'react';
+
 type PropsModalButtons = {
   name: string;
   camera: ProductCard | null;
@@ -79,15 +79,24 @@ export default function ModalWindowContent({ name, camera, setActiveModalWindow,
             <button
               className="btn btn--purple modal__btn modal__btn--half-width" type="button"
               ref={orderButton}
+              onClick={() => {
+                if (camera !== null) {
+                  dispatch(deleteProductBasket(camera.id));
+                  setActiveModalWindow(NameSpaceModalWindowProduct.UNKNOW);
+                }
+              }}
             >
               Удалить
             </button>
-            <Link
+            <a
               className="btn btn--transparent modal__btn modal__btn--half-width"
-              to={`${AddresesRoute.CATALOG}?${NameSpaceSearchParams.TYPE_SORT}=${TypeSort.PRICE}&${NameSpaceSearchParams.DIRECTION_SORT}=${DirectionSort.UP}`}
+              onClick={(evt) => {
+                evt.preventDefault();
+                setActiveModalWindow(NameSpaceModalWindowProduct.UNKNOW);
+              }}
             >
               Продолжить покупки
-            </Link>
+            </a>
           </div>
         </>
       );

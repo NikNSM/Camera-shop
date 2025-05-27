@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
-import { ProductCard } from '../../../../type/type';
+import { ProductCard, SetInformationModalWindow } from '../../../../type/type';
 import { AddresesRoute, NameSpaceModalWindowProduct, NameSpaceSearchParams, NameTabs } from '../../../../const';
 import StarsRating from '../../../stars-rating/stars-rating';
-import { SetInformationModalWindow } from '../../catalog';
 import { getCurrenceRub, useAppSelector } from '../../../../utils';
 import { getProductsBasket } from '../../../../store/basket-slice/basket-selectors';
 

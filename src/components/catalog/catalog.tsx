@@ -5,9 +5,9 @@ import FilterLevel from './filter-level/filter-level';
 import FilterCategory from './filter-category/filter-category';
 import FilterPrice from './filter-price/filter-price';
 import ListProduct from './list-product/list-product';
-import ModalWindow from './modal-window/modal-window';
+import ModalWindow from '../modal-window/modal-window';
 import LoaderGetData from '../loader/loader-get-data/loader-get-data';
-import { ProductCard } from '../../type/type';
+import { ProductCard, SetInformationModalWindow } from '../../type/type';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAppSelector } from '../../utils';
@@ -18,7 +18,7 @@ import { useSort } from './use-sort/use-sort';
 import { useFilters } from './use-filters/use-filters';
 import { useKeydownFilters } from './use -keydown-filters/use-keydown-filters';
 
-export type SetInformationModalWindow = (newName: NameSpaceModalWindowProduct, newCamera?: null | ProductCard) => void
+
 export default function Catalog(): JSX.Element {
   const [activeModalWindow, setActiveModalWindow] = useState<{
     name: NameSpaceModalWindowProduct;
@@ -57,7 +57,7 @@ export default function Catalog(): JSX.Element {
     const keysSearch = [...searchParams.keys()];
     const keysReference = Object.values(NameSpaceSearchParams);
     keysSearch.forEach((key) => {
-      if(!keysReference.includes(key as NameSpaceSearchParams) || key === NameSpaceSearchParams.TAB_PAGE_CAMERA){
+      if (!keysReference.includes(key as NameSpaceSearchParams) || key === NameSpaceSearchParams.TAB_PAGE_CAMERA) {
         searchParams.delete(key);
         setSearchParams(searchParams);
       }
@@ -102,9 +102,9 @@ export default function Catalog(): JSX.Element {
                     onReset={resetFilters}
                   >
                     <h2 className="visually-hidden">Фильтр</h2>
-                    <FilterPrice searchParams={searchParams} setSearchParams={setSearchParams} minPrice={minPrice} maxPrice={maxPrice} setActiveFocusFilterElement={setActiveFocusFilterElement} setListFiltersElements={setListFiltersElements}/>
-                    <FilterCategory searchParams={searchParams} setSearchParams={setSearchParams} setActiveFocusFilterElement={setActiveFocusFilterElement} setListFiltersElements={setListFiltersElements}/>
-                    <FilterType searchParams={searchParams} setSearchParams={setSearchParams} setActiveFocusFilterElement={setActiveFocusFilterElement} setListFiltersElements={setListFiltersElements}/>
+                    <FilterPrice searchParams={searchParams} setSearchParams={setSearchParams} minPrice={minPrice} maxPrice={maxPrice} setActiveFocusFilterElement={setActiveFocusFilterElement} setListFiltersElements={setListFiltersElements} />
+                    <FilterCategory searchParams={searchParams} setSearchParams={setSearchParams} setActiveFocusFilterElement={setActiveFocusFilterElement} setListFiltersElements={setListFiltersElements} />
+                    <FilterType searchParams={searchParams} setSearchParams={setSearchParams} setActiveFocusFilterElement={setActiveFocusFilterElement} setListFiltersElements={setListFiltersElements} />
                     <FilterLevel searchParams={searchParams} setSearchParams={setSearchParams} />
                     <button className="btn catalog-filter__reset-btn" type="reset">Сбросить фильтры
                     </button>
@@ -112,10 +112,10 @@ export default function Catalog(): JSX.Element {
                 </div>
                 <div className="catalog__content">
                   <Sort searchParams={searchParams} setActiveSort={setActiveSort} />
-                  <ListProduct setActiveCamera={setInformationModalWindow} searchParams={searchParams} filtersCameraList={filterCameraList} sortListProduct={sortListProduct}/>
+                  <ListProduct setActiveCamera={setInformationModalWindow} searchParams={searchParams} filtersCameraList={filterCameraList} sortListProduct={sortListProduct} />
                 </div>
               </div>
-              {activeModalWindow.name !== NameSpaceModalWindowProduct.UNKNOW && <ModalWindow name={activeModalWindow.name} camera={activeModalWindow.camera} setActiveModalWindow={setInformationModalWindow}/>}
+              {activeModalWindow.name !== NameSpaceModalWindowProduct.UNKNOW && <ModalWindow name={activeModalWindow.name} camera={activeModalWindow.camera} setActiveModalWindow={setInformationModalWindow} />}
             </div>}
         </section>
       </div>
