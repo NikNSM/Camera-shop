@@ -3,7 +3,7 @@ import { ProductCard, SetInformationModalWindow } from '../../../../type/type';
 import { AddresesRoute, NameSpaceModalWindowProduct, NameSpaceSearchParams, NameTabs } from '../../../../const';
 import StarsRating from '../../../stars-rating/stars-rating';
 import { getCurrenceRub, useAppSelector } from '../../../../utils';
-import { getProductsBasket } from '../../../../store/basket-slice/basket-selectors';
+import { getStateProductsBasket } from '../../../../store/basket-slice/basket-selectors';
 
 type PropsCardProduct = {
   camera: ProductCard;
@@ -11,7 +11,7 @@ type PropsCardProduct = {
 }
 
 export default function CardProduct({ camera, setActiveCamera }: PropsCardProduct): JSX.Element {
-  const camerasInBasket = useAppSelector(getProductsBasket);
+  const camerasInBasket = useAppSelector(getStateProductsBasket);
   return (
     <div className="product-card">
       <div className="product-card__img">

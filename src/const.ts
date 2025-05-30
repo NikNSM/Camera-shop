@@ -15,6 +15,7 @@ export enum ApiRoute {
   PROMO = '/promo',
   ORDERS = '/orders',
   REVIEWS = '/reviews',
+  COUPONS = '/coupons'
 }
 
 export enum NameSpaceState {
@@ -59,8 +60,15 @@ export enum DirectionSort {
 
 export enum NameSpaceModalWindowProduct {
   ADD = 'add',
-  SUCCESSFULLY ='successfully',
+  SUCCESSFULLY = 'successfully',
   THANKS = 'thanks',
   DELETE = 'delete',
   UNKNOW = 'uknow'
+}
+
+export enum StatusVerificationCoupon {
+  IS_INVALID = 'is-invalid',
+  IS_VALID = 'is-valid',
+  BEING_CHECKED = 'being checked',
+  UNKNOW = 'unknow'
 }

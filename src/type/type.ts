@@ -78,8 +78,18 @@ export type DataBasket = {
   quantity: number;
 }
 
+export type LocalStorageCameraShop = {
+  cameras: DataBasket[];
+  coupon: string | null;
+  percentDiscountCoupon: null | number;
+}
+
 export type StateProductsBasket = ProductCard & {
   quantity: number;
 };
+
+export type ArgumentCoupon = {
+  coupon: string;
+}
 
 export type SetInformationModalWindow = (newName: NameSpaceModalWindowProduct, newCamera?: null | ProductCard) => void

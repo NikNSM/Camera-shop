@@ -9,6 +9,8 @@ type PropsCardProductBasket = {
   setInformationModalWindow: SetInformationModalWindow;
 }
 export default function CardProductBasket({ camera, setInformationModalWindow }: PropsCardProductBasket): JSX.Element {
+  const MAX_PRODUCT = 9;
+  const MIN_PRODUCT = 1;
   const [quantityCamera, setQuantityCamera] = useState<string>(camera.quantity.toString());
   const dispatch = useAppDispatch();
   return (
@@ -37,7 +39,7 @@ export default function CardProductBasket({ camera, setInformationModalWindow }:
             dispatch(reduceProductBasket(camera.id));
             setQuantityCamera(newQuantity.toString());
           }}
-          disabled={camera.quantity === 1}
+          disabled={camera.quantity === MIN_PRODUCT}
         >
           <svg width="7" height="12" aria-hidden="true">
             <use xlinkHref="#icon-arrow"></use>
@@ -56,11 +58,11 @@ export default function CardProductBasket({ camera, setInformationModalWindow }:
           }}
           onBlur={(evt) => {
             let newQuantity = Number(evt.currentTarget.value);
-            if (newQuantity > 99) {
-              newQuantity = 99;
+            if (newQuantity > MAX_PRODUCT) {
+              newQuantity = MAX_PRODUCT;
             }
-            if (newQuantity < 1) {
-              newQuantity = 1;
+            if (newQuantity < MIN_PRODUCT) {
+              newQuantity = MIN_PRODUCT;
             }
             dispatch(setQuantityProduct(getDataBasket(camera.id, newQuantity)));
             setQuantityCamera(newQuantity.toString());
@@ -73,7 +75,7 @@ export default function CardProductBasket({ camera, setInformationModalWindow }:
             dispatch(addProductBasket(getDataBasket(camera.id)));
             setQuantityCamera(newQuantity.toString());
           }}
-          disabled={camera.quantity === 99}
+          disabled={camera.quantity === MAX_PRODUCT}
         >
           <svg width="7" height="12" aria-hidden="true">
             <use xlinkHref="#icon-arrow"></use>

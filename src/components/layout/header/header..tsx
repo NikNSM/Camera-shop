@@ -3,10 +3,10 @@ import { AddresesRoute, DirectionSort, NameSpaceSearchParams, TypeSort } from '.
 import { useAppSelector } from '../../../utils';
 import { getStateCameraList } from '../../../store/product-slice/product-selectors';
 import { useSearchCameras, NameSpaceElementsFocus } from './use-search-cameras/use-search-cameras';
-import { getProductsBasket } from '../../../store/basket-slice/basket-selectors';
+import { getStateProductsBasket } from '../../../store/basket-slice/basket-selectors';
 
 export default function Header(): JSX.Element {
-  const camerasInBasket = useAppSelector(getProductsBasket);
+  const camerasInBasket = useAppSelector(getStateProductsBasket);
   const countCamerasInBasket = camerasInBasket.reduce((acc, item) => acc + item.quantity, 0);
   const cameraList = useAppSelector(getStateCameraList);
   const [foundCamerasName, valueSearch, listElements, setActiveFocusElement, resetSearch, redirectToCamerPage, setValueSearch] = useSearchCameras(cameraList);

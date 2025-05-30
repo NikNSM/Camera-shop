@@ -1,15 +1,15 @@
-import { DataBasket } from '../type/type';
-const KEY_BASKET_LOCAL_STORAGE = 'basket';
+import { LocalStorageCameraShop } from '../type/type';
+const KEY_BASKET_LOCAL_STORAGE = 'local-storage-camera-shop';
 
 export const getBasketLocalStorage = () => {
   const basketData = localStorage.getItem(KEY_BASKET_LOCAL_STORAGE);
   if (basketData === null) {
-    return [];
+    return basketData;
   }
-  return JSON.parse(basketData) as DataBasket[];
+  return JSON.parse(basketData) as LocalStorageCameraShop;
 };
 
-export const setBasketLocalStorage = (value: DataBasket[] | null) => {
+export const setBasketLocalStorage = (value: LocalStorageCameraShop | null) => {
   if (value === null) {
     return;
   }

@@ -1,13 +1,21 @@
+.container-loader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+}
+
 .loader-button {
-  width: 50px;
-  padding: 8px;
+  width: 200px;
+  padding: 1.5em;
   margin-top: 10px;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: #7575e2;  ;
+  background: #9999ff;  ;
   --_m:
-    conic-gradient(#0000 10%,#000),
-    linear-gradient(#000 0 0) content-box;
+    conic-gradient(#ffffff00 5%,#000000),
+    linear-gradient(#000000 0 0) content-box;
   -webkit-mask: var(--_m);
           mask: var(--_m);
   -webkit-mask-composite: source-out;
