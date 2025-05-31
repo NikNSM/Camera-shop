@@ -34,6 +34,7 @@ export enum NameTitleLoader {
   CAMERA_LIST = 'Загрузка имеющихся камер',
   CAMERA = 'Загрузка информации о камере',
   REVIEWS = 'Загрузка отзывов',
+  BASKET = 'Загрузка камер в корзине'
 }
 
 export enum NameSpaceSearchParams {

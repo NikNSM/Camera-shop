@@ -39,16 +39,6 @@ export default function Catalog(): JSX.Element {
     setActiveModalWindow(newActiveModalWindow);
   };
 
-  // const setSearchParamsModalWindow = (cameraId: number | null) => {
-  //   if (cameraId) {
-  //     searchParams.set(NameSpaceSearchParams.MODAL_WINDOW, cameraId.toString());
-  //     setSearchParams(searchParams);
-  //   } else {
-  //     searchParams.delete(NameSpaceSearchParams.MODAL_WINDOW);
-  //     setSearchParams(searchParams);
-  //   }
-  // };
-
   const [setActiveSort, sortListProduct] = useSort(searchParams, setSearchParams);
   const [minPrice, maxPrice, filterCameraList, resetFilters] = useFilters(searchParams, setSearchParams);
   const [setActiveFocusFilterElement, setListFiltersElements] = useKeydownFilters(loadingCameraList);
@@ -63,6 +53,7 @@ export default function Catalog(): JSX.Element {
       }
     });
   }, []);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -112,7 +103,7 @@ export default function Catalog(): JSX.Element {
                 </div>
                 <div className="catalog__content">
                   <Sort searchParams={searchParams} setActiveSort={setActiveSort} />
-                  <ListProduct setActiveCamera={setInformationModalWindow} searchParams={searchParams} filtersCameraList={filterCameraList} sortListProduct={sortListProduct} />
+                  <ListProduct setActiveCamera={setInformationModalWindow} filtersCameraList={filterCameraList} sortListProduct={sortListProduct} />
                 </div>
               </div>
               {activeModalWindow.name !== NameSpaceModalWindowProduct.UNKNOW && <ModalWindow name={activeModalWindow.name} camera={activeModalWindow.camera} setActiveModalWindow={setInformationModalWindow} />}

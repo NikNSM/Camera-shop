@@ -1,22 +1,12 @@
-import { useAppSelector, useAppDispatch } from '../../../utils';
+import { useAppSelector } from '../../../utils';
 import { getStateLoadingPromoList, getStatePromoList } from '../../../store/product-slice/product-selectors';
-import { useEffect } from 'react';
-import { getPromoList } from '../../../store/product-slice/api-product';
 import { Link } from 'react-router-dom';
 import { AddresesRoute, NameSpaceSearchParams, NameTabs, NameTitleLoader } from '../../../const';
 import LoaderGetData from '../../loader/loader-get-data/loader-get-data';
 
 export default function Banner(): JSX.Element {
-  const dispatch = useAppDispatch();
   const promoList = useAppSelector(getStatePromoList);
   const loadingPromoList = useAppSelector(getStateLoadingPromoList);
-
-  useEffect(() => {
-    if (promoList.length !== 0) {
-      return;
-    }
-    dispatch(getPromoList());
-  }, [dispatch, promoList]);
 
   return (
     promoList.length === 0 || loadingPromoList ? <LoaderGetData title={NameTitleLoader.BANNER} /> :

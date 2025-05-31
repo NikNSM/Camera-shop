@@ -1,19 +1,22 @@
 import { Link } from 'react-router-dom';
 import CardProductBasket from './card-product-basket/card-product-basket';
-import { AddresesRoute, NameSpaceSearchParams, TypeSort, DirectionSort, NameSpaceModalWindowProduct, StatusVerificationCoupon } from '../../const';
+import { AddresesRoute, NameSpaceSearchParams, TypeSort, DirectionSort, NameSpaceModalWindowProduct, StatusVerificationCoupon, NameTitleLoader } from '../../const';
 import { useAppSelector } from '../../utils';
 import { getStateProductsBasket, getStateStatusVerificationCoupon } from '../../store/basket-slice/basket-selectors';
-import { getStateCameraList } from '../../store/product-slice/product-selectors';
+import { getStateCameraList, getStateLoadingCameraList, getStateLoadingPromoList } from '../../store/product-slice/product-selectors';
 import { ProductCard, StateProductsBasket, SetInformationModalWindow } from '../../type/type';
 import { useState } from 'react';
 import ModalWindow from '../modal-window/modal-window';
 import BasketSummary from './basket-summary/basket-summary';
 import Preloader from '../loader/preloader/preloader';
+import LoaderGetData from '../loader/loader-get-data/loader-get-data';
 
 export default function Basket(): JSX.Element {
   const camerasInBasket = useAppSelector(getStateProductsBasket);
   const camerasList = useAppSelector(getStateCameraList);
   const statusVerificationCoupon = useAppSelector(getStateStatusVerificationCoupon);
+  const loadingPromoList = useAppSelector(getStateLoadingPromoList);
+  const loadingCamerasList = useAppSelector(getStateLoadingCameraList);
   const [activeModalWindow, setActiveModalWindow] = useState<{
     name: NameSpaceModalWindowProduct;
     camera: ProductCard | null;
@@ -65,15 +68,18 @@ export default function Basket(): JSX.Element {
             </ul>
           </div>
         </div>
-        <section className="basket">
-          <div className="container">
-            <h1 className="title title--h2">Корзина</h1>
-            <ul className="basket__list">
-              {camerasListBasket.map((camera) => <CardProductBasket key={camera.id} camera={camera} setInformationModalWindow={setInformationModalWindow} />)}
-            </ul>
-            < BasketSummary camerasListBasket={camerasListBasket} />
-          </div>
-        </section>
+        {
+          loadingCamerasList || loadingPromoList ? <LoaderGetData title={NameTitleLoader.BASKET} /> :
+            <section className="basket">
+              <div className="container">
+                <h1 className="title title--h2">Корзина</h1>
+                <ul className="basket__list">
+                  {camerasListBasket.map((camera) => <CardProductBasket key={camera.id} camera={camera} setInformationModalWindow={setInformationModalWindow} />)}
+                </ul>
+                < BasketSummary camerasListBasket={camerasListBasket} />
+              </div>
+            </section>
+        }
       </div>
       {activeModalWindow.name !== NameSpaceModalWindowProduct.UNKNOW && <ModalWindow name={activeModalWindow.name} camera={activeModalWindow.camera} setActiveModalWindow={setInformationModalWindow} />}
       {statusVerificationCoupon === StatusVerificationCoupon.BEING_CHECKED && <Preloader />}

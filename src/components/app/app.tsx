@@ -12,17 +12,18 @@ import { initializeStateBasket } from '../../store/basket-slice/basket-slice';
 import { getBasketLocalStorage } from '../../api/basket-local-storage';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../utils';
+import { getCameraList, getPromoList } from '../../store/product-slice/api-product';
 
 export default function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const basketLocalStorage = getBasketLocalStorage();
-    if (!basketLocalStorage) {
-      return;
+    dispatch(getCameraList());
+    dispatch(getPromoList());
+    if (basketLocalStorage) {
+      dispatch(initializeStateBasket(basketLocalStorage));
     }
-    dispatch(initializeStateBasket(basketLocalStorage));
-
   }, [dispatch]);
 
   return (
