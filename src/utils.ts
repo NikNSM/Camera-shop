@@ -1,7 +1,7 @@
 import 'dayjs/locale/ru';
 import dayjs from 'dayjs';
-import { DateFormate } from './const';
-import { CategoryProduct, DataBasket, LocalStorageCameraShop, TypeProduct } from './type/type';
+import { DateFormate, NameSpaceModalWindowProduct } from './const';
+import { CategoryProduct, DataBasket, LocalStorageCameraShop, PayloadActiveModalWindow, ProductCard, TypeProduct } from './type/type';
 import { TypeAppDispatch, TypeState } from './type/type-redux';
 import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux';
 
@@ -43,3 +43,8 @@ export const getDataLocalStorage = (cameras: DataBasket[], coupon: string | null
 });
 
 export const getCurrenceRub = (meaning: number): string => new Intl.NumberFormat('ru-RU').format(meaning);
+
+export const getPayloadActiveModalWindow: (name: NameSpaceModalWindowProduct, camera?: null | ProductCard) => PayloadActiveModalWindow = (name, camera = null) => ({
+  name,
+  camera
+});

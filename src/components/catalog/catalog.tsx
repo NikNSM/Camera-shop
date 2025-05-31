@@ -7,12 +7,11 @@ import FilterPrice from './filter-price/filter-price';
 import ListProduct from './list-product/list-product';
 import ModalWindow from '../modal-window/modal-window';
 import LoaderGetData from '../loader/loader-get-data/loader-get-data';
-import { ProductCard, SetInformationModalWindow } from '../../type/type';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAppSelector } from '../../utils';
 import { getStateLoadingCameraList } from '../../store/product-slice/product-selectors';
-import { NameSpaceModalWindowProduct, NameSpaceSearchParams, NameTitleLoader } from '../../const';
+import { NameSpaceSearchParams, NameTitleLoader } from '../../const';
 import { Helmet } from 'react-helmet-async';
 import { useSort } from './use-sort/use-sort';
 import { useFilters } from './use-filters/use-filters';
@@ -20,24 +19,8 @@ import { useKeydownFilters } from './use -keydown-filters/use-keydown-filters';
 
 
 export default function Catalog(): JSX.Element {
-  const [activeModalWindow, setActiveModalWindow] = useState<{
-    name: NameSpaceModalWindowProduct;
-    camera: ProductCard | null;
-  }>({
-    name: NameSpaceModalWindowProduct.UNKNOW,
-    camera: null
-  });
   const [searchParams, setSearchParams] = useSearchParams();
   const loadingCameraList = useAppSelector(getStateLoadingCameraList);
-
-  const setInformationModalWindow: SetInformationModalWindow = (newName, newCamera = null) => {
-    const newActiveModalWindow = {
-      name: newName,
-      camera: newCamera
-    };
-
-    setActiveModalWindow(newActiveModalWindow);
-  };
 
   const [setActiveSort, sortListProduct] = useSort(searchParams, setSearchParams);
   const [minPrice, maxPrice, filterCameraList, resetFilters] = useFilters(searchParams, setSearchParams);
@@ -103,13 +86,13 @@ export default function Catalog(): JSX.Element {
                 </div>
                 <div className="catalog__content">
                   <Sort searchParams={searchParams} setActiveSort={setActiveSort} />
-                  <ListProduct setActiveCamera={setInformationModalWindow} filtersCameraList={filterCameraList} sortListProduct={sortListProduct} />
+                  <ListProduct filtersCameraList={filterCameraList} sortListProduct={sortListProduct} />
                 </div>
               </div>
-              {activeModalWindow.name !== NameSpaceModalWindowProduct.UNKNOW && <ModalWindow name={activeModalWindow.name} camera={activeModalWindow.camera} setActiveModalWindow={setInformationModalWindow} />}
             </div>}
         </section>
       </div>
+      <ModalWindow />
     </main>
   );
 }

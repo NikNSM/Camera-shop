@@ -19,6 +19,7 @@ export enum ApiRoute {
 }
 
 export enum NameSpaceState {
+  MODAL_WINDOW = 'modal_window',
   PRODUCT = 'product',
   REVIEWS = 'reviews',
   BASKET = 'basket'

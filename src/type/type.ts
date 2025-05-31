@@ -92,4 +92,7 @@ export type ArgumentCoupon = {
   coupon: string;
 }
 
-export type SetInformationModalWindow = (newName: NameSpaceModalWindowProduct, newCamera?: null | ProductCard) => void
+export type PayloadActiveModalWindow = {
+  name: NameSpaceModalWindowProduct;
+  camera: null | ProductCard;
+}

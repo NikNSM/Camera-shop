@@ -1,21 +1,23 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AddresesRoute, NameSpaceModalWindowProduct, TypeSort, DirectionSort, NameSpaceSearchParams } from '../../../const';
 import { addProductBasket, deleteProductBasket } from '../../../store/basket-slice/basket-slice';
-import { ProductCard, SetInformationModalWindow } from '../../../type/type';
-import { getDataBasket, useAppDispatch } from '../../../utils';
+import { ProductCard } from '../../../type/type';
+import { getDataBasket, getPayloadActiveModalWindow, useAppDispatch } from '../../../utils';
 import InformationCamera from '../information-camera/information-camera';
 import { MutableRefObject } from 'react';
+import { clearActiveModalWinow, setActiveModalWindow } from '../../../store/modal-window-slice/modal-window-slice';
 
 type PropsModalButtons = {
   name: string;
   camera: ProductCard | null;
-  setActiveModalWindow: SetInformationModalWindow;
   orderButton: MutableRefObject<HTMLButtonElement | null>;
 }
 
-export default function ModalWindowContent({ name, camera, setActiveModalWindow, orderButton }: PropsModalButtons) {
+export default function ModalWindowContent({ name, camera, orderButton }: PropsModalButtons) {
+  const { pathname } = useLocation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   switch (name) {
     case NameSpaceModalWindowProduct.ADD:
       return (
@@ -29,9 +31,12 @@ export default function ModalWindowContent({ name, camera, setActiveModalWindow,
               ref={orderButton}
               onClick={() => {
                 dispatch(addProductBasket(getDataBasket(camera?.id as number)));
-                setActiveModalWindow(NameSpaceModalWindowProduct.SUCCESSFULLY);
+                dispatch(
+                  setActiveModalWindow(
+                    getPayloadActiveModalWindow(NameSpaceModalWindowProduct.SUCCESSFULLY)
+                  )
+                );
               }}
-
             >
               <svg width="24" height="16" aria-hidden="true">
                 <use xlinkHref="#icon-add-basket"></use>
@@ -53,7 +58,14 @@ export default function ModalWindowContent({ name, camera, setActiveModalWindow,
               href="#"
               onClick={(evt) => {
                 evt.preventDefault();
-                setActiveModalWindow(NameSpaceModalWindowProduct.UNKNOW);
+                dispatch(
+                  setActiveModalWindow(
+                    getPayloadActiveModalWindow(NameSpaceModalWindowProduct.UNKNOW)
+                  )
+                );
+                if (pathname !== AddresesRoute.CATALOG) {
+                  navigate(`${AddresesRoute.CATALOG}?${NameSpaceSearchParams.TYPE_SORT}=${TypeSort.PRICE}&${NameSpaceSearchParams.DIRECTION_SORT}=${DirectionSort.UP}`);
+                }
               }}
             >
               Продолжить покупки
@@ -62,6 +74,11 @@ export default function ModalWindowContent({ name, camera, setActiveModalWindow,
               className="btn btn--purple modal__btn modal__btn--fit-width"
               ref={orderButton}
               onClick={() => {
+                dispatch(
+                  setActiveModalWindow(
+                    getPayloadActiveModalWindow(NameSpaceModalWindowProduct.UNKNOW)
+                  )
+                );
                 navigate(AddresesRoute.BASKET);
               }}
             >
@@ -82,7 +99,11 @@ export default function ModalWindowContent({ name, camera, setActiveModalWindow,
               onClick={() => {
                 if (camera !== null) {
                   dispatch(deleteProductBasket(camera.id));
-                  setActiveModalWindow(NameSpaceModalWindowProduct.UNKNOW);
+                  dispatch(
+                    setActiveModalWindow(
+                      getPayloadActiveModalWindow(NameSpaceModalWindowProduct.UNKNOW)
+                    )
+                  );
                 }
               }}
             >
@@ -92,7 +113,12 @@ export default function ModalWindowContent({ name, camera, setActiveModalWindow,
               className="btn btn--transparent modal__btn modal__btn--half-width"
               onClick={(evt) => {
                 evt.preventDefault();
-                setActiveModalWindow(NameSpaceModalWindowProduct.UNKNOW);
+                dispatch(
+                  setActiveModalWindow(
+                    getPayloadActiveModalWindow(NameSpaceModalWindowProduct.UNKNOW)
+                  )
+                );
+                navigate(`${AddresesRoute.CATALOG}?${NameSpaceSearchParams.TYPE_SORT}=${TypeSort.PRICE}&${NameSpaceSearchParams.DIRECTION_SORT}=${DirectionSort.UP}`);
               }}
             >
               Продолжить покупки
@@ -113,7 +139,9 @@ export default function ModalWindowContent({ name, camera, setActiveModalWindow,
               type="button"
               ref={orderButton}
               onClick={() => {
-                navigate(`${AddresesRoute.CATALOG}?${NameSpaceSearchParams.TYPE_SORT}=${TypeSort.PRICE}&${NameSpaceSearchParams.DIRECTION_SORT}=${DirectionSort.UP}`);
+                dispatch(
+                  clearActiveModalWinow()
+                );
               }}
             >
               Вернуться к покупкам

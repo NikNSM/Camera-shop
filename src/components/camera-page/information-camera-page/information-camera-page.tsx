@@ -1,12 +1,15 @@
 import { ProductCard } from '../../../type/type';
 import CameraTabs from './camera-tab/camera-tabs';
 import StarsRating from '../../stars-rating/stars-rating';
-import { getCurrenceRub } from '../../../utils';
+import { getCurrenceRub, getPayloadActiveModalWindow, useAppDispatch } from '../../../utils';
+import { setActiveModalWindow } from '../../../store/modal-window-slice/modal-window-slice';
+import { NameSpaceModalWindowProduct } from '../../../const';
 type PropsInformationCameraPage = {
   camera: ProductCard;
 }
 
 export default function InformationCameraPage({ camera }: PropsInformationCameraPage): JSX.Element {
+  const dispatch = useAppDispatch();
   return (
     <div className="page-content__section">
       <section className="product">
@@ -25,7 +28,17 @@ export default function InformationCameraPage({ camera }: PropsInformationCamera
               <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{camera.reviewCount}</p>
             </div>
             <p className="product__price"><span className="visually-hidden">Цена:</span>{getCurrenceRub(camera.price)} ₽</p>
-            <button className="btn btn--purple" type="button">
+            <button
+              className="btn btn--purple"
+              type="button"
+              onClick={() => {
+                dispatch(
+                  setActiveModalWindow(
+                    getPayloadActiveModalWindow(NameSpaceModalWindowProduct.ADD, camera)
+                  )
+                );
+              }}
+            >
               <svg width="24" height="16" aria-hidden="true">
                 <use xlinkHref="#icon-add-basket"></use>
               </svg>Добавить в корзину

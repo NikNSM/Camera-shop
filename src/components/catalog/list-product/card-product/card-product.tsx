@@ -1,16 +1,17 @@
 import { Link } from 'react-router-dom';
-import { ProductCard, SetInformationModalWindow } from '../../../../type/type';
+import { ProductCard } from '../../../../type/type';
 import { AddresesRoute, NameSpaceModalWindowProduct, NameSpaceSearchParams, NameTabs } from '../../../../const';
 import StarsRating from '../../../stars-rating/stars-rating';
-import { getCurrenceRub, useAppSelector } from '../../../../utils';
+import { getCurrenceRub, getPayloadActiveModalWindow, useAppDispatch, useAppSelector } from '../../../../utils';
 import { getStateProductsBasket } from '../../../../store/basket-slice/basket-selectors';
+import { setActiveModalWindow } from '../../../../store/modal-window-slice/modal-window-slice';
 
 type PropsCardProduct = {
   camera: ProductCard;
-  setActiveCamera: SetInformationModalWindow;
 }
 
-export default function CardProduct({ camera, setActiveCamera }: PropsCardProduct): JSX.Element {
+export default function CardProduct({ camera }: PropsCardProduct): JSX.Element {
+  const dispatch = useAppDispatch();
   const camerasInBasket = useAppSelector(getStateProductsBasket);
   return (
     <div className="product-card">
@@ -39,7 +40,13 @@ export default function CardProduct({ camera, setActiveCamera }: PropsCardProduc
           </Link> :
           <button
             className="btn btn--purple product-card__btn" type="button"
-            onClick={() => setActiveCamera(NameSpaceModalWindowProduct.ADD, camera)}
+            onClick={() => {
+              dispatch(
+                setActiveModalWindow(
+                  getPayloadActiveModalWindow(NameSpaceModalWindowProduct.ADD, camera)
+                )
+              );
+            }}
           >
             Купить
           </button>}

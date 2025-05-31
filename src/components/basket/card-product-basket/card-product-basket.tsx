@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { addProductBasket, reduceProductBasket, setQuantityProduct } from '../../../store/basket-slice/basket-slice';
-import { SetInformationModalWindow, StateProductsBasket } from '../../../type/type';
-import { getConversionTypeCamera, getCurrenceRub, getDataBasket, useAppDispatch } from '../../../utils';
+import { StateProductsBasket } from '../../../type/type';
+import { getConversionTypeCamera, getCurrenceRub, getDataBasket, getPayloadActiveModalWindow, useAppDispatch } from '../../../utils';
 import { NameSpaceModalWindowProduct } from '../../../const';
+import { setActiveModalWindow } from '../../../store/modal-window-slice/modal-window-slice';
 
 type PropsCardProductBasket = {
   camera: StateProductsBasket;
-  setInformationModalWindow: SetInformationModalWindow;
 }
-export default function CardProductBasket({ camera, setInformationModalWindow }: PropsCardProductBasket): JSX.Element {
+export default function CardProductBasket({ camera }: PropsCardProductBasket): JSX.Element {
   const MAX_PRODUCT = 9;
   const MIN_PRODUCT = 1;
   const [quantityCamera, setQuantityCamera] = useState<string>(camera.quantity.toString());
@@ -87,7 +87,11 @@ export default function CardProductBasket({ camera, setInformationModalWindow }:
         className="cross-btn" type="button"
         aria-label="Удалить товар"
         onClick={() => {
-          setInformationModalWindow(NameSpaceModalWindowProduct.DELETE, camera);
+          dispatch(
+            setActiveModalWindow(
+              getPayloadActiveModalWindow(NameSpaceModalWindowProduct.DELETE, camera)
+            )
+          );
         }}
       >
         <svg width="10" height="10" aria-hidden="true">

@@ -10,7 +10,7 @@ import { clearCamera } from '../../store/product-slice/product-slice';
 import { AddresesRoute, DirectionSort, NameSpaceSearchParams, NameTitleLoader, TypeSort } from '../../const';
 import { clearReviews } from '../../store/reviews-slice/reviews-slice';
 import { Helmet } from 'react-helmet-async';
-
+import ModalWindow from '../modal-window/modal-window';
 export default function CameraPage(): JSX.Element {
   const { id } = useParams();
   const dispatch = useAppDispatch();
@@ -32,39 +32,41 @@ export default function CameraPage(): JSX.Element {
     <>
       <main>
         {!camera || loadingCamera ? <LoaderGetData title={NameTitleLoader.CAMERA} /> :
-
-          <div className="page-content">
-            <Helmet>
-              <title>{`${camera.name}`}</title>
-            </Helmet>
-            <div className="breadcrumbs">
-              <div className="container">
-                <ul className="breadcrumbs__list">
-                  <li className="breadcrumbs__item">
-                    <a className="breadcrumbs__link" href="index.html">Главная
-                      <svg width="5" height="8" aria-hidden="true">
-                        <use xlinkHref="#icon-arrow-mini"></use>
-                      </svg>
-                    </a>
-                  </li>
-                  <li className="breadcrumbs__item">
-                    <Link className="breadcrumbs__link" to={`${AddresesRoute.CATALOG}?${NameSpaceSearchParams.TYPE_SORT}=${TypeSort.PRICE}&${NameSpaceSearchParams.DIRECTION_SORT}=${DirectionSort.UP}`}>Каталог
-                      <svg width="5" height="8" aria-hidden="true">
-                        <use xlinkHref="#icon-arrow-mini"></use>
-                      </svg>
-                    </Link>
-                  </li>
-                  <li className="breadcrumbs__item">
-                    <span className="breadcrumbs__link breadcrumbs__link--active">
-                      {camera.name}
-                    </span>
-                  </li>
-                </ul>
+          <>
+            <div className="page-content">
+              <Helmet>
+                <title>{`${camera.name}`}</title>
+              </Helmet>
+              <div className="breadcrumbs">
+                <div className="container">
+                  <ul className="breadcrumbs__list">
+                    <li className="breadcrumbs__item">
+                      <a className="breadcrumbs__link" href="index.html">Главная
+                        <svg width="5" height="8" aria-hidden="true">
+                          <use xlinkHref="#icon-arrow-mini"></use>
+                        </svg>
+                      </a>
+                    </li>
+                    <li className="breadcrumbs__item">
+                      <Link className="breadcrumbs__link" to={`${AddresesRoute.CATALOG}?${NameSpaceSearchParams.TYPE_SORT}=${TypeSort.PRICE}&${NameSpaceSearchParams.DIRECTION_SORT}=${DirectionSort.UP}`}>Каталог
+                        <svg width="5" height="8" aria-hidden="true">
+                          <use xlinkHref="#icon-arrow-mini"></use>
+                        </svg>
+                      </Link>
+                    </li>
+                    <li className="breadcrumbs__item">
+                      <span className="breadcrumbs__link breadcrumbs__link--active">
+                        {camera.name}
+                      </span>
+                    </li>
+                  </ul>
+                </div>
               </div>
+              <InformationCameraPage camera={camera} />
+              <ReviewsComponent />
             </div>
-            <InformationCameraPage camera={camera}/>
-            <ReviewsComponent />
-          </div>}
+            <ModalWindow />
+          </>}
       </main>
       {!camera || loadingCamera ? '' :
         <a className="up-btn" href="#header" onClick={(evt) => {
