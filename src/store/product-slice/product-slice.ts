@@ -4,7 +4,6 @@ import {
   getCamera,
   getCameraList,
   getPromoList,
-  postOrder,
 } from './api-product';
 import { NameSpaceState } from '../../const';
 
@@ -57,17 +56,6 @@ const productSlice = createSlice({
         state.promoList = action.payload;
         state.loadingPromoList = false;
       })
-      .addCase(postOrder.pending, (state) => {
-        state.loadingPostOrder = true;
-      })
-      .addCase(postOrder.fulfilled, (state) => {
-        state.resultPlacingOrder = ResultPlacingOrder.SUCCESSFULY;
-        state.loadingPostOrder = false;
-      })
-      .addCase(postOrder.rejected, (state) => {
-        state.resultPlacingOrder = ResultPlacingOrder.ERROR;
-        state.loadingPostOrder = false;
-      })
       .addCase(getCamera.pending, (state) => {
         state.loadingCamera = true;
       })
@@ -79,4 +67,4 @@ const productSlice = createSlice({
 });
 
 export const productReducer = productSlice.reducer;
-export const { setPlacingOrderUnknow, clearCamera} = productSlice.actions;
+export const { setPlacingOrderUnknow, clearCamera } = productSlice.actions;

@@ -7,16 +7,18 @@ import { getStateCamera, getStateLoadingCamera } from '../../store/product-slice
 import { useEffect } from 'react';
 import { getCamera } from '../../store/product-slice/api-product';
 import { clearCamera } from '../../store/product-slice/product-slice';
-import { AddresesRoute, DirectionSort, NameSpaceSearchParams, NameTitleLoader, TypeSort } from '../../const';
+import { AddresesRoute, DirectionSort, NameSpaceSearchParams, NameTitleLoader, TypeSort, NameSpaceModalWindowProduct } from '../../const';
 import { clearReviews } from '../../store/reviews-slice/reviews-slice';
 import { Helmet } from 'react-helmet-async';
 import ModalWindow from '../modal-window/modal-window';
+import { getStateActiveModalWindow } from '../../store/modal-window-slice/modal-window-selectors';
+
 export default function CameraPage(): JSX.Element {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const camera = useAppSelector(getStateCamera);
   const loadingCamera = useAppSelector(getStateLoadingCamera);
-
+  const activeModalWindow = useAppSelector(getStateActiveModalWindow);
   useEffect(() => {
     if (id) {
       dispatch(getCamera(id));
@@ -65,7 +67,7 @@ export default function CameraPage(): JSX.Element {
               <InformationCameraPage camera={camera} />
               <ReviewsComponent />
             </div>
-            <ModalWindow />
+            {activeModalWindow !== NameSpaceModalWindowProduct.UNKNOW && <ModalWindow />}
           </>}
       </main>
       {!camera || loadingCamera ? '' :

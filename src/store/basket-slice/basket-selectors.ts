@@ -12,3 +12,6 @@ export const getStateStatusVerificationCoupon = (state: Pick<TypeState, NameSpac
 
 export const getStatePercentDiscountCoupon = (state: Pick<TypeState, NameSpaceState.BASKET>) =>
   state[NameSpaceState.BASKET].percentDicountCoupon;
+
+export const getStateOrderProcessing = (state: Pick<TypeState, NameSpaceState.BASKET>) =>
+  state[NameSpaceState.BASKET].orderProcessing;

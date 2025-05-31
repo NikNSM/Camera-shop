@@ -11,17 +11,18 @@ import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAppSelector } from '../../utils';
 import { getStateLoadingCameraList } from '../../store/product-slice/product-selectors';
-import { NameSpaceSearchParams, NameTitleLoader } from '../../const';
+import { NameSpaceSearchParams, NameTitleLoader, NameSpaceModalWindowProduct } from '../../const';
 import { Helmet } from 'react-helmet-async';
 import { useSort } from './use-sort/use-sort';
 import { useFilters } from './use-filters/use-filters';
 import { useKeydownFilters } from './use -keydown-filters/use-keydown-filters';
+import { getStateActiveModalWindow } from '../../store/modal-window-slice/modal-window-selectors';
 
 
 export default function Catalog(): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams();
   const loadingCameraList = useAppSelector(getStateLoadingCameraList);
-
+  const activeModalWindow = useAppSelector(getStateActiveModalWindow);
   const [setActiveSort, sortListProduct] = useSort(searchParams, setSearchParams);
   const [minPrice, maxPrice, filterCameraList, resetFilters] = useFilters(searchParams, setSearchParams);
   const [setActiveFocusFilterElement, setListFiltersElements] = useKeydownFilters(loadingCameraList);
@@ -92,7 +93,7 @@ export default function Catalog(): JSX.Element {
             </div>}
         </section>
       </div>
-      <ModalWindow />
+      {activeModalWindow !== NameSpaceModalWindowProduct.UNKNOW && <ModalWindow />}
     </main>
   );
 }

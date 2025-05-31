@@ -65,7 +65,8 @@ export enum NameSpaceModalWindowProduct {
   SUCCESSFULLY = 'successfully',
   THANKS = 'thanks',
   DELETE = 'delete',
-  UNKNOW = 'uknow'
+  UNKNOW = 'uknow',
+  ERROR = ' error'
 }
 
 export enum StatusVerificationCoupon {

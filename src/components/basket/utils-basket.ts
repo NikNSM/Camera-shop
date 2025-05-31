@@ -1,4 +1,4 @@
-import { StateProductsBasket, PromoProduct, ArgumentCoupon } from '../../type/type';
+import { StateProductsBasket, PromoProduct, ArgumentCoupon, Order } from '../../type/type';
 
 const getQuantityBasketProductsWithoutPromo = (products: StateProductsBasket[], promo: PromoProduct[]) => products.reduce((acc, camera) => {
   if (promo.find((item) => item.id === camera.id)) {
@@ -63,4 +63,16 @@ const getArgumentCoupon = (coupon: string): ArgumentCoupon => ({
   coupon
 });
 
-export { getAmountBasket, getDiscount, getArgumentCoupon };
+const getDataOrder = (products: StateProductsBasket[], coupon: string | null): Order => {
+  const getArrayProductsId = (product: StateProductsBasket) =>
+    Array.from({ length: product.quantity }, () => product.id);
+
+  const camerasIds = products.reduce((acc: number[], product) => acc.concat(getArrayProductsId(product)), []);
+
+  return {
+    camerasIds,
+    coupon
+  };
+};
+
+export { getAmountBasket, getDiscount, getArgumentCoupon, getDataOrder };

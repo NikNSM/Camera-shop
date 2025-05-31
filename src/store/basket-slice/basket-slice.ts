@@ -1,20 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { DataBasket, LocalStorageCameraShop } from '../../type/type';
 import { NameSpaceState, StatusVerificationCoupon } from '../../const';
-import { checkCoupon } from './api-basket';
+import { checkCoupon, creatOrder } from './api-basket';
 
 type StateBasket = {
   products: DataBasket[];
   coupon: string | null;
   percentDicountCoupon: number | null;
   statusVerificationCoupon: StatusVerificationCoupon;
+  orderProcessing: boolean;
 }
 
 const initialState: StateBasket = {
   products: [],
   coupon: null,
   percentDicountCoupon: null,
-  statusVerificationCoupon: StatusVerificationCoupon.UNKNOW
+  statusVerificationCoupon: StatusVerificationCoupon.UNKNOW,
+  orderProcessing: false
 };
 
 const basketSlice = createSlice({
@@ -70,6 +72,19 @@ const basketSlice = createSlice({
         if (action.payload === 400) {
           state.statusVerificationCoupon = StatusVerificationCoupon.IS_INVALID;
         }
+      })
+      .addCase(creatOrder.pending, (state) => {
+        state.orderProcessing = true;
+      })
+      .addCase(creatOrder.fulfilled, (state) => {
+        state.orderProcessing = false;
+        state.coupon = null;
+        state.percentDicountCoupon = null;
+        state.products = [];
+        state.statusVerificationCoupon = StatusVerificationCoupon.UNKNOW;
+      })
+      .addCase(creatOrder.rejected, (state) => {
+        state.orderProcessing = false;
       });
   }
 });

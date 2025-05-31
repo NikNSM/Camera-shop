@@ -44,10 +44,9 @@ export type PromoProduct = {
   previewImgWebp2x: string;
 };
 
-export type OrderContactMe = {
+export type Order = {
   camerasIds: number[];
   coupon: string | null;
-  tel: string;
 }
 
 export enum ResultPlacingOrder {

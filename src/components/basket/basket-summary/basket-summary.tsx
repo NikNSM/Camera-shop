@@ -1,11 +1,11 @@
 import { useAppSelector, getCurrenceRub, useAppDispatch } from '../../../utils';
 import { getStatePromoList } from '../../../store/product-slice/product-selectors';
-import { getDiscount, getAmountBasket, getArgumentCoupon } from '../utils-basket';
+import { getDiscount, getAmountBasket, getArgumentCoupon, getDataOrder } from '../utils-basket';
 import { StateProductsBasket } from '../../../type/type';
 import { useEffect, useRef, useState } from 'react';
 import { StatusVerificationCoupon } from '../../../const';
 import { getStateCouponBasket, getStatePercentDiscountCoupon, getStateStatusVerificationCoupon } from '../../../store/basket-slice/basket-selectors';
-import { checkCoupon } from '../../../store/basket-slice/api-basket';
+import { checkCoupon, creatOrder } from '../../../store/basket-slice/api-basket';
 import { changeStatusVerification } from '../../../store/basket-slice/basket-slice';
 
 type PropsBasketSummary = {
@@ -82,6 +82,11 @@ export default function BasketSummary({ camerasListBasket }: PropsBasketSummary)
           type="submit"
           onClick={(evt) => {
             evt.preventDefault();
+            dispatch(
+              creatOrder(
+                getDataOrder(camerasListBasket, coupon)
+              )
+            );
           }}
         >Оформить заказ
         </button>

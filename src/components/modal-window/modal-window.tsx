@@ -38,20 +38,18 @@ export default function ModalWindow(): JSX.Element | string {
   });
 
   return (
-    activeModalWindow !== NameSpaceModalWindowProduct.UNKNOW ?
-      <div className={`modal is-active ${activeModalWindow === NameSpaceModalWindowProduct.SUCCESSFULLY || activeModalWindow === NameSpaceModalWindowProduct.THANKS ? 'modal--narrow' : ''}`}>
-        <div className="modal__wrapper">
-          <div className="modal__overlay" onClick={closeModalWindow}></div>
-          <div className="modal__content">
-            <ModalWindowContent name={activeModalWindow} camera={activeCameraModalWindow} orderButton={orderButton} />
-            <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={closeModalWindow} ref={closeButton}>
-              <svg width="10" height="10" aria-hidden="true">
-                <use xlinkHref="#icon-close"></use>
-              </svg>
-            </button>
-          </div>
+    <div className={`modal is-active ${activeModalWindow === NameSpaceModalWindowProduct.SUCCESSFULLY || activeModalWindow === NameSpaceModalWindowProduct.THANKS ? 'modal--narrow' : ''}`}>
+      <div className="modal__wrapper">
+        <div className="modal__overlay" onClick={closeModalWindow}></div>
+        <div className="modal__content">
+          <ModalWindowContent name={activeModalWindow} camera={activeCameraModalWindow} orderButton={orderButton} />
+          <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={closeModalWindow} ref={closeButton}>
+            <svg width="10" height="10" aria-hidden="true">
+              <use xlinkHref="#icon-close"></use>
+            </svg>
+          </button>
         </div>
-      </div> :
-      ''
+      </div>
+    </div>
   );
 }

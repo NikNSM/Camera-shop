@@ -149,5 +149,26 @@ export default function ModalWindowContent({ name, camera, orderButton }: PropsM
           </div>
         </>
       );
+    case NameSpaceModalWindowProduct.ERROR:
+      return (
+        <>
+          <p className="title title--h4">Произошло ошибка,</p>
+          <p className="title title--h4"> попробуйте снова</p>
+          <div className="modal__buttons">
+            <button
+              className="btn btn--purple modal__btn modal__btn--fit-width"
+              type="button"
+              ref={orderButton}
+              onClick={() => {
+                dispatch(
+                  clearActiveModalWinow()
+                );
+              }}
+            >
+              Продолжить
+            </button>
+          </div>
+        </>
+      );
   }
 }
