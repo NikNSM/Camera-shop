@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CardProductBasket from './card-product-basket/card-product-basket';
 import { AddresesRoute, NameSpaceSearchParams, TypeSort, DirectionSort, StatusVerificationCoupon, NameTitleLoader, NameSpaceModalWindowProduct } from '../../const';
 import { useAppSelector } from '../../utils';
@@ -10,6 +10,7 @@ import BasketSummary from './basket-summary/basket-summary';
 import Preloader from '../loader/preloader/preloader';
 import LoaderGetData from '../loader/loader-get-data/loader-get-data';
 import { getStateActiveModalWindow } from '../../store/modal-window-slice/modal-window-selectors';
+import { useEffect } from 'react';
 
 export default function Basket(): JSX.Element {
   const camerasInBasket = useAppSelector(getStateProductsBasket);
@@ -19,6 +20,7 @@ export default function Basket(): JSX.Element {
   const loadingCamerasList = useAppSelector(getStateLoadingCameraList);
   const orderProcessing = useAppSelector(getStateOrderProcessing);
   const activeModalWindow = useAppSelector(getStateActiveModalWindow);
+  const navigate = useNavigate();
 
   const camerasListBasket: StateProductsBasket[] = camerasInBasket.reduce((acc: StateProductsBasket[], item) => {
     const newCamera = camerasList.find((camera) => camera.id === item.cameraId) as ProductCard;
@@ -27,6 +29,12 @@ export default function Basket(): JSX.Element {
       quantity: item.quantity
     });
   }, []);
+
+  useEffect(() => {
+    if (camerasInBasket.length === 0) {
+      navigate(`${AddresesRoute.CATALOG}?${NameSpaceSearchParams.TYPE_SORT}=${TypeSort.PRICE}&${NameSpaceSearchParams.DIRECTION_SORT}=${DirectionSort.UP}`);
+    }
+  }, [navigate, camerasInBasket]);
 
   return (
     <main>

@@ -108,8 +108,8 @@ export default function Header(): JSX.Element {
             <svg width="16" height="16" aria-hidden="true">
               <use xlinkHref="#icon-basket"></use>
             </svg>
-            <span className="header__basket-count">
-              {countCamerasInBasket >= 100 ? '99+' : countCamerasInBasket}
+            <span className="header__basket-count" style={{ width: countCamerasInBasket >= 100 ? '18px' : '14px' }}>
+              {countCamerasInBasket}
             </span>
           </Link>
         }
