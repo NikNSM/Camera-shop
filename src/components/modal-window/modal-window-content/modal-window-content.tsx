@@ -10,10 +10,10 @@ import { clearActiveModalWinow, setActiveModalWindow } from '../../../store/moda
 type PropsModalButtons = {
   name: string;
   camera: ProductCard | null;
-  orderButton: MutableRefObject<HTMLButtonElement | null>;
+  elementsFocus: MutableRefObject<(HTMLAnchorElement | HTMLElement | null)[]>;
 }
 
-export default function ModalWindowContent({ name, camera, orderButton }: PropsModalButtons) {
+export default function ModalWindowContent({ name, camera, elementsFocus }: PropsModalButtons) {
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -28,7 +28,9 @@ export default function ModalWindowContent({ name, camera, orderButton }: PropsM
             <button
               className="btn btn--purple modal__btn modal__btn--fit-width"
               type="button"
-              ref={orderButton}
+              ref={(element) => {
+                elementsFocus.current[1] = element;
+              }}
               onClick={() => {
                 dispatch(addProductBasket(getDataBasket(camera?.id as number)));
                 dispatch(
@@ -56,6 +58,9 @@ export default function ModalWindowContent({ name, camera, orderButton }: PropsM
             <a
               className="btn btn--transparent modal__btn"
               href="#"
+              ref={(element) => {
+                elementsFocus.current[1] = element;
+              }}
               onClick={(evt) => {
                 evt.preventDefault();
                 dispatch(
@@ -72,7 +77,9 @@ export default function ModalWindowContent({ name, camera, orderButton }: PropsM
             </a>
             <button
               className="btn btn--purple modal__btn modal__btn--fit-width"
-              ref={orderButton}
+              ref={(element) => {
+                elementsFocus.current[2] = element;
+              }}
               onClick={() => {
                 dispatch(
                   setActiveModalWindow(
@@ -95,7 +102,9 @@ export default function ModalWindowContent({ name, camera, orderButton }: PropsM
           <div className="modal__buttons">
             <button
               className="btn btn--purple modal__btn modal__btn--half-width" type="button"
-              ref={orderButton}
+              ref={(element) => {
+                elementsFocus.current[1] = element;
+              }}
               onClick={() => {
                 if (camera !== null) {
                   dispatch(deleteProductBasket(camera.id));
@@ -111,6 +120,7 @@ export default function ModalWindowContent({ name, camera, orderButton }: PropsM
             </button>
             <a
               className="btn btn--transparent modal__btn modal__btn--half-width"
+              href='#'
               onClick={(evt) => {
                 evt.preventDefault();
                 dispatch(
@@ -119,6 +129,9 @@ export default function ModalWindowContent({ name, camera, orderButton }: PropsM
                   )
                 );
                 navigate(`${AddresesRoute.CATALOG}?${NameSpaceSearchParams.TYPE_SORT}=${TypeSort.PRICE}&${NameSpaceSearchParams.DIRECTION_SORT}=${DirectionSort.UP}`);
+              }}
+              ref={(element) => {
+                elementsFocus.current[2] = element;
               }}
             >
               Продолжить покупки
@@ -137,7 +150,9 @@ export default function ModalWindowContent({ name, camera, orderButton }: PropsM
             <button
               className="btn btn--purple modal__btn modal__btn--fit-width"
               type="button"
-              ref={orderButton}
+              ref={(element) => {
+                elementsFocus.current[1] = element;
+              }}
               onClick={() => {
                 dispatch(
                   clearActiveModalWinow()
@@ -152,13 +167,13 @@ export default function ModalWindowContent({ name, camera, orderButton }: PropsM
     case NameSpaceModalWindowProduct.ERROR:
       return (
         <>
-          <p className="title title--h4">Произошло ошибка,</p>
-          <p className="title title--h4"> попробуйте снова</p>
+          <p className="title title--h4">Произошло ошибка, может попробовать<br />снова или вернуться к выбору товара</p>
           <div className="modal__buttons">
             <button
-              className="btn btn--purple modal__btn modal__btn--fit-width"
-              type="button"
-              ref={orderButton}
+              className="btn btn--purple modal__btn modal__btn--half-width" type="button"
+              ref={(element) => {
+                elementsFocus.current[1] = element;
+              }}
               onClick={() => {
                 dispatch(
                   clearActiveModalWinow()
@@ -167,6 +182,24 @@ export default function ModalWindowContent({ name, camera, orderButton }: PropsM
             >
               Продолжить
             </button>
+            <a
+              className="btn btn--transparent modal__btn modal__btn--half-width"
+              href='#'
+              onClick={(evt) => {
+                evt.preventDefault();
+                dispatch(
+                  setActiveModalWindow(
+                    getPayloadActiveModalWindow(NameSpaceModalWindowProduct.UNKNOW)
+                  )
+                );
+                navigate(`${AddresesRoute.CATALOG}?${NameSpaceSearchParams.TYPE_SORT}=${TypeSort.PRICE}&${NameSpaceSearchParams.DIRECTION_SORT}=${DirectionSort.UP}`);
+              }}
+              ref={(element) => {
+                elementsFocus.current[2] = element;
+              }}
+            >
+              Вернуться к покупкам
+            </a>
           </div>
         </>
       );

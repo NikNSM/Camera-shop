@@ -71,6 +71,8 @@ const basketSlice = createSlice({
       .addCase(checkCoupon.rejected, (state, action) => {
         if (action.payload === 400) {
           state.statusVerificationCoupon = StatusVerificationCoupon.IS_INVALID;
+        } else {
+          state.statusVerificationCoupon = StatusVerificationCoupon.UNKNOW;
         }
       })
       .addCase(creatOrder.pending, (state) => {

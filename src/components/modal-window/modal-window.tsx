@@ -11,14 +11,12 @@ export default function ModalWindow(): JSX.Element | string {
   const activeModalWindow = useAppSelector(getStateActiveModalWindow);
   const activeCameraModalWindow = useAppSelector(getStateAciveCameraModalWindow);
 
-  const orderButton = useRef<HTMLButtonElement | null>(null);
-  const closeButton = useRef<HTMLButtonElement | null>(null);
-
+  const elementsFocus = useRef<(HTMLElement | HTMLAnchorElement | null)[]>([]);
   const closeModalWindow = () => {
     dispatch(clearActiveModalWinow());
   };
 
-  useHandleTab(true, orderButton, closeButton);
+  useHandleTab(elementsFocus);
 
   useEffect(() => {
     const handleEscape = (evt: KeyboardEvent) => {
@@ -42,8 +40,11 @@ export default function ModalWindow(): JSX.Element | string {
       <div className="modal__wrapper">
         <div className="modal__overlay" onClick={closeModalWindow}></div>
         <div className="modal__content">
-          <ModalWindowContent name={activeModalWindow} camera={activeCameraModalWindow} orderButton={orderButton} />
-          <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={closeModalWindow} ref={closeButton}>
+          <ModalWindowContent name={activeModalWindow} camera={activeCameraModalWindow} elementsFocus={elementsFocus} />
+          <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={closeModalWindow} ref={(element) => {
+            elementsFocus.current[0] = element;
+          }}
+          >
             <svg width="10" height="10" aria-hidden="true">
               <use xlinkHref="#icon-close"></use>
             </svg>
