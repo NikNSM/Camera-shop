@@ -88,6 +88,7 @@ export default function BasketSummary({ camerasListBasket }: PropsBasketSummary)
               )
             );
           }}
+          disabled={camerasListBasket.length === 0}
         >Оформить заказ
         </button>
       </div>
