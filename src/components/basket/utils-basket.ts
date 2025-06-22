@@ -26,6 +26,8 @@ const getDiscountPercent = (products: StateProductsBasket[], promo: PromoProduct
     discount = 5;
   } else if (quantityProducts >= 6 && quantityProducts <= 9) {
     discount = 10;
+  } else if (quantityProducts <= 1) {
+    return discount;
   }
 
   if (sumPrice >= 10000 && sumPrice < 20000) {

@@ -102,17 +102,17 @@ export default function Header(): JSX.Element {
             </svg><span className="visually-hidden">Сбросить поиск</span>
           </button>
         </div>
-        {
-          countCamerasInBasket !== 0 &&
-          <Link className="header__basket-link" to={AddresesRoute.BASKET}>
-            <svg width="16" height="16" aria-hidden="true">
-              <use xlinkHref="#icon-basket"></use>
-            </svg>
+        <Link className="header__basket-link" to={AddresesRoute.BASKET}>
+          <svg width="16" height="16" aria-hidden="true">
+            <use xlinkHref="#icon-basket"></use>
+          </svg>
+          {
+            countCamerasInBasket !== 0 &&
             <span className="header__basket-count" style={{ width: countCamerasInBasket >= 100 ? '18px' : '14px' }}>
               {countCamerasInBasket}
             </span>
-          </Link>
-        }
+          }
+        </Link>
       </div>
     </header >
   );
