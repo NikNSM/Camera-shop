@@ -1,0 +1,22 @@
+.pagination-bullet {
+  display: inline-block;
+  width: 35px;
+  height: 5px;
+  border-radius: 0;
+  background-color: #ccc;
+  margin: 0 5px;
+  opacity: 0.5;
+}
+
+.pagination-bullet:hover {
+  cursor: pointer;
+}
+
+.pagination-bullet-active {
+  background-color: #062fe6;
+  opacity: 1;
+}
+
+.pagination-bullet-active:hover {
+  cursor: default;
+}
