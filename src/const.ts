@@ -15,7 +15,8 @@ export enum ApiRoute {
   PROMO = '/promo',
   ORDERS = '/orders',
   REVIEWS = '/reviews',
-  COUPONS = '/coupons'
+  COUPONS = '/coupons',
+  SIMILAR = '/similar'
 }
 
 export enum NameSpaceState {

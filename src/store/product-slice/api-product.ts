@@ -45,3 +45,14 @@ export const getCamera = createAsyncThunk<
     throw new Error();
   }
 });
+
+export const getRelatedCameras = createAsyncThunk<
+  ProductCard[],
+  string,
+  {
+    extra: AxiosInstance;
+  }
+>('product/getRelatedCameras', async (arg, { extra: api }) => {
+  const { data } = await api.get<ProductCard[]>(`${ApiRoute.CAMERAS_LIST}/${arg}${ApiRoute.SIMILAR}`);
+  return data;
+});

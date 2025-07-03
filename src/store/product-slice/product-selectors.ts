@@ -24,3 +24,9 @@ export const getStateCamera = (state: Pick<TypeState, NameSpaceState.PRODUCT>) =
 
 export const getStateLoadingCamera = (state: Pick<TypeState, NameSpaceState.PRODUCT>) =>
   state[NameSpaceState.PRODUCT].loadingCamera;
+
+export const getStateLoadingRelatedCameras = (state: Pick<TypeState, NameSpaceState.PRODUCT>) =>
+  state[NameSpaceState.PRODUCT].loadingRelatedCameras;
+
+export const getStateRelatedCameras = (state: Pick<TypeState, NameSpaceState.PRODUCT>) =>
+  state[NameSpaceState.PRODUCT].relatedProducts;

@@ -4,6 +4,7 @@ import {
   getCamera,
   getCameraList,
   getPromoList,
+  getRelatedCameras,
 } from './api-product';
 import { NameSpaceState } from '../../const';
 
@@ -12,10 +13,12 @@ type ProductState = {
   loadingPromoList: boolean;
   loadingPostOrder: boolean;
   loadingCamera: boolean;
+  loadingRelatedCameras: boolean;
   resultPlacingOrder: ResultPlacingOrder;
   cameraList: ProductCard[];
   promoList: PromoProduct[];
   camera: ProductCard | null;
+  relatedProducts: ProductCard[];
 };
 
 const initialState: ProductState = {
@@ -23,10 +26,12 @@ const initialState: ProductState = {
   loadingPromoList: false,
   loadingPostOrder: false,
   loadingCamera: false,
+  loadingRelatedCameras: false,
   resultPlacingOrder: ResultPlacingOrder.UNKNOW,
   cameraList: [],
   promoList: [],
   camera: null,
+  relatedProducts: [],
 };
 
 const productSlice = createSlice({
@@ -38,6 +43,7 @@ const productSlice = createSlice({
     },
     clearCamera: (state) => {
       state.camera = null;
+      state.relatedProducts = [];
     },
   },
   extraReducers: (builder) => {
@@ -62,6 +68,16 @@ const productSlice = createSlice({
       .addCase(getCamera.fulfilled, (state, action) => {
         state.camera = action.payload;
         state.loadingCamera = false;
+      })
+      .addCase(getRelatedCameras.pending, (state) => {
+        state.loadingRelatedCameras = true;
+      })
+      .addCase(getRelatedCameras.fulfilled, (state, action) => {
+        state.relatedProducts = action.payload;
+        state.loadingRelatedCameras = false;
+      })
+      .addCase(getRelatedCameras.rejected, (state) => {
+        state.loadingRelatedCameras = false;
       });
   },
 });

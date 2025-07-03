@@ -2,6 +2,8 @@ import LoaderGetData from '../loader/loader-get-data/loader-get-data';
 import { Link, useParams } from 'react-router-dom';
 import InformationCameraPage from './information-camera-page/information-camera-page';
 import ReviewsComponent from './reviews-component/reviews-component';
+import ModalWindow from '../modal-window/modal-window';
+import ListRelatedCameras from './list-related-cameras/list-related-cameras';
 import { useAppDispatch, useAppSelector } from '../../utils';
 import { getStateCamera, getStateLoadingCamera } from '../../store/product-slice/product-selectors';
 import { useEffect } from 'react';
@@ -10,7 +12,6 @@ import { clearCamera } from '../../store/product-slice/product-slice';
 import { AddresesRoute, DirectionSort, NameSpaceSearchParams, NameTitleLoader, TypeSort, NameSpaceModalWindowProduct } from '../../const';
 import { clearReviews } from '../../store/reviews-slice/reviews-slice';
 import { Helmet } from 'react-helmet-async';
-import ModalWindow from '../modal-window/modal-window';
 import { getStateActiveModalWindow } from '../../store/modal-window-slice/modal-window-selectors';
 
 export default function CameraPage(): JSX.Element {
@@ -65,6 +66,7 @@ export default function CameraPage(): JSX.Element {
                 </div>
               </div>
               <InformationCameraPage camera={camera} />
+              {id ? <ListRelatedCameras id={id} /> : ''}
               <ReviewsComponent />
             </div>
             {activeModalWindow !== NameSpaceModalWindowProduct.UNKNOW && <ModalWindow />}
